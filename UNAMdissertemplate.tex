@@ -1,0 +1,5978 @@
+\documentclass[letterpaper,12pt,oneside]{book}
+%\usepackage[a4paper,includeall,bindingoffset=0cm,margin=2cm,marginparsep=0cm,marginparwidth=0cm]{geometry}
+\usepackage[top=1in, left=0.9in, right=1.25in, bottom=1in]{geometry}
+\usepackage{bachelorstitlepageUNAM}
+\usepackage[utf8]{inputenc}
+
+%-------------------------------
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot,es-tabla]{babel}
+
+\usepackage{graphicx}
+\usepackage{tocloft}
+\usepackage{setspace}
+
+\usepackage{amsmath, amssymb, amsthm}
+
+\graphicspath{{./figs/}}
+
+\renewcommand{\proofname}{Demostración}
+
+\newtheorem{proposition}{Proposición}[section]
+\newtheorem{theorem}{Teorema}[chapter]
+
+
+%\usepackage[round]{natbib}
+
+\renewcommand\cftsecpresnum{\S}
+\renewcommand\cftsubsecpresnum{\S}   
+
+
+\begin{document}
+%------------------------------
+
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \begin{minipage}[c][0.17\textheight][c]{0.25\textwidth}
+            \begin{center}
+                \includegraphics[width=3.5cm, height=3.5cm]{Escudo-UNAM.pdf}
+            \end{center}
+        \end{minipage}
+        \begin{minipage}[c][0.195\textheight][t]{0.75\textwidth}
+            \begin{center}
+                \vspace{0.3cm}
+                \textsc{\large Universidad Nacional Aut\'onoma de M\'exico}\\[0.5cm]
+                \vspace{0.3cm}
+                \hrule height2.5pt
+                \vspace{.2cm}
+                \hrule height1pt
+                \vspace{.8cm}
+                \textsc{Facultad de Ciencias\\
+            Ciudad Universitaria}\\[0.5cm] %
+            \end{center}
+        \end{minipage}
+
+        \begin{minipage}[c][0.81\textheight][t]{0.25\textwidth}
+            \vspace*{5mm}
+            \begin{center}
+                \hskip2.0mm
+                \vrule width1pt height13cm 
+                \vspace{5mm}
+                \hskip2pt
+                \vrule width2.5pt height13cm
+                \hskip2mm
+                \vrule width1pt height13cm \\
+                \vspace{5mm}
+                \includegraphics[height=4.0cm]{ciencias.png}
+            \end{center}
+        \end{minipage}
+        \begin{minipage}[c][0.81\textheight][t]{0.75\textwidth}
+            \begin{center}
+                \vspace{1cm}
+
+                {\large\scshape Estimación óptima de matrices de covarianza en alta dimensión mediante Teoría de Matrices Aleatorias y su aplicación en la optimización de portafolios}\\[.2in]
+
+                \vspace{2cm}            
+
+                \textsc{\LARGE T\hspace{1.5cm}E\hspace{1.5cm}S\hspace{1.5cm}I\hspace{1.5cm}S}\\[0.5cm]
+                \textsc{\large que para obtener el t\'itulo de:}\\[0.5cm]
+                \textsc{\large Licenciado en Actuaría}\\[0.5cm]
+                \textsc{\large presenta:}\\[0.5cm]
+                \textsc{\large {Martín Rodolfo García Barrera}}\\[2cm]          
+
+                \vspace{0.5cm}
+
+                {\large\scshape Tutor:\\[0.3cm] {Dr. Julio César Galindo López}}\\[.2in]
+
+                \vspace{0.5cm}
+
+                \large{Ciudad de México,}{ }{2026}
+            \end{center}
+        \end{minipage}
+    \end{titlepage}
+
+%---------------------------------
+\frontmatter
+%\maketitle
+\chapter*{}
+\begin{flushright}%
+  \emph{No todo lo que tarda se pierde.\\  
+        Hay trayectos que exigen años y  
+        silencio,\\ hasta que el peso se vuelve cierre.}
+  \thispagestyle{empty}
+\end{flushright}
+
+\chapter{Agradecimientos}
+\spacing{1.5}%\doublespacing
+
+Este trabajo es el cierre de un proceso largo y no lineal, marcado más por la experiencia que por la prisa.
+Por ello, los agradecimientos no se limitan a un instante, sino a una suma de momentos, decisiones y personas que hicieron posible llegar hasta aquí.
+
+A la vida, por no seguir un guion recto y por obligarme, una y otra vez, a aprender desde la práctica, el error y la reflexión. Porque en ese recorrido se formó mucho más que un resultado académico.
+
+A las personas e instituciones que brindaron oportunidades cuando el título aún no estaba presente,
+pero sí el compromiso y la responsabilidad. Su confianza permitió crecer, equivocarse, corregir y construir con hechos aquello que hoy se formaliza en este trabajo.
+
+A mi familia, por el apoyo constante, silencioso y firme. Por la paciencia en los tiempos largos, por la comprensión en las ausencias y por estar presentes incluso cuando el proceso parecía no avanzar. Este logro también les pertenece.
+
+\chapter{Notación}
+A lo largo de este trabajo se utilizará la siguiente notación:
+
+\begin{itemize}
+  \item $N$: número de activos financieros.
+  \item $T$: número de observaciones temporales.
+  \item $q = N/T$: razón de dimensionalidad.
+  \item $r_{i,t}$: rendimiento del activo $i$ en el tiempo $t$.
+  \item $\mathbf{r}_t = (r_{1,t}, \dots, r_{N,t})^\top$: vector de rendimientos en el tiempo $t$.
+  \item $\Sigma$: matriz de covarianza verdadera de los rendimientos.
+  \item $\hat{\Sigma}$: matriz de covarianza empírica estimada a partir de la muestra.
+  \item $\lambda_i$: valores propios de una matriz simétrica.
+  \item $\mathbf{u}_i$: vector propio asociado al valor propio $\lambda_i$.
+  \item $\mathbf{1}$: vector columna de dimensión $N$ con todas sus entradas iguales a uno.
+  \item $w$: vector de pesos del portafolio.
+\end{itemize}
+
+Salvo que se indique lo contrario, todas las matrices de covarianza consideradas son simétricas y definidas positivas.
+
+\chapter{Introducción}
+
+La optimización de portafolios es uno de los problemas centrales en las finanzas cuantitativas modernas.
+Desde el trabajo clásico de Markowitz, la construcción de portafolios óptimos depende de manera
+crítica de la estimación de la matriz de covarianza de los rendimientos de los activos. En la práctica,
+dicha estimación se realiza a partir de muestras finitas de datos, lo que introduce inevitablemente
+incertidumbre estadística.
+
+En contextos actuales es común trabajar con un gran número de activos financieros $N$ y con un número de observaciones temporales $T$ comparable, de modo que el cociente $q = N/T$ no es pequeño.
+Este régimen de alta dimensión desafía los supuestos clásicos de la estadística multivariada y provoca que el estimador empírico tradicional de la matriz de covarianza se vuelva inestable, generando errores
+sistemáticos en la medición del riesgo.
+
+Potters, Bouchaud y Laloux han mostrado que, cuando $q$ no es pequeño, la matriz de covarianza empírica induce una subestimación del riesgo in-sample y una sobreestimación del riesgo fuera de muestra, dando lugar a portafolios poco robustos y altamente inestables. Este fenómeno es una manifestación directa de los problemas inherentes a la alta dimensionalidad en estadística multivariada y explica, en parte, el deterioro del desempeño fuera de muestra de los portafolios construidos a partir de la matriz de covarianza empírica.
+
+La Teoría de Matrices Aleatorias (Random Matrix Theory, RMT) proporciona un marco natural para analizar estos efectos. En particular, muestra que los valores propios de la matriz de covarianza muestral están fuertemente distorsionados por ruido estadístico cuando $N$ y $T$ crecen simultáneamente. La ley de Marčenko-Pastur describe la distribución de los valores propios en el régimen de alta dimensión, evidenciando que el estimador clásico de la covarianza es inconsistente en este contexto.
+
+Motivados por estos resultados, trabajos recientes han propuesto estimadores óptimos basados en el comportamiento de los valores propios de la matriz de covarianza empírica. Entre ellos destacan los estimadores rotacionalmente invariantes (Rotationally Invariant Estimators, RIE), los cuales corrigen los valores propios obtenidos a partir de la muestra, manteniendo los vectores propios observados. Este enfoque permite reconstruir de manera consistente la matriz de covarianza verdadera en el régimen $N, T \to \infty$ con $q = O(1)$.
+
+La relevancia práctica de estos métodos es inmediata: una estimación más precisa de la matriz de covarianza mejora la estabilidad de los portafolios óptimos de Markowitz y reduce el riesgo fuera de muestra, aspecto crucial en la gestión moderna de riesgos financieros. En este trabajo se estudian estos estimadores desde un punto de vista teórico y se analizan sus implicaciones en la optimización de portafolios en alta dimensión.
+
+El resto del trabajo se organiza de la siguiente manera. En el Capítulo~1 se presentan los conceptos básicos de la Teoría de Matrices Aleatorias relevantes para el problema. En el Capítulo~2 se estudia la estimación de matrices de covarianza en alta dimensión, posteriormente en el Capítulo~3 los esquemas de limpieza. En el Capítulo~4 se analizará la aplicación de estos métodos para la optimización de la matriz de covarianza, en el Capítulo~5 veremos las aplicaciones a la teoría de portafolios. Finalmente, se presentan las conclusiones y posibles líneas de trabajo futuro.
+
+\cleardoublepage
+\phantomsection
+\tableofcontents
+%\listoffigures
+    
+\mainmatter
+%---------------------------------
+
+\chapter{Fundamentos de Teoría de Matrices Aleatorias}
+En diversos problemas contemporáneos de estadística, física y finanzas cuantitativas se analizan sistemas compuestos por un gran número de variables aleatorias que interactúan entre sí. En este tipo de contextos, la información relevante suele concentrarse en matrices que resumen dichas interacciones, como las matrices de covarianza o correlación. Cuando la dimensión del sistema es grande, el análisis de estas matrices se vuelve no trivial y las herramientas clásicas resultan
+insuficientes para describir de manera adecuada su comportamiento global.
+
+La Teoría de Matrices Aleatorias proporciona un marco natural para el estudio de este tipo de estructuras, al permitir describir regularidades que emergen cuando tanto el número de variables como el tamaño de la muestra son grandes y comparables entre sí. En particular, esta teoría
+ofrece resultados que caracterizan el comportamiento colectivo de los valores propios de matrices aleatorias, distinguiendo entre patrones asociados a la información subyacente y aquellos que son consecuencia del ruido estadístico inherente al muestreo finito.
+
+En este capítulo se introducen los conceptos fundamentales de la Teoría de Matrices Aleatorias que serán utilizados a lo largo del trabajo. El énfasis se coloca en la comprensión del comportamiento global de los valores propios y en la presentación de las herramientas analíticas básicas necesarias para su estudio, las cuales servirán como base para el análisis de matrices de covarianza en alta dimensión y para el desarrollo de métodos de estimación más robustos en capítulos posteriores.
+
+\section{Matrices aleatorias y comportamiento de sus valores propios}
+
+De manera general, una matriz aleatoria se define como una matriz cuyas entradas son variables aleatorias. Este tipo de objetos aparece de forma natural en numerosos problemas de estadística y física, así como en aplicaciones financieras, donde las matrices suelen construirse a partir de
+observaciones empíricas sujetas a ruido. En particular, cuando se analizan datos multivariados, las matrices de covarianza y correlación estimadas a partir de muestras finitas pueden interpretarse como realizaciones de matrices aleatorias.
+
+El interés en el estudio de matrices aleatorias no radica únicamente en el comportamiento de sus entradas individuales, sino en las propiedades colectivas que emergen cuando se consideran matrices de gran dimensión. En este contexto, los valores propios desempeñan un papel central, ya que
+proporcionan información global sobre la estructura de la matriz. Por ejemplo, en el caso de una matriz de covarianza, los valores propios permiten identificar direcciones de mayor y menor variabilidad, así como evaluar la estabilidad numérica de la matriz y su adecuación para tareas de
+inversión o inferencia estadística.
+
+Cuando la dimensión de la matriz es pequeña y el tamaño de la muestra es grande, el comportamiento de los valores propios suele estar bien descrito por la estadística clásica. Sin embargo, en muchos problemas modernos el número de variables es comparable al número de observaciones disponibles.
+En este régimen, el comportamiento de los valores propios cambia de manera significativa: pequeñas fluctuaciones en los datos pueden traducirse en cambios importantes en los valores propios estimados de la matriz, dificultando la distinción entre información relevante y ruido estadístico.
+
+La Teoría de Matrices Aleatorias permite abordar este problema desde una perspectiva distinta, centrándose en el comportamiento conjunto de los valores propios cuando la dimensión del sistema crece. En lugar de analizar cada valor propio de manera aislada, se estudia su distribución global,
+lo que hace posible identificar regularidades que no dependen de los detalles específicos de las variables subyacentes. Estas regularidades, conocidas como propiedades universales, surgen en una amplia clase de modelos y proporcionan una referencia teórica frente a la cual pueden compararse matrices empíricas observadas en la práctica.
+
+Un ejemplo ilustrativo de este enfoque es el estudio de matrices de covarianza construidas a partir de variables aleatorias independientes. Incluso en ausencia de correlaciones verdaderas, la matriz de covarianza empírica presenta un conjunto no trivial de valores propios debido al ruido asociado al muestreo finito. La Teoría de Matrices Aleatorias permite describir de manera precisa la forma típica de esta distribución y, en consecuencia, cuantificar el efecto del ruido sobre los valores
+propios observados.
+
+Desde una perspectiva aplicada, comprender el comportamiento de los valores propios de matrices aleatorias resulta fundamental para evaluar la calidad de los estimadores empíricos y para diseñar procedimientos de corrección más robustos. En particular, este análisis constituye el punto de partida para el desarrollo de métodos de limpieza de matrices de covarianza, los cuales buscan mitigar los efectos adversos del ruido muestral sin eliminar la información estructural relevante. Los conceptos introducidos en esta sección servirán como base para el estudio más detallado de las matrices de covarianza en alta dimensión y para la formulación de estimadores óptimos en los capítulos siguientes.
+
+Desde un punto de vista práctico, las matrices aleatorias aparecen con frecuencia como resultado de procesos de estimación. Por ejemplo, al construir una matriz de covarianza a partir de un conjunto finito de observaciones, cada entrada de la matriz depende de datos sujetos a fluctuaciones aleatorias. Incluso si las variables subyacentes no presentan correlaciones verdaderas, la matriz
+estimada exhibe una estructura no trivial debido al efecto acumulado del ruido muestral.
+
+Es importante distinguir entre la matriz de covarianza poblacional, que describe las relaciones verdaderas entre las variables, y la matriz de covarianza empírica, que se obtiene a partir de una muestra finita de datos. Mientras que la primera es un objeto fijo y bien definido, la segunda debe entenderse como una realización aleatoria que varía de una muestra a otra. La Teoría de Matrices Aleatorias permite precisamente estudiar las propiedades típicas de estas realizaciones empíricas y evaluar en qué medida se aproximan a la matriz poblacional subyacente.
+
+Desde una perspectiva geométrica, los valores propios de una matriz simétrica pueden interpretarse como medidas de la variabilidad del sistema a lo largo de direcciones particulares del espacio de variables. En el caso de matrices de covarianza, valores propios grandes indican direcciones de alta variabilidad, mientras que valores propios pequeños corresponden a direcciones casi degeneradas. Cuando el número de observaciones es limitado, estas direcciones pueden verse alteradas de manera significativa por el ruido, lo que afecta la estabilidad de procedimientos que dependen de la inversa de la matriz, como la optimización de portafolios.
+
+Desde un punto de vista matemático, una matriz aleatoria se define como una matriz cuyas entradas son variables aleatorias definidas sobre un mismo espacio de probabilidad. Más precisamente, sea
+$(\Omega, \mathcal{F}, \mathbb{P})$ un espacio de probabilidad. Una matriz aleatoria $\mathbf{X} \in
+\mathbb{R}^{N \times T}$ es una aplicación
+\[
+\mathbf{X} : \Omega \to \mathbb{R}^{N \times T},
+\]
+tal que cada una de sus entradas $X_{ij}$ es una variable aleatoria real.
+
+En la práctica, las matrices aleatorias consideradas en este trabajo surgen como matrices de datos o matrices estimadas a partir de observaciones empíricas, por lo que su estructura aleatoria refleja
+el efecto del muestreo finito y del ruido inherente a los datos.
+
+\section{Transformada de Stieltjes y resolvente}
+
+Antes de introducir la transformada de Stieltjes, resulta conveniente precisar el marco medible en el cual se definen las medidas de probabilidad consideradas en este trabajo.
+
+Un \emph{espacio medible} es un par $(\mathcal{X}, \mathcal{F})$, donde $\mathcal{X}$ es un conjunto no vacío y $\mathcal{F}$ es una $\sigma$-álgebra de subconjuntos de $\mathcal{X}$. Recordemos que una $\sigma$-álgebra es una colección de subconjuntos que contiene al conjunto vacío y es cerrada bajo complementos y bajo uniones numerables.
+
+En el caso de la recta real, la $\sigma$-álgebra de Borel, denotada por $\mathcal{B}(\mathbb{R})$, se define como la menor $\sigma$-álgebra que contiene a todos los intervalos abiertos de $\mathbb{R}$.
+El par $(\mathbb{R}, \mathcal{B}(\mathbb{R}))$ constituye el espacio medible natural para el estudio de variables aleatorias reales y de medidas de probabilidad asociadas a distribuciones de valores propios.
+
+La \emph{medida de Lebesgue} sobre $(\mathbb{R}, \mathcal{B}(\mathbb{R}))$ es la medida $\lambda$ caracterizada por las propiedades de $\sigma$-aditividad, invariancia por traslaciones y por satisfacer $\lambda((a,b)) = b-a$ para todo intervalo abierto acotado $(a,b) \subset \mathbb{R}$.
+Esta medida se extiende de manera única desde la familia de intervalos a la $\sigma$-álgebra de Borel y constituye la referencia estándar para definir integración y continuidad absoluta de medidas sobre la recta real.
+
+Una \emph{medida de probabilidad} sobre $(\mathbb{R}, \mathcal{B}(\mathbb{R}))$ es una función
+$\mu : \mathcal{B}(\mathbb{R}) \to [0,1]$ tal que $\mu(\mathbb{R}) = 1$ y que es aditiva numerable.
+Cuando dicha medida es absolutamente continua respecto a la medida de Lebesgue, existe una función
+no negativa $\rho \in L^1(\mathbb{R})$ tal que
+\[
+d\mu(\lambda) = \rho(\lambda)\, d\lambda.
+\]
+
+Para estudiar de manera rigurosa la distribución de los valores propios de matrices aleatorias de gran dimensión, resulta conveniente introducir herramientas analíticas que permitan describir medidas de probabilidad definidas sobre la recta real. En este contexto, la transformada de Stieltjes desempeña un papel central, ya que establece un vínculo entre medidas de probabilidad y funciones analíticas definidas en el plano complejo.
+
+Sea $\mu$ una medida de probabilidad sobre $(\mathbb{R}, \mathcal{B}(\mathbb{R}))$. La transformada de Stieltjes asociada a $\mu$ se define como la función compleja
+\[
+m_\mu(z) = \int_{\mathbb{R}} \frac{1}{\lambda - z}\, d\mu(\lambda),
+\qquad z \in \mathbb{C} \setminus \mathbb{R}.
+\]
+La transformada de Stieltjes contiene información suficiente para determinar la medida
+$\mu$. Esto se debe a que, al evaluar $m_\mu(z)$ en puntos de la forma
+$z = x + i\eta$ con $\eta > 0$, la parte imaginaria del integrando
+\[
+\frac{1}{\lambda - (x+i\eta)}
+\]
+toma la forma
+\[
+\frac{\eta}{(\lambda-x)^2+\eta^2},
+\]
+Para justificar la expresión anterior, desarrollamos explícitamente la parte imaginaria
+del término
+\[
+\frac{1}{\lambda-(x+i\eta)}.
+\]
+Observamos primero que
+\[
+\lambda-(x+i\eta) = (\lambda-x) - i\eta.
+\]
+Multiplicando numerador y denominador por el conjugado complejo del denominador,
+se obtiene
+\[
+\frac{1}{(\lambda-x)-i\eta}
+=
+\frac{(\lambda-x)+i\eta}{\big((\lambda-x)-i\eta\big)\big((\lambda-x)+i\eta\big)}.
+\]
+El denominador se simplifica como
+\[
+\big((\lambda-x)-i\eta\big)\big((\lambda-x)+i\eta\big)
+=
+(\lambda-x)^2 + \eta^2.
+\]
+Por lo tanto,
+\[
+\frac{1}{\lambda-(x+i\eta)}
+=
+\frac{(\lambda-x)+i\eta}{(\lambda-x)^2+\eta^2}.
+\]
+Así pues, la parte imaginaria viene dada por
+\[
+\operatorname{Im}\!\left(\frac{1}{\lambda-(x+i\eta)}\right)
+=
+\frac{\eta}{(\lambda-x)^2+\eta^2}.
+\]
+la cual concentra su peso alrededor del punto $x$ cuando $\eta$ tiende a cero.
+Como consecuencia, el comportamiento límite de $\operatorname{Im} m_\mu(x+i\eta)$
+cuando $\eta \downarrow 0$ permite describir cómo se distribuyen los valores propios alrededor del punto $x$.
+
+En el caso particular en que $\mu$ sea absolutamente continua respecto a la medida de Lebesgue, este procedimiento permite obtener directamente la función densidad $\rho(x)$ asociada a la medida.
+
+Obsérvese que $f_\eta(\lambda)=\dfrac{\eta}{(\lambda-x)^2+\eta^2}$ satisface $f_\eta(x)=\dfrac{1}{\eta}$ (crece cuando $\eta\downarrow0$) y que $f_\eta(\lambda)\to0$ cuando $|\lambda-x|$ es grande, por lo que la función se concentra alrededor de $x$ al disminuir $\eta$.
+
+Para comprender el comportamiento de la expresión anterior, consideremos la función
+\[
+f_\eta(\lambda)
+=
+\frac{\eta}{(\lambda-x)^2+\eta^2},
+\]
+donde $\eta>0$. Queremos analizar qué ocurre cuando $\eta$ es pequeño.
+
+\medskip
+
+\noindent
+\textbf{1) Comportamiento en $\lambda = x$.}
+
+Evaluando en $\lambda=x$ se obtiene
+\[
+f_\eta(x)
+=
+\frac{\eta}{(x-x)^2+\eta^2}
+=
+\frac{\eta}{\eta^2}
+=
+\frac{1}{\eta}.
+\]
+Por lo tanto, cuando $\eta$ disminuye, el valor máximo de la función crece. Por ejemplo, si $\eta=0.1$, entonces $1/\eta=10$; si $\eta=0.01$, entonces $1/\eta=100$. El pico en $x$ se hace cada vez más alto cuando $\eta$ tiende a cero.
+
+\medskip
+
+\noindent
+\textbf{2) Comportamiento lejos de $x$.}
+
+Si $|\lambda-x|=1$, entonces
+\[
+f_\eta(\lambda)
+=
+\frac{\eta}{1+\eta^2}
+\approx \eta.
+\]
+Cuando $\eta$ es pequeño, esta aproximación es válida.
+Por ejemplo, si $\eta=0.01$, se obtiene aproximadamente 
+$f_\eta(\lambda)\approx 0.01$, lo cual es un valor pequeño.
+
+Por ejemplo, si $\eta=0.01$, se obtiene aproximadamente $f_\eta(\lambda)\approx0.01$,
+lo cual es un valor pequeño.
+
+Si $|\lambda-x|=5$, entonces
+\[
+f_\eta(\lambda)
+=
+\frac{\eta}{25+\eta^2}
+\approx \frac{\eta}{25},
+\]
+que es aún más pequeño. En consecuencia, mientras mayor sea la distancia entre $\lambda$ y $x$, menor será el valor de la función.
+
+\medskip
+
+\noindent
+\textbf{3) Conexión con la transformada de Stieltjes.}
+
+Al calcular
+\[
+\operatorname{Im} m_\mu(x+i\eta)
+=
+\int
+\frac{\eta}{(\lambda-x)^2+\eta^2}\, d\mu(\lambda),
+\]
+la integral pondera con mayor intensidad los valores de $\lambda$ cercanos a $x$. Cuando $\eta \downarrow 0$, la contribución dominante proviene únicamente de los valores situados en un entorno arbitrariamente pequeño de $x$. En el caso en que $\mu$ sea absolutamente continua, este comportamiento conduce precisamente a la obtención de la función de densidad $\rho(x)$ de los valores propios en un punto.
+
+Supongamos que la medida $\mu$ es absolutamente continua respecto a la medida de Lebesgue, de modo que existe una función $\rho \in L^1(\mathbb{R})$ tal que
+\[
+d\mu(\lambda)=\rho(\lambda)\,d\lambda.
+\]
+En este caso, la parte imaginaria de la transformada de Stieltjes puede escribirse como
+\[
+\operatorname{Im} m_\mu(x+i\eta)
+=
+\int_{-\infty}^{\infty}
+\frac{\eta}{(\lambda-x)^2+\eta^2}
+\rho(\lambda)\, d\lambda.
+\]
+
+Realizando el cambio de variable $u=\lambda-x$, se obtiene
+\[
+\operatorname{Im} m_\mu(x+i\eta)
+=
+\int_{-\infty}^{\infty}
+\frac{\eta}{u^2+\eta^2}
+\rho(x+u)\, du.
+\]
+
+La función
+\[
+K_\eta(u)=\frac{\eta}{u^2+\eta^2}
+\]
+es positiva, tiene área constante
+\[
+\int_{-\infty}^{\infty} K_\eta(u)\,du=\pi,
+\]
+y se concentra progresivamente alrededor de $u=0$ cuando $\eta\downarrow0$.
+Por lo tanto, si $\rho$ es continua en el punto $x$, para valores pequeños de $\eta$ se tiene
+\[
+\rho(x+u)\approx\rho(x)
+\quad \text{cuando } u \text{ es pequeño}.
+\]
+
+La función
+\[
+K_\eta(u)=\frac{\eta}{u^2+\eta^2}
+\]
+es positiva y satisface
+\[
+\int_{-\infty}^{\infty} K_\eta(u)\,du
+=
+\int_{-\infty}^{\infty}
+\frac{\eta}{u^2+\eta^2}\,du.
+\]
+Para calcular esta integral, realizamos el cambio de variable
+$v=u/\eta$, de donde $u=\eta v$ y $du=\eta\,dv$. Entonces
+\[
+\int_{-\infty}^{\infty}
+\frac{\eta}{u^2+\eta^2}\,du
+=
+\int_{-\infty}^{\infty}
+\frac{1}{1+v^2}\,dv
+=
+\left[\arctan v\right]_{-\infty}^{\infty}
+=
+\pi.
+\]
+
+En consecuencia,
+\[
+\operatorname{Im} m_\mu(x+i\eta)
+\approx
+\rho(x)
+\int_{-\infty}^{\infty}
+\frac{\eta}{u^2+\eta^2}\,du
+=
+\pi\rho(x),
+\]
+y al tomar límite cuando $\eta\downarrow0$ se obtiene
+\[
+\rho(x)
+=
+\lim_{\eta\downarrow0}
+\frac{1}{\pi}
+\operatorname{Im} m_\mu(x+i\eta),
+\]
+para todo punto $x$ en el que $\rho$ sea continua.
+
+Este resultado muestra que la parte imaginaria de la transformada de Stieltjes evaluada cerca del eje real permite determinar el valor local de la densidad asociada a la medida.
+
+Por otro lado, la \emph{delta de Dirac} en el punto $x \in \mathbb{R}$, denotada por $\delta_x$, es la medida definida por
+\[
+\delta_x(A)=
+\begin{cases}
+1, & \text{si } x \in A,\\
+0, & \text{si } x \notin A,
+\end{cases}
+\qquad A \in \mathcal{B}(\mathbb{R}).
+\]
+Es decir, toda la probabilidad está concentrada en el punto $x$.
+
+Además, esta medida satisface la identidad
+\[\int_{\mathbb{R}} f(\lambda)\,\delta(\lambda-x)\,d\lambda
+=
+f(x),
+\]
+para funciones $f$ continuas. En otras palabras, al integrar contra la delta
+de Dirac simplemente se obtiene el valor de la función en el punto $x$.
+
+En particular, si la medida $\mu$ puede escribirse en la forma
+\[
+d\mu(\lambda)=\rho(\lambda)\,d\lambda,
+\]
+es decir, si está descrita por una función densidad $\rho$, entonces para casi todo
+$\lambda \in \mathbb{R}$ se tiene
+\[
+\rho(\lambda)
+=
+\lim_{\eta\downarrow0}
+\frac{1}{\pi}
+\operatorname{Im} m_\mu(\lambda+i\eta),
+\]
+siempre que $\rho$ sea continua en ese punto.
+
+Esta relación se explica por el hecho de que la parte imaginaria del término $(\lambda - z)^{-1}$, evaluado en $z=\lambda+i\eta$, da lugar a una función que se concentra cada vez más alrededor del punto $\lambda$ cuando $\eta$ tiende a cero.
+Por ello, al integrar contra esta función, prácticamente solo influyen los valores de $\lambda$ que están muy cerca del punto considerado. Cuando $\eta$ tiende a cero, la integral termina reflejando el valor de la
+densidad en ese punto.
+
+En el marco de la Teoría de Matrices Aleatorias, la medida $\mu$ se identifica usualmente con la distribución empírica de los valores propios de una matriz simétrica real
+$\mathbf{A} \in \mathbb{R}^{N \times N}$, definida como
+\[
+\mu_{\mathbf{A}} = \frac{1}{N} \sum_{i=1}^N \delta_{\lambda_i},
+\]
+donde $\lambda_1, \dots, \lambda_N$ son los valores propios de $\mathbf{A}$ y $\delta_{\lambda}$
+denota la medida de Dirac concentrada en $\lambda$. En este caso, la  transformada de Stieltjes toma la forma
+\[
+m_{\mathbf{A}}(z) = \frac{1}{N} \sum_{i=1}^N \frac{1}{\lambda_i - z}.
+\]
+
+Para una matriz cuadrada $\mathbf{A} \in \mathbb{R}^{N \times N}$, se define el \emph{resolvente} como la matriz
+\[
+\mathbf{G}(z) = (\mathbf{A} - z\mathbf{I})^{-1},
+\]
+para todo número complejo $z \in \mathbb{C}$ tal que la matriz $\mathbf{A} - z\mathbf{I}$ sea
+invertible. El resolvente es una función matricial bien definida en el plano complejo y constituye una herramienta central para el análisis de matrices aleatorias.
+
+Si la matriz $\mathbf{A}$ es diagonalizable, con valores propios
+$\lambda_1,\dots,\lambda_N$, existe una matriz invertible $\mathbf{U}$
+tal que
+\[
+\mathbf{A}
+=
+\mathbf{U}\,\mathrm{diag}(\lambda_1,\dots,\lambda_N)\,\mathbf{U}^{-1}.
+\]
+En consecuencia,
+\[
+\mathbf{A}-z\mathbf{I}
+=
+\mathbf{U}\,\mathrm{diag}(\lambda_1-z,\dots,\lambda_N-z)\,\mathbf{U}^{-1},
+\]
+y al invertir esta matriz se obtiene
+\[
+\mathbf{G}(z)
+=
+(\mathbf{A}-z\mathbf{I})^{-1}
+=
+\mathbf{U}\,\mathrm{diag}\!\left(
+\frac{1}{\lambda_1-z},\dots,
+\frac{1}{\lambda_N-z}
+\right)\mathbf{U}^{-1}.
+\]
+
+Como la traza de una matriz es la suma de sus elementos diagonales, y la traza no depende de la base en la que se represente la matriz, se tiene
+\[
+\mathrm{Tr}\,\mathbf{G}(z)
+=
+\sum_{i=1}^N \frac{1}{\lambda_i-z}.
+\]
+Por lo tanto,
+\[
+m_{\mathbf{A}}(z)
+=
+\frac{1}{N}\,\mathrm{Tr}\,\mathbf{G}(z).
+\]
+
+\chapter{Matrices de covarianza en alta dimensión}
+
+En el marco de la teoría de portafolios, la matriz de covarianza de los rendimientos desempeña un papel central en la medición y optimización del riesgo. El enfoque clásico supone implícitamente que el número de activos es pequeño en comparación con el tamaño de la muestra disponible, lo que garantiza buenas propiedades estadísticas del estimador muestral. Sin embargo, en aplicaciones contemporáneas, el número de activos suele ser comparable al número de observaciones históricas, dando lugar al denominado régimen de alta dimensión. En este contexto, el estimador muestral presenta distorsiones sistemáticas que afectan su estructura espectral y comprometen la estabilidad de los procedimientos de optimización. El objetivo de este capítulo es analizar formalmente estas distorsiones y establecer el marco teórico necesario para su corrección.
+
+\section{Estimador muestral clásico}
+
+Sea $r_{i,t}$ el rendimiento del activo $i = 1,\dots,N$ en el tiempo 
+$t = 1,\dots,T$, y supóngase que los rendimientos están centrados, es decir,
+\[
+\mathbb{E}[r_{i,t}] = 0.
+\]
+
+Definimos la matriz de datos
+\[
+Y = (r_{i,t}) \in \mathbb{R}^{N \times T}.
+\]
+
+La matriz de covarianza poblacional se denota por
+\[
+\Sigma = \mathbb{E}[r_t r_t^\top],
+\]
+donde $r_t = (r_{1,t},\dots,r_{N,t})^\top$.
+
+El estimador muestral clásico de la matriz de covarianza está dado por
+\[
+\widehat{\Sigma} = \frac{1}{T} Y Y^\top.
+\]
+
+Bajo hipótesis estándar de independencia y existencia de segundos momentos, el estimador es insesgado:
+\[
+\mathbb{E}[\widehat{\Sigma}] = \Sigma.
+\]
+
+Estas hipótesis pueden formularse explícitamente de la siguiente manera:
+
+\begin{itemize}
+    \item \textbf{Independencia:} Los vectores de rendimientos 
+    $\{r_t\}_{t=1}^T$ son independientes e idénticamente distribuidos (i.i.d.), es decir,
+    \[
+    \mathbb{E}[r_t r_s^\top] = 0 \quad \text{para t} \neq s.
+    \]
+    
+    \item \textbf{Existencia de segundos momentos:} Cada componente $r_{i,t}$ posee varianza finita, esto es,
+    \[
+    \mathbb{E}[\|r_t\|^2] < \infty,
+    \]
+    lo cual garantiza que la matriz de covarianza poblacional
+    \[
+    \Sigma = \mathbb{E}[r_t r_t^\top]
+    \]
+    esté bien definida y sea finita.
+\end{itemize}
+
+Bajo estas condiciones, se tiene
+\[
+\mathbb{E}\!\left[\frac{1}{T}YY^\top\right]
+=
+\frac{1}{T}\sum_{t=1}^T \mathbb{E}[r_t r_t^\top]
+=
+\Sigma,
+\]
+lo que muestra que el estimador muestral es insesgado.
+
+\subsection*{Régimen clásico}
+
+En el análisis estadístico tradicional se considera el régimen
+\[
+N \ \text{fijo}, \qquad T \to \infty.
+\]
+
+Bajo estas condiciones:
+
+\begin{itemize}
+    \item $\widehat{\Sigma}$ es consistente en el régimen clásico, en el sentido de que
+\[
+\|\widehat{\Sigma} - \Sigma\|_F \xrightarrow[T \to \infty]{} 0,
+\]
+donde $\|\cdot\|_F$ denota la norma de Frobenius.
+    
+    \item Los autovalores muestrales convergen a los autovalores verdaderos.
+    
+    \item La matriz es invertible con alta probabilidad para $T$ suficientemente grande.
+\end{itemize}
+
+En consecuencia, en el régimen clásico, la matriz estimadora $\widehat{\Sigma}$ es invertible con alta probabilidad para $T$ suficientemente grande, y su inversa $\widehat{\Sigma}^{-1}$ proporciona una aproximación estable de $\Sigma^{-1}$. Por tanto, su uso en procedimientos de optimización de portafolios es estadísticamente justificable.
+
+\subsection*{Régimen de alta dimensión}
+
+En aplicaciones financieras contemporáneas, el número de activos $N$ 
+no es pequeño frente al tamaño muestral $T$. Resulta natural considerar 
+el régimen asintótico
+\[
+N, T \to \infty 
+\quad \text{con} \quad 
+q = \frac{N}{T} \in (0,\infty).
+\]
+
+El parámetro $q$ mide la relación entre dimensión y tamaño muestral y determina el comportamiento asintótico del estimador muestral.
+
+En este régimen:
+
+\begin{itemize}
+    \item El error de estimación entre $\widehat{\Sigma}$ y $\Sigma$ 
+    ya no desaparece cuando $N$ y $T$ crecen manteniendo fijo el cociente $q$.
+    
+    \item Los autovalores de la matriz muestral pueden alejarse de los 
+    autovalores verdaderos, aun cuando el tamaño de muestra es grande.
+    
+    \item Si $q > 1$, es decir, si $N > T$, la matriz $\widehat{\Sigma}$ 
+    tiene rango a lo más $T$ y por tanto no es invertible.
+    
+    \item Aun cuando $q < 1$, los autovalores pequeños pueden presentar errores de estimación significativos.
+\end{itemize}
+
+Estas distorsiones tienen consecuencias críticas al considerar la inversión de la matriz estimadora. Si $\lambda_k$ denota un autovalor de $\widehat{\Sigma}$, entonces los autovalores de $\widehat{\Sigma}^{-1}$ son $\lambda_k^{-1}$. Por tanto, errores de estimación en autovalores cercanos a cero se amplifican de manera significativa, lo que vuelve inestable la estimación de $\Sigma^{-1}$.
+
+En consecuencia, la inversión de $\widehat{\Sigma}$ amplifica el error muestral, fenómeno particularmente relevante en el contexto de la optimización de Markowitz.
+
+\subsection*{Impacto en optimización de portafolios}
+
+Recordemos que el problema de mínima varianza conduce a pesos proporcionales a
+\[
+w^* \propto \widehat{\Sigma}^{-1} \mu,
+\]
+donde $\mu$ es el vector de rendimientos esperados.
+
+En presencia de ruido muestral:
+
+\begin{itemize}
+    \item Los autovalores pequeños generan grandes coeficientes en la inversa.
+    
+    \item El portafolio resultante se sobreajusta al ruido histórico.
+    
+    \item El riesgo fuera de muestra es sistemáticamente subestimado en la muestra de entrenamiento.
+\end{itemize}
+
+Este fenómeno no es meramente numérico sino estructural, y constituye la motivación para estudiar cómo se distribuyen los autovalores de $\widehat{\Sigma}$ en alta dimensión.
+
+Para formalizar esta idea, considérese el caso idealizado en el cual
+\[
+\Sigma = I_N,
+\]
+es decir, los rendimientos son incorrelacionados y poseen varianza unitaria.
+
+En tal caso, el estimador muestral puede escribirse como
+\[
+\widehat{\Sigma} = \frac{1}{T} X X^\top,
+\]
+donde $X \in \mathbb{R}^{N \times T}$ es una matriz cuyas entradas son variables aleatorias centradas con varianza unitaria. 
+La matriz $\widehat{\Sigma}$ pertenece entonces a la clase de matrices de tipo Wishart.
+
+En el régimen clásico ($N$ fijo, $T \to \infty$), se tiene
+\[
+\widehat{\Sigma} \xrightarrow[T \to \infty]{} I_N,
+\]
+y en consecuencia todos los autovalores convergen a uno.
+
+Sin embargo, en el régimen de alta dimensión,
+\[
+N,T \to \infty \quad \text{con} \quad q = \frac{N}{T} \in (0,\infty),
+\]
+los autovalores de $\widehat{\Sigma}$ no convergen todos a uno.
+En cambio, permanecen distribuidos en un conjunto de valores cuya amplitud depende de $q$.
+
+Este comportamiento no es un efecto de pequeña magnitud, sino una propiedad estructural del régimen $N/T$ finito. 
+La descripción precisa de esta distribución será presentada en la siguiente sección. 
+
+Sin embargo, en el régimen de alta dimensión,
+\[
+N,T \to \infty \quad \text{con} \quad q = \frac{N}{T} \in (0,\infty),
+\]
+no se cumple que
+\[
+\lambda_i(\widehat{\Sigma}) \to 1 \quad \text{para todo } i.
+\]
+En cambio, los autovalores $\{\lambda_i(\widehat{\Sigma})\}_{i=1}^N$
+permanecen distribuidos en un conjunto de valores cuya extensión depende del parámetro $q$, es decir, existe un intervalo $[a(q), b(q)]$, con $a(q) < 1 < b(q)$,
+tal que, cuando $N,T \to \infty$ con $N/T \to q$, los autovalores de $\widehat{\Sigma}$ no convergen todos a $1$, sino que toman valores en dicho intervalo. Así pues, 
+
+Sea $\lambda_1(\widehat{\Sigma}), \dots, 
+\lambda_N(\widehat{\Sigma})$ el conjunto de autovalores de 
+$\widehat{\Sigma}$. 
+
+En el régimen
+\[
+N,T \to \infty \quad \text{con} \quad \frac{N}{T} \to q,
+\]
+no se cumple que $\lambda_i(\widehat{\Sigma}) \to 1$ 
+para todo $i$. En cambio, los autovalores permanecen contenidos 
+en un intervalo $[a(q), b(q)]$ que depende únicamente del 
+parámetro $q$.
+
+Este fenómeno indica que la variabilidad observada en los autovalores no desaparece cuando $N/T$ se mantiene finito. La caracterización precisa de esta distribución es uno de los resultados centrales de la Teoría de Matrices Aleatorias.
+
+\section{Ley de Marčenko--Pastur}
+
+En la sección anterior se observó que, incluso en el caso idealizado $\Sigma = I_N$,
+los autovalores de $\widehat{\Sigma}$ no convergen todos a $1$ cuando 
+$N,T \to \infty$ con $N/T \to q$. En cambio, se distribuyen en un intervalo
+$[a(q), b(q)]$ que depende únicamente de $q$.
+
+En esta sección se determina explícitamente dicho intervalo y se describe la ley límite
+de los autovalores de matrices de tipo Wishart.
+
+\subsection*{Matriz Wishart y notación}
+
+Sea $X \in \mathbb{R}^{N \times T}$ una matriz aleatoria con entradas independientes,
+centradas y con varianza unitaria:
+\[
+\mathbb{E}[X_{it}] = 0,
+\qquad
+\mathbb{E}[X_{it}^2] = 1.
+\]
+Definimos la matriz de covarianza muestral como
+\[
+\widehat{\Sigma} \;=\; \frac{1}{T}XX^\top \in \mathbb{R}^{N \times N}.
+\]
+Denotemos por $\lambda_1(\widehat{\Sigma}),\dots,\lambda_N(\widehat{\Sigma})$
+sus autovalores.
+
+\begin{theorem}[Ley de Marčenko--Pastur]
+Supóngase que $N,T \to \infty$ de tal forma que
+\[
+\frac{N}{T} \to q \in (0,\infty).
+\]
+Entonces, la distribución límite de los autovalores de $\widehat{\Sigma} = \frac{1}{T}XX^\top$
+está descrita por la densidad de Marčenko--Pastur
+\[
+\rho_q(\lambda)
+=
+\frac{1}{2\pi q \lambda}
+\sqrt{(b(q)-\lambda)(\lambda-a(q))}
+\;\mathbf{1}_{[a(q),\,b(q)]}(\lambda),
+\]
+donde
+\[
+a(q) = (1-\sqrt{q})^2,
+\qquad
+b(q) = (1+\sqrt{q})^2,
+\]
+y $\mathbf{1}_{[a(q),\,b(q)]}$ denota la función indicadora del intervalo.
+
+Además, si $q>1$ (es decir, $N>T$), la matriz
+\[
+\widehat{\Sigma} = \frac{1}{T}XX^\top
+\]
+tiene rango a lo más $T$. En consecuencia, posee exactamente $N-T$ autovalores iguales a cero y, por tanto, no es invertible.
+\end{theorem}
+
+\subsection*{Interpretación}
+
+El parámetro $q = N/T$ controla el nivel de variabilidad por muestreo:
+
+\begin{itemize}
+
+    \item \textbf{Régimen clásico ($q \to 0$).} 
+    Recordando que
+    \[
+    a(q)=(1-\sqrt{q})^2,
+    \qquad
+    b(q)=(1+\sqrt{q})^2,
+    \]
+    si $q \to 0$ entonces $\sqrt{q} \to 0$ y por continuidad
+    \[
+    a(q) \to 1,
+    \qquad
+    b(q) \to 1.
+    \]
+    Por tanto, el intervalo $[a(q),b(q)]$ tiende al valor $1$.
+    Esto recupera la intuición del régimen clásico: cuando $T$ es mucho mayor que $N$,
+    la matriz muestral se aproxima bien a $I_N$.
+
+    \item \textbf{Alta dimensión ($q$ finito).} 
+    La amplitud del intervalo viene dada por
+    \[
+    b(q)-a(q)
+    =
+    (1+\sqrt{q})^2 - (1-\sqrt{q})^2.
+    \]
+    Al desarrollar ambos términos,
+    \[
+    (1+\sqrt{q})^2 = 1 + 2\sqrt{q} + q,
+    \qquad
+    (1-\sqrt{q})^2 = 1 - 2\sqrt{q} + q,
+    \]
+    y por lo tanto
+    \[
+    b(q)-a(q) = 4\sqrt{q}.
+    \]
+    En particular, si $q$ es fijo y positivo, entonces el intervalo tiene amplitud estrictamente positiva. Esto implica que, incluso cuando $\Sigma = I_N$, los autovalores de $\widehat{\Sigma}$ no se concentran en $1$, sino que se distribuyen en $[a(q),b(q)]$.
+
+    \item \textbf{Caso $q>1$ (singularidad).} 
+    Si $N>T$, entonces
+    \[
+    \widehat{\Sigma} = \frac{1}{T}XX^\top
+    \]
+    tiene rango a lo más $T$. En consecuencia, posee exactamente $N-T$ autovalores iguales a cero y no es invertible.
+    
+\end{itemize}
+
+En resumen, la ley de Marčenko--Pastur proporciona una descripción explícita de cómo el muestreo en alta dimensión modifica la distribución de los autovalores de $\widehat{\Sigma}$, incluso cuando la covarianza poblacional es la identidad.
+
+\subsection*{Generalidades y comportamiento}
+
+De la ley de Marčenko--Pastur se deduce que, cuando $0<q<1$,
+
+\[
+\lambda_{\min}(\widehat{\Sigma}) \longrightarrow a(q) = (1-\sqrt{q})^2,
+\qquad
+\lambda_{\max}(\widehat{\Sigma}) \longrightarrow b(q) = (1+\sqrt{q})^2.
+\]
+
+En particular, el autovalor mínimo permanece estrictamente positivo si y solo si $q<1$.
+Obsérvese que
+\[
+a(q) = (1-\sqrt{q})^2
+\]
+disminuye rápidamente cuando $q$ aumenta. Por ejemplo,
+\[
+a(0.25) = (1-0.5)^2 = 0.25,
+\qquad
+a(0.81) = (1-0.9)^2 = 0.01.
+\]
+
+Esto muestra que, aun cuando $\Sigma = I_N$, el menor autovalor de la matriz muestral puede acercarse considerablemente a cero cuando $N/T$ es grande.
+
+Dado que los autovalores de la inversa satisfacen
+
+\[
+\lambda_i(\widehat{\Sigma}^{-1})
+=
+\frac{1}{\lambda_i(\widehat{\Sigma})},
+\]
+
+se tiene que
+
+\[
+\lambda_{\max}(\widehat{\Sigma}^{-1})
+=
+\frac{1}{\lambda_{\min}(\widehat{\Sigma})}
+\longrightarrow
+\frac{1}{(1-\sqrt{q})^2}.
+\]
+
+En consecuencia, cuando $q \to 1^{-}$,
+
+\[
+\lambda_{\max}(\widehat{\Sigma}^{-1}) \to \infty.
+\]
+
+Esto implica que pequeñas variaciones en los autovalores cercanos a cero producen grandes variaciones en la inversa, lo que introduce inestabilidad en procedimientos que requieren $\widehat{\Sigma}^{-1}$.
+
+Sea $\widehat{\Sigma}$ una matriz simétrica definida positiva.
+Su número de condición se define como
+
+\[
+\kappa(\widehat{\Sigma})
+=
+\frac{\lambda_{\max}(\widehat{\Sigma})}
+{\lambda_{\min}(\widehat{\Sigma})}.
+\]
+
+Este cociente mide la sensibilidad de la solución de un sistema lineal
+\[
+\widehat{\Sigma} w = b
+\]
+ante perturbaciones en la matriz. En efecto, pequeños errores en
+$\widehat{\Sigma}$ pueden amplificarse en la solución $w$ cuando
+$\kappa(\widehat{\Sigma})$ es grande.
+
+De la ley de Marčenko--Pastur se tiene que, cuando $0<q<1$,
+
+\[
+\lambda_{\min}(\widehat{\Sigma}) \longrightarrow (1-\sqrt{q})^2,
+\qquad
+\lambda_{\max}(\widehat{\Sigma}) \longrightarrow (1+\sqrt{q})^2.
+\]
+
+En consecuencia,
+
+\[
+\kappa(\widehat{\Sigma})
+\longrightarrow
+\frac{(1+\sqrt{q})^2}{(1-\sqrt{q})^2}.
+\]
+
+Obsérvese que cuando $q \to 1^{-}$,
+
+\[
+(1-\sqrt{q})^2 \to 0
+\quad \text{y por tanto} \quad
+\kappa(\widehat{\Sigma}) \to \infty.
+\]
+
+Esto indica que la matriz muestral se vuelve progresivamente mal condicionada cuando el cociente $N/T$ se aproxima a uno, lo que introduce inestabilidad en procedimientos que requieren la inversión de $\widehat{\Sigma}$.
+
+El número de condición de $\widehat{\Sigma}$ está dado por
+
+\[
+\kappa(\widehat{\Sigma})
+=
+\frac{\lambda_{\max}(\widehat{\Sigma})}
+{\lambda_{\min}(\widehat{\Sigma})}
+\longrightarrow
+\frac{(1+\sqrt{q})^2}{(1-\sqrt{q})^2}.
+\]
+
+Obsérvese que
+
+\[
+\kappa(\widehat{\Sigma}) \to \infty
+\quad \text{cuando } q \to 1^{-},
+\]
+
+lo que cuantifica la pérdida de estabilidad numérica en alta dimensión.
+
+El resultado anterior se estableció bajo la hipótesis $\Sigma = I_N$. En el caso general, cuando la matriz poblacional $\Sigma$ posee estructura no trivial, la distribución límite de los autovalores de $\widehat{\Sigma}$ depende tanto de $\Sigma$ como del parámetro $q$.
+La caracterización precisa de este caso requiere herramientas adicionales que no se desarrollan aquí y será retomada en secciones posteriores.
+
+En conclusión, incluso en el caso más simple $\Sigma = I_N$, la estimación muestral introduce una dispersión sistemática en los autovalores cuando $N/T$ es finito.
+Esto sugiere que parte de la variabilidad observada en $\widehat{\Sigma}$ no refleja información estructural, sino efectos propios del muestreo en alta dimensión.
+
+\section{Efectos del ruido muestral en alta dimensión}
+En la sección anterior se mostró que, incluso cuando $\Sigma = I_N$, los autovalores de la matriz muestral
+$\widehat{\Sigma}$ se distribuyen en un intervalo cuya amplitud depende del cociente $q = N/T$.
+
+Esto implica que la estimación introduce variabilidad adicional que no necesariamente corresponde a estructura poblacional,
+sino al efecto del muestreo en alta dimensión.
+
+\subsection*{Descomposición conceptual}
+
+En el caso general $\Sigma \neq I_N$, los autovalores
+de $\widehat{\Sigma}$ reflejan dos componentes:
+
+\begin{itemize}
+    \item Información estructural contenida en la matriz poblacional $\Sigma$.
+    \item Variabilidad inducida por el muestreo cuando $N/T$ es finito.
+\end{itemize}
+
+Cuando $q$ no es pequeño, ambas componentes se mezclan, lo que dificulta distinguir entre estructura real y efectos estadísticos.
+
+\subsection*{Información estructural}
+
+La matriz poblacional $\Sigma$ describe la verdadera estructura de dependencia entre los activos. En particular,
+al ser simétrica y definida positiva, admite una descomposición
+\[
+\Sigma = U \Lambda U^\top,
+\]
+
+donde $U$ es una matriz ortogonal y
+\[
+\Lambda = \mathrm{diag}(\lambda_1,\dots,\lambda_N)
+\]
+contiene los autovalores poblacionales. Los autovalores $\{\lambda_i\}$ representan las varianzas asociadas
+a combinaciones lineales ortogonales de los activos, mientras que los autovectores determinan las direcciones principales
+de variabilidad del sistema.
+
+Cuando $\Sigma$ posee estructura no trivial, por ejemplo factores comunes o correlaciones persistentes, dicha estructura se refleja en la magnitud relativa de sus autovalores. Autovalores significativamente mayores que uno pueden interpretarse
+como modos dominantes de variabilidad, mientras que autovalores pequeños corresponden a direcciones con menor contribución al riesgo total.
+
+En ausencia de error de estimación, la matriz $\Sigma$ contiene toda la información relevante para la construcción de portafolios óptimos. En particular, la inversión de $\Sigma$ preserva exactamente esta estructura.
+
+De este modo, veamos lo siguiente:
+
+Sea $\Sigma \in \mathbb{R}^{N \times N}$ una matriz simétrica definida positiva. Entonces existe una matriz ortogonal $U$ y una matriz diagonal
+
+\[
+\Lambda = \mathrm{diag}(\lambda_1,\dots,\lambda_N),
+\qquad \lambda_i > 0,
+\]
+
+tales que
+
+\[
+\Sigma = U \Lambda U^\top.
+\]
+
+Los valores $\lambda_1,\dots,\lambda_N$ son los autovalores poblacionales de $\Sigma$, mientras que las columnas de $U$
+son los correspondientes autovectores ortonormales.
+
+En consecuencia, la estructura matemática de $\Sigma$ queda completamente determinada por el conjunto
+$\{\lambda_i, u_i\}_{i=1}^N$.
+
+Si $\Sigma$ es conocida, cualquier operación basada en ella, como la inversión,
+
+\[
+\Sigma^{-1} = U \Lambda^{-1} U^\top,
+\]
+
+preserva exactamente dicha estructura, modificando únicamente las magnitudes de los autovalores mediante
+\[
+\Lambda^{-1} = \mathrm{diag}\left(\frac{1}{\lambda_1},\dots,\frac{1}{\lambda_N}\right).
+\]
+
+\subsection*{Variabilidad inducida por el muestreo}
+
+La matriz muestral puede escribirse como
+
+\[
+\widehat{\Sigma}
+=
+\Sigma
++
+E,
+\qquad
+E := \widehat{\Sigma} - \Sigma.
+\]
+
+El término $E$ representa el error de estimación inducido por el muestreo.
+Cuando $T \to \infty$ con $N$ fijo, se tiene $E \to 0$ y, por continuidad de los autovalores,
+\[
+\lambda_i(\widehat{\Sigma}) \to \lambda_i(\Sigma).
+\]
+Sin embargo, cuando $N,T \to \infty$ con $\frac{N}{T} \to q \in (0,\infty)$, el término $E$ no desaparece. En este régimen, la magnitud de $E$ permanece del mismo orden que la propia matriz $\Sigma$.
+
+La ley de Marčenko--Pastur muestra que, incluso en el caso $\Sigma = I_N$, los autovalores de $\widehat{\Sigma}$ no convergen al valor poblacional, sino que se distribuyen en el intervalo
+\[
+[(1-\sqrt{q})^2,(1+\sqrt{q})^2].
+\]
+Esto implica que el error $E$ no actúa como una perturbación pequeña, sino que modifica sistemáticamente los autovalores observados.
+
+En el caso general $\Sigma \neq I_N$, los autovalores de $\widehat{\Sigma}$ resultan de la interacción entre
+
+\begin{itemize}
+    \item los autovalores verdaderos de $\Sigma$,
+    \item la dispersión inducida por el cociente $N/T$.
+\end{itemize}
+
+Cuando $q$ es pequeño, la influencia de $E$ es limitada y la estructura de $\Sigma$ puede recuperarse con precisión.
+En cambio, cuando $q$ es moderado o grande, la contribución de $E$ puede ser comparable
+a la propia estructura de $\Sigma$, lo que dificulta distinguir entre información real
+y variabilidad por muestreo.
+
+Obsérvese además que el término $E = \widehat{\Sigma} - \Sigma$ está compuesto por errores en cada una de las entradas de la matriz. Cada entrada de $\widehat{\Sigma}$ es un promedio de $T$ términos, por lo que su varianza es del orden $1/T$.
+Sin embargo, la matriz contiene aproximadamente $N^2$ entradas. Cuando $N$ crece proporcionalmente a $T$, la convergencia entrada por entrada no garantiza que la diferencia $\widehat{\Sigma}-\Sigma$ sea pequeña como objeto matricial.
+
+En dimensión alta, la estimación no altera únicamente una entrada aislada de la matriz, sino que modifica simultáneamente la estructura global.
+En particular, tanto los autovalores como las direcciones asociadas pueden diferir de los correspondientes objetos poblacionales.
+Esto implica que $\widehat{\Sigma}$ no puede interpretarse como una simple aproximación cercana a $\Sigma$, sino como una matriz cuya geometría puede diferir de manera sistemática cuando $N/T$ es finito.
+
+En consecuencia, en el régimen de alta dimensión, la matriz estimada combina de manera inseparable
+estructura poblacional y variabilidad estadística, lo que constituye el núcleo del problema
+en aplicaciones que requieren la inversión de $\widehat{\Sigma}$.
+
+\subsection*{Impacto en la optimización de mínima varianza}
+
+Consideremos el problema de mínima varianza sin restricción de retorno esperado. El portafolio óptimo está dado por
+\[
+w^*(A) =
+\frac{A^{-1}\mathbf{1}}
+{\mathbf{1}^\top A^{-1}\mathbf{1}},
+\]
+cuando la matriz de covarianza es $A$ simétrica definida positiva.
+En particular, la solución depende funcionalmente de la matriz a través de su inversa.
+
+Si utilizamos la matriz muestral $\widehat{\Sigma}$ en lugar de la matriz poblacional $\Sigma$, obtenemos
+\[
+w^*(\widehat{\Sigma})
+=
+\frac{\widehat{\Sigma}^{-1}\mathbf{1}}
+{\mathbf{1}^\top \widehat{\Sigma}^{-1}\mathbf{1}}.
+\]
+
+Por tanto, cualquier diferencia entre $\widehat{\Sigma}$ y $\Sigma$ se transmite directamente a los pesos óptimos.
+Dado que los autovalores de la inversa satisfacen
+\[
+\lambda_i(\widehat{\Sigma}^{-1})
+=
+\frac{1}{\lambda_i(\widehat{\Sigma})},
+\]
+errores en autovalores pequeños se amplifican de manera no lineal en la matriz inversa. Cuando $q$ es cercano a uno,
+\[
+\lambda_{\min}(\widehat{\Sigma})
+\approx (1-\sqrt{q})^2 \to 0,
+\]
+lo que implica que
+\[
+\|\widehat{\Sigma}^{-1}\|
+\]
+puede crecer considerablemente.
+En términos algebraicos, si
+\[
+\widehat{\Sigma} = \Sigma + E,
+\]
+entonces, en general,
+\[
+w^*(\widehat{\Sigma})
+\neq
+w^*(\Sigma),
+\]
+
+En efecto, dado que
+
+\[
+w^*(A)=\frac{A^{-1}\mathbf{1}}{\mathbf{1}^\top A^{-1}\mathbf{1}},
+\]
+
+se tiene
+
+\[
+w^*(\widehat{\Sigma})
+-
+w^*(\Sigma)
+=
+\frac{\widehat{\Sigma}^{-1}\mathbf{1}}{\mathbf{1}^\top \widehat{\Sigma}^{-1}\mathbf{1}}
+-
+\frac{\Sigma^{-1}\mathbf{1}}{\mathbf{1}^\top \Sigma^{-1}\mathbf{1}}.
+\]
+
+Si $\widehat{\Sigma} \neq \Sigma$, entonces en general
+$\widehat{\Sigma}^{-1} \neq \Sigma^{-1}$.
+Por lo tanto, salvo que ambos vectores
+$\widehat{\Sigma}^{-1}\mathbf{1}$ y $\Sigma^{-1}\mathbf{1}$
+sean colineales, se obtiene
+
+\[
+w^*(\widehat{\Sigma})
+\neq
+w^*(\Sigma).
+\]
+
+Además, dado que
+
+\[
+\|\widehat{\Sigma}^{-1}\|
+=
+\frac{1}{\lambda_{\min}(\widehat{\Sigma})},
+\]
+
+cuando $\lambda_{\min}(\widehat{\Sigma})$ es pequeño, la norma de la inversa puede crecer significativamente,
+lo que amplifica las diferencias anteriores.
+Esta inestabilidad se traduce en una discrepancia entre el riesgo estimado dentro de muestra y el riesgo real fuera de muestra.
+
+\begin{proposition}
+Sea $A$ y $B$ matrices simétricas definidas positivas en $\mathbb{R}^{N\times N}$.
+Definamos
+\[
+w^*(A)=\frac{A^{-1}\mathbf{1}}{\mathbf{1}^\top A^{-1}\mathbf{1}}.
+\]
+Entonces,
+\[
+w^*(A)=w^*(B)
+\quad \Longleftrightarrow \quad
+A^{-1}\mathbf{1} = c\, B^{-1}\mathbf{1}
+\ \text{para algún } c>0.
+\]
+\end{proposition}
+
+\begin{proof}
+Si $w^*(A)=w^*(B)$, entonces
+\[
+\frac{A^{-1}\mathbf{1}}{\mathbf{1}^\top A^{-1}\mathbf{1}}
+=
+\frac{B^{-1}\mathbf{1}}{\mathbf{1}^\top B^{-1}\mathbf{1}}.
+\]
+Multiplicando por los denominadores se obtiene
+\[
+A^{-1}\mathbf{1}
+=
+\frac{\mathbf{1}^\top A^{-1}\mathbf{1}}
+{\mathbf{1}^\top B^{-1}\mathbf{1}}
+\, B^{-1}\mathbf{1}.
+\]
+Definiendo
+\[
+c=
+\frac{\mathbf{1}^\top A^{-1}\mathbf{1}}
+{\mathbf{1}^\top B^{-1}\mathbf{1}},
+\]
+se concluye que $A^{-1}\mathbf{1}=c\,B^{-1}\mathbf{1}$ con $c>0$.
+
+Recíprocamente, si $A^{-1}\mathbf{1}=c\,B^{-1}\mathbf{1}$ con $c>0$,
+entonces
+\[
+w^*(A)
+=
+\frac{c\,B^{-1}\mathbf{1}}
+{\mathbf{1}^\top (c\,B^{-1}\mathbf{1})}
+=
+\frac{B^{-1}\mathbf{1}}
+{\mathbf{1}^\top B^{-1}\mathbf{1}}
+=
+w^*(B).
+\]
+\end{proof}
+
+Aplicando el resultado con $A=\widehat{\Sigma}$ y $B=\Sigma$, se concluye que $w^*(\widehat{\Sigma})=w^*(\Sigma)$
+si y solo si $\widehat{\Sigma}^{-1}\mathbf{1}$ y $\Sigma^{-1}\mathbf{1}$ son colineales.
+
+\begin{proposition}
+Sea $\Sigma$ simétrica definida positiva y sea
+\[
+w^*(\Sigma)
+=
+\arg\min_{w:\,\mathbf{1}^\top w = 1}
+w^\top \Sigma w.
+\]
+Entonces, para cualquier vector $w$ que satisfaga
+$\mathbf{1}^\top w = 1$, se cumple
+\[
+w^{*\top}(\Sigma)\,\Sigma\,w^*(\Sigma)
+\le
+w^\top \Sigma w.
+\]
+En particular,
+\[
+w^{*\top}(\Sigma)\,\Sigma\,w^*(\Sigma)
+\le
+w^{*\top}(\widehat{\Sigma})\,\Sigma\,w^*(\widehat{\Sigma}).
+\]
+\end{proposition}
+
+\begin{proof}
+La función $w \mapsto w^\top \Sigma w$ es estrictamente convexa porque $\Sigma$ es definida positiva.
+Por tanto, el problema de minimización bajo la restricción $\mathbf{1}^\top w = 1$ tiene solución única $w^*(\Sigma)$ y, por definición de mínimo,
+\[
+w^{*\top}(\Sigma)\,\Sigma\,w^*(\Sigma)
+\le
+w^\top \Sigma w
+\]
+para todo $w$ factible. Tomando $w = w^*(\widehat{\Sigma})$
+se obtiene la desigualdad deseada.
+\end{proof}
+
+Definimos
+\[
+R_{\text{in}}
+=
+w^{*\top}(\widehat{\Sigma})
+\,\widehat{\Sigma}\,
+w^*(\widehat{\Sigma}),
+\qquad
+R_{\text{out}}
+=
+w^{*\top}(\widehat{\Sigma})
+\,\Sigma\,
+w^*(\widehat{\Sigma}).
+\]
+
+La proposición anterior muestra que $w^*(\widehat{\Sigma})$ no minimiza el riesgo poblacional,
+por lo que en general
+\[
+R_{\text{out}}
+\ge
+w^{*\top}(\Sigma)\,\Sigma\,w^*(\Sigma).
+\]
+Además, dado que $w^*(\widehat{\Sigma})$ está construido para minimizar el riesgo con respecto
+a $\widehat{\Sigma}$, se tiene
+\[
+R_{\text{in}}
+\le
+w^{*\top}(\Sigma)\,\widehat{\Sigma}\,w^*(\Sigma).
+\]
+En consecuencia, el portafolio óptimo en muestra tiende a subestimar su riesgo verdadero,
+lo que se traduce en la desigualdad típica
+\[
+R_{\text{out}} > R_{\text{in}}
+\]
+en régimen de alta dimensión.
+
+\begin{proposition}[Inflación del riesgo fuera de muestra en el caso $\Sigma=I_N$]
+Supóngase que $\Sigma = I_N$ y que
+\[
+\widehat{\Sigma}=\frac{1}{T}XX^\top,
+\qquad
+\frac{N}{T}\to q\in(0,1),
+\]
+donde las entradas de $X$ son independientes, centradas y con varianza unitaria.
+Sea el portafolio de mínima varianza estimado con $\widehat{\Sigma}$,
+\[
+w^*(\widehat{\Sigma})
+=
+\frac{\widehat{\Sigma}^{-1}\mathbf{1}}
+{\mathbf{1}^\top \widehat{\Sigma}^{-1}\mathbf{1}}.
+\]
+Definimos el riesgo en muestra y fuera de muestra como
+\[
+R_{\text{in}}
+=
+w^{*\top}(\widehat{\Sigma})\,\widehat{\Sigma}\,w^*(\widehat{\Sigma}),
+\qquad
+R_{\text{out}}
+=
+w^{*\top}(\widehat{\Sigma})\,\Sigma\,w^*(\widehat{\Sigma})
+=
+\|w^*(\widehat{\Sigma})\|^2.
+\]
+Entonces, asintóticamente,
+\[
+\frac{R_{\text{out}}}{R_{\text{in}}}
+\longrightarrow
+\frac{1}{(1-q)^2}.
+\]
+En particular,
+\[
+R_{\text{in}} \approx \frac{1-q}{N},
+\qquad
+R_{\text{out}} \approx \frac{1}{N(1-q)}.
+\]
+\end{proposition}
+
+\begin{proof}[Idea de la demostración]
+Por construcción,
+\[
+R_{\text{in}}
+=
+w^{*\top}(\widehat{\Sigma})\,\widehat{\Sigma}\,w^*(\widehat{\Sigma})
+=
+\frac{1}{\mathbf{1}^\top \widehat{\Sigma}^{-1}\mathbf{1}}.
+\]
+Como $\Sigma=I_N$, se tiene
+\[
+R_{\text{out}}
+=
+w^{*\top}(\widehat{\Sigma})w^*(\widehat{\Sigma})
+=
+\frac{\mathbf{1}^\top \widehat{\Sigma}^{-2}\mathbf{1}}
+{\left(\mathbf{1}^\top \widehat{\Sigma}^{-1}\mathbf{1}\right)^2}.
+\]
+Por tanto,
+\[
+\frac{R_{\text{out}}}{R_{\text{in}}}
+=
+\frac{\mathbf{1}^\top \widehat{\Sigma}^{-2}\mathbf{1}}
+{\mathbf{1}^\top \widehat{\Sigma}^{-1}\mathbf{1}}.
+\]
+
+Descomponiendo
+\[
+\widehat{\Sigma}
+=
+U \Lambda U^\top,
+\qquad
+\Lambda=\mathrm{diag}(\lambda_1,\dots,\lambda_N),
+\]
+se obtiene, para $k\ge 1$,
+\[
+\mathbf{1}^\top \widehat{\Sigma}^{-k}\mathbf{1}
+=
+\sum_{i=1}^N
+\frac{(u_i^\top \mathbf{1})^2}{\lambda_i^{\,k}}.
+\]
+
+En consecuencia, el comportamiento asintótico del cociente $\frac{R_{\text{out}}}{R_{\text{in}}}$
+está determinado por los promedios de las potencias inversas de los autovalores.
+
+Bajo la ley de Mar\v{c}enko--Pastur (para $q\in(0,1)$) se tiene
+\[
+\frac{1}{N}\sum_{i=1}^N \lambda_i^{-1}
+\longrightarrow \frac{1}{1-q},
+\qquad
+\frac{1}{N}\sum_{i=1}^N \lambda_i^{-2}
+\longrightarrow \frac{1}{(1-q)^3},
+\]
+y por lo tanto
+\[
+\frac{R_{\text{out}}}{R_{\text{in}}}
+\longrightarrow
+\frac{(1-q)^{-3}}{(1-q)^{-1}}
+=
+\frac{1}{(1-q)^2}.
+\]
+\end{proof}
+
+El resultado anterior muestra que el cociente
+\[
+\frac{R_{\text{out}}}{R_{\text{in}}}
+\]
+no converge a uno cuando $N/T \to q>0$, sino que
+\[
+\frac{R_{\text{out}}}{R_{\text{in}}}
+\longrightarrow
+\frac{1}{(1-q)^2}.
+\]
+
+En particular, cuando $q$ se aproxima a $1$ por debajo, el factor $\frac{1}{(1-q)^2}$ crece sin cota.
+Esto cuantifica de manera explícita la inflación del riesgo fuera de muestra inducida por el régimen de alta dimensión.
+
+Por tanto, la inestabilidad del portafolio óptimo no es un fenómeno numérico accidental, sino una consecuencia estructural del cociente $N/T$ finito.
+
+\chapter{Limpieza de matrices de correlación}
+
+En el régimen de alta dimensión, cuando el número de activos $N$ es comparable con el número de observaciones $T$, la matriz de correlación muestral deja de ser un estimador consistente de la matriz poblacional. Como se discutió en el capítulo anterior, la presencia de ruido induce una distorsión sistemática en los valores propios, afectando particularmente a los más pequeños y generando inestabilidad en procedimientos que dependen de la inversión de la matriz, como la optimización de portafolios.
+
+En este contexto, surge de manera natural el problema de construir estimadores que corrijan dichas distorsiones. La denominada ``limpieza'' de matrices de correlación puede interpretarse como un problema de estimación óptima en alta dimensión, cuyo objetivo es aproximar la matriz poblacional desconocida mediante transformaciones estructuradas de la matriz muestral.
+
+\section*{Motivación matemática}
+
+Sea $S$ la matriz de correlación muestral asociada a $T$ observaciones de $N$ variables, y sea $\Sigma$ la matriz de correlación poblacional desconocida. Trabajamos bajo el régimen asintótico
+\[
+\frac{N}{T} \longrightarrow q \in (0,\infty),
+\]
+en el cual los resultados clásicos de consistencia ya no son aplicables.
+
+El problema fundamental consiste en construir un estimador $\widehat{\Sigma} = f(S)$ que minimice una pérdida adecuada respecto de la matriz verdadera. Una formulación natural es el problema de minimización en esperanza bajo la norma de Frobenius:
+\[
+\widehat{\Sigma}^{*}
+=
+\arg\min_{\widehat{\Sigma} \in \mathcal{C}}
+\mathbb{E}
+\left[
+\|\widehat{\Sigma} - \Sigma\|_{F}^{2}
+\right],
+\]
+donde $\mathcal{C}$ denota una clase estructurada de estimadores.
+
+Dependiendo de la restricción impuesta sobre $\mathcal{C}$, se obtienen diferentes procedimientos de limpieza. En particular, si se consideran estimadores que preservan los eigenvectores de $S$ y modifican únicamente sus valores propios, el problema se reduce a determinar una transformación adecuada del conjunto de eigenvalores observados. Las técnicas desarrolladas en este capítulo —\textit{eigenvalue clipping}, \textit{shrinkage} lineal y estimadores rotacionalmente invariantes— pueden interpretarse como aproximaciones específicas a este problema general de estimación en alta dimensión.
+
+\section{Eigenvalue clipping}
+
+Como se discutió en el capítulo anterior, en el régimen $N/T \to q \in (0,\infty)$ la matriz de correlación muestral presenta una acumulación de valores propios dentro de un intervalo determinado por la ley de Marčenko–Pastur. Cuando no existe estructura verdadera en los datos, dichos valores propios corresponden esencialmente a fluctuaciones inducidas por ruido finito muestral.
+
+La idea fundamental del \textit{eigenvalue clipping} consiste en utilizar esta separación asintótica entre señal y ruido para modificar únicamente aquellos componentes que se consideran dominados por ruido, preservando el resto de la estructura observada.
+
+Sea $S$ la matriz de correlación muestral con descomposición en valores propios
+\[
+S = V \Lambda V^\top,
+\]
+donde $\Lambda = \operatorname{diag}(\lambda_1,\dots,\lambda_N)$ y $V$ es la matriz ortogonal de eigenvectores.
+
+
+Bajo la hipótesis nula de ausencia de correlación verdadera, la ley de Marčenko–Pastur establece que, en el límite asintótico, los valores propios se concentran en el intervalo
+\[
+[\lambda_-, \lambda_+], 
+\qquad 
+\lambda_{\pm} = (1 \pm \sqrt{q})^2.
+\]
+
+En aplicaciones empíricas, se interpreta que los valores propios que caen dentro de este intervalo están mayoritariamente asociados a ruido, mientras que aquellos que exceden $\lambda_+$ contienen información estructural relevante.
+
+Desde una perspectiva estructural, el procedimiento preserva únicamente aquellos modos asociados a valores propios que exceden el borde superior $\lambda_+$, mientras que el bloque comprendido en el intervalo de Marčenko–Pastur se trata como una contribución homogénea. En este sentido, el método reduce la dimensionalidad efectiva del sistema al conservar explícitamente solo los componentes que presentan magnitud superior a la variabilidad inducida por tamaño finito de muestra.
+
+El procedimiento de \textit{clipping} consiste entonces en reemplazar los valores propios dentro del intervalo $[\lambda_-,\lambda_+]$ por un valor constante representativo del bloque de ruido. Una elección común es el promedio de dichos valores:
+
+\[
+\tilde{\lambda}_i =
+\begin{cases}
+\bar{\lambda}_{\text{ruido}}, & \text{si } \lambda_i \in [\lambda_-,\lambda_+] \\
+\lambda_i, & \text{en otro caso}.
+\end{cases}
+\]
+
+La matriz limpiada se reconstruye como
+
+\[
+\tilde{S} = V \tilde{\Lambda} V^\top.
+\]
+
+Desde el punto de vista del problema de estimación formulado previamente, este método restringe la clase de estimadores a aquellos que preservan los eigenvectores de $S$ y aplican una transformación por bloques a los valores propios. Los valores propios contenidos en el intervalo de Marčenko–Pastur se deben a la variabilidad inducida por el tamaño finito de la muestra y no a correlaciones estructurales persistentes.
+
+Obsérvese además que, en el caso ideal en que la matriz poblacional fuera proporcional a la identidad, todos los valores propios verdaderos coincidirían. Bajo dicha hipótesis, el procedimiento de clipping reconstruye aproximadamente esta estructura al asignar un valor común al bloque completo, lo cual es coherente con el modelo nulo de ausencia de correlaciones persistentes.
+
+Este procedimiento presenta además una propiedad importante: al reemplazar los valores propios por su promedio dentro del bloque de ruido, se conserva aproximadamente la traza total de la matriz, evitando distorsiones globales en la escala de varianza.
+
+Un efecto particularmente relevante del procedimiento aparece al considerar la inversión de la matriz. Valores propios pequeños inducidos por tamaño finito de muestra pueden amplificarse al calcular $S^{-1}$, generando inestabilidad numérica y soluciones extremas en problemas de optimización de portafolios. Al reemplazar el bloque correspondiente por un valor promedio, se atenúa dicha amplificación y se mejora la estabilidad de la matriz inversa.
+
+No obstante, el método introduce una separación rígida entre señal y ruido, basada en un umbral determinista. En particular, no distingue entre distintos niveles de intensidad dentro del bloque de ruido, ni optimiza explícitamente una función de pérdida global. Por esta razón, el \textit{eigenvalue clipping} debe interpretarse como una aproximación inicial y conceptualmente simple al problema de limpieza de matrices, que motiva el desarrollo de técnicas más refinadas como el \textit{shrinkage} lineal y los estimadores rotacionalmente invariantes.
+
+\section{Shrinkage lineal}
+
+Una alternativa al procedimiento de \textit{eigenvalue clipping} consiste en modificar directamente la matriz de correlación muestral mediante una combinación convexa con una matriz estructurada más estable. Este enfoque, conocido como \textit{shrinkage lineal}, busca reducir la variabilidad inducida por el tamaño finito de la muestra sin imponer una separación abrupta entre señal y ruido.
+
+Una forma natural de reducir la variabilidad del estimador muestral consiste en combinarlo con una matriz que imponga una estructura más estable. Esta idea se basa en el principio de compromiso entre sesgo y variabilidad: mientras que la matriz muestral $S$ contiene información empírica proveniente de los datos pero presenta alta variabilidad cuando el tamaño de muestra es limitado, una matriz estructurada puede proporcionar mayor estabilidad a costa de introducir cierto sesgo.
+
+Una estrategia sencilla para equilibrar ambos efectos consiste en construir un estimador que combine la matriz muestral con una matriz objetivo mediante una combinación convexa.
+
+Sea $S$ la matriz de correlación muestral y sea $F$ una matriz objetivo (\textit{target}) que representa una estructura más regular o estable. El estimador de shrinkage lineal se define como
+
+\[
+\hat{\Sigma} = \alpha F + (1-\alpha) S,
+\]
+
+donde $\alpha \in [0,1]$ es el parámetro de shrinkage que controla el grado de regularización.
+
+Cuando $\alpha = 0$, el estimador coincide con la matriz muestral $S$, mientras que cuando $\alpha = 1$ se obtiene completamente la matriz objetivo $F$. Valores intermedios permiten balancear entre la información empírica contenida en los datos y la estabilidad proporcionada por la estructura impuesta por $F$.
+
+La matriz objetivo $F$ introduce una estructura simplificada que actúa como punto de referencia para el procedimiento de regularización. Su propósito es reducir la variabilidad del estimador muestral imponiendo una forma estructural más estable. En términos generales, la construcción de $F$ puede entenderse a través de los siguientes principios:
+
+\begin{enumerate}
+
+\item \textbf{Qué es la matriz objetivo $F$.}  
+La matriz $F$ representa una aproximación estructural simplificada de la matriz poblacional. Mientras que la matriz muestral $S$ intenta estimar todas las correlaciones entre variables de manera independiente, $F$ impone una forma más regular que captura únicamente características generales del sistema.
+
+\item \textbf{Propiedades que debe cumplir.}  
+Para que el estimador resultante sea válido, la matriz $F$ debe ser simétrica y definida positiva. Estas propiedades garantizan que la matriz estimada conserve la estructura necesaria para operaciones posteriores como la inversión o la optimización de portafolios.
+
+\item \textbf{Reducción del número de parámetros.}  
+Una característica fundamental de $F$ es que depende de un número reducido de parámetros. Mientras que la matriz muestral contiene del orden de $N(N-1)/2$ parámetros distintos, la matriz objetivo impone una estructura con muchos menos grados de libertad, lo cual reduce la variabilidad asociada a la estimación.
+
+\item \textbf{Construcción a partir de la matriz muestral.}  
+En la práctica, la matriz objetivo suele construirse utilizando estadísticas simples derivadas de la matriz muestral $S$. De esta forma se aprovecha la información contenida en los datos, pero se impone una estructura más estable que evita estimar cada correlación individual de manera independiente.
+
+\item \textbf{Ejemplos de matrices objetivo.}  
+Entre las elecciones más comunes de $F$ se encuentran la matriz identidad, que supone ausencia de correlaciones entre activos; las estructuras de correlación constante, en las que todas las correlaciones fuera de la diagonal se aproximan por su promedio; y matrices derivadas de modelos de factores que capturan la presencia de componentes sistemáticos comunes.
+
+\end{enumerate}
+
+\subsection*{Construcción de la matriz objetivo $F$}
+
+La matriz objetivo $F$ es una matriz estructurada con pocos parámetros que normalmente se estima a partir de la matriz muestral $S$ o de estadísticas simples derivadas de los datos. No es arbitraria, pero tampoco única: se diseña siguiendo ciertos criterios que buscan reducir la variabilidad del estimador.
+
+\subsubsection*{1. Qué es realmente $F$}
+
+Formalmente, puede pensarse como una función paramétrica
+
+\[
+F = F(\theta),
+\]
+
+donde $\theta$ representa un conjunto reducido de parámetros estimados a partir de los datos.
+
+En otras palabras,
+
+\begin{itemize}
+\item $S$ corresponde a una matriz completamente libre con muchos parámetros,
+\item $F$ representa un modelo simplificado de la matriz poblacional.
+\end{itemize}
+
+Debido a esta reducción en el número de parámetros, $F$ suele ser más estable que la matriz muestral.
+
+\subsubsection*{2. Qué debe cumplir $F$}
+
+En la práctica, la matriz objetivo debe satisfacer tres propiedades principales:
+
+\begin{enumerate}
+\item \textbf{Simetría}
+\[
+F = F^{\top}
+\]
+
+\item \textbf{Definida positiva}
+
+Esta propiedad garantiza que la matriz pueda invertirse y utilizarse en problemas posteriores como la optimización de portafolios.
+
+\item \textbf{Número reducido de parámetros}
+
+Mientras que la matriz muestral contiene del orden de
+
+\[
+\frac{N(N-1)}{2}
+\]
+
+parámetros distintos, las matrices objetivo suelen depender de un número mucho menor.
+
+Por ejemplo,
+
+\begin{center}
+\begin{tabular}{l c}
+\hline
+Matriz & Número de parámetros \\
+\hline
+$S$ & $\frac{N(N-1)}{2}$ \\
+Correlación constante & $1$ \\
+Identidad & $0$ \\
+\hline
+\end{tabular}
+\end{center}
+
+Menos parámetros implican menor variabilidad del estimador.
+\end{enumerate}
+
+\subsubsection*{3. Cómo se construye $F$ a partir de $S$}
+
+En la práctica, las matrices objetivo se construyen utilizando estadísticas simples derivadas de la matriz muestral $S$.
+
+\paragraph{Ejemplo 1: matriz identidad}
+
+Si se trabaja con matrices de correlación, una elección simple consiste en utilizar
+
+\[
+F = I.
+\]
+
+Esta elección corresponde al supuesto de ausencia de correlaciones entre variables, por lo que no es necesario estimar ningún parámetro adicional.
+
+\paragraph{Ejemplo 2: correlación promedio}
+
+Otra alternativa consiste en utilizar una estructura de correlación constante. Primero se calcula la correlación promedio
+
+\[
+\bar{\rho} =
+\frac{2}{N(N-1)}
+\sum_{i<j} S_{ij},
+\]
+
+y posteriormente se define
+
+\[
+F_{ij} =
+\begin{cases}
+1 & i=j, \\
+\bar{\rho} & i \neq j .
+\end{cases}
+\]
+
+En este caso, la matriz objetivo se construye directamente a partir de la matriz muestral $S$.
+
+\paragraph{Ejemplo 3: varianza promedio (covarianza)}
+
+Si se trabaja con matrices de covarianza, puede utilizarse la varianza promedio
+
+\[
+\bar{\sigma}^2 =
+\frac{1}{N}
+\sum_i S_{ii},
+\]
+
+y definir
+
+\[
+F = \bar{\sigma}^2 I.
+\]
+
+\subsubsection*{4. Qué está pasando realmente}
+
+El estimador de shrinkage combina la información empírica contenida en la matriz muestral con la estabilidad estructural introducida por la matriz objetivo:
+
+\[
+\hat{\Sigma} = (1-\alpha)S + \alpha F.
+\]
+
+En esta construcción,
+
+\begin{itemize}
+\item $S$ captura la estructura completa observada en los datos, pero contiene alta variabilidad,
+\item $F$ impone una estructura más simple y estable.
+\end{itemize}
+
+El estimador final resulta de equilibrar ambas contribuciones mediante el parámetro de shrinkage $\alpha$.
+
+Bajo esta construcción, el estimador de shrinkage combina la información empírica contenida en la matriz muestral $S$ con la estabilidad estructural introducida por la matriz objetivo $F$, permitiendo obtener estimadores más robustos en contextos de alta dimensión.
+
+El objetivo del procedimiento consiste en elegir el valor de $\alpha$ que minimice una función de pérdida adecuada respecto de la matriz poblacional desconocida.
+
+Desde un punto de vista intuitivo, el procedimiento de shrinkage puede interpretarse como un mecanismo de regularización que reduce la variabilidad asociada al estimador muestral. La matriz $S$ contiene información empírica proveniente de los datos, pero también incorpora variabilidad inducida por el tamaño finito de la muestra. En contraste, la matriz objetivo $F$ impone una estructura más estable. El estimador de shrinkage busca entonces equilibrar ambas fuentes de información mediante una combinación convexa.
+
+Desde el punto de vista de la estimación estadística, el objetivo consiste en elegir el parámetro $\alpha$ que produzca la mejor aproximación posible a la matriz poblacional $\Sigma$. Una forma natural de formalizar este problema es mediante la minimización de una función de pérdida.
+
+Una elección ampliamente utilizada es la norma de Frobenius, definida como
+
+\[
+\|A\|_F^2 = \sum_{i,j} A_{ij}^2.
+\]
+
+Bajo esta métrica, el problema consiste en encontrar el valor de $\alpha$ que minimice
+
+\[
+\mathbb{E}\left[\|\hat{\Sigma} - \Sigma\|_F^2\right].
+\]
+
+La elección óptima del parámetro de shrinkage puede obtenerse expandiendo la función de pérdida anterior. Sustituyendo la definición del estimador
+
+\[
+\hat{\Sigma} = \alpha F + (1-\alpha)S
+\]
+
+se obtiene
+
+\[
+\hat{\Sigma} - \Sigma
+=
+\alpha(F-\Sigma) + (1-\alpha)(S-\Sigma).
+\]
+
+El problema consiste entonces en determinar el valor de $\alpha$ que minimiza
+\[
+\mathbb{E}\left[
+\|
+\alpha(F-\Sigma) + (1-\alpha)(S-\Sigma)
+\|_F^2
+\right].
+\]
+
+La expansión de esta expresión conduce a una función cuadrática en $\alpha$, cuya minimización produce un valor óptimo $\alpha^*$ que equilibra la proximidad entre la matriz muestral y la matriz objetivo.
+
+La expansión de la norma de Frobenius permite escribir la función de pérdida como
+
+\[
+\mathbb{E}\|\hat{\Sigma}-\Sigma\|_F^2
+=
+\mathbb{E}\left[
+\|
+\alpha(F-\Sigma) + (1-\alpha)(S-\Sigma)
+\|_F^2
+\right].
+\]
+
+Utilizando la propiedad
+
+\[
+\|A+B\|_F^2
+=
+\|A\|_F^2
++
+\|B\|_F^2
++
+2\langle A,B\rangle,
+\]
+
+donde $\langle A,B\rangle = \mathrm{tr}(A^\top B)$ denota el producto interno de Frobenius, se obtiene
+
+\[
+\begin{aligned}
+\mathbb{E}\|\hat{\Sigma}-\Sigma\|_F^2
+=
+&\;
+\alpha^2
+\mathbb{E}\|F-\Sigma\|_F^2
+\\
+&+
+(1-\alpha)^2
+\mathbb{E}\|S-\Sigma\|_F^2
+\\
+&+
+2\alpha(1-\alpha)
+\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle .
+\end{aligned}
+\]
+
+Esta expresión define una función cuadrática en el parámetro $\alpha$. Por lo tanto, el valor óptimo del parámetro de shrinkage puede obtenerse derivando respecto a $\alpha$ y resolviendo la condición de primer orden.
+
+La expresión anterior define una función cuadrática en el parámetro $\alpha$. Para obtener el valor óptimo, escribimos
+
+\[
+L(\alpha)
+=
+\mathbb{E}\|\hat{\Sigma}-\Sigma\|_F^2
+=
+\mathbb{E}\left[
+\|
+\alpha(F-\Sigma) + (1-\alpha)(S-\Sigma)
+\|_F^2
+\right].
+\]
+
+Usando la identidad
+\[
+\|A+B\|_F^2
+=
+\|A\|_F^2+\|B\|_F^2+2\langle A,B\rangle,
+\]
+se obtiene
+
+\[
+\begin{aligned}
+L(\alpha)
+=
+&\;
+\alpha^2 \,\mathbb{E}\|F-\Sigma\|_F^2
++
+(1-\alpha)^2 \,\mathbb{E}\|S-\Sigma\|_F^2 \\
+&\;+
+2\alpha(1-\alpha)\,\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle.
+\end{aligned}
+\]
+
+Derivando respecto a $\alpha$, resulta
+
+\[
+\begin{aligned}
+L'(\alpha)
+=
+&\;
+2\alpha \,\mathbb{E}\|F-\Sigma\|_F^2
+-2(1-\alpha)\,\mathbb{E}\|S-\Sigma\|_F^2 \\
+&\;+
+2(1-2\alpha)\,\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle.
+\end{aligned}
+\]
+
+Igualando a cero la derivada, la condición de primer orden es
+
+\[
+\alpha \,\mathbb{E}\|F-\Sigma\|_F^2
+-(1-\alpha)\,\mathbb{E}\|S-\Sigma\|_F^2
++
+(1-2\alpha)\,\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle
+=0.
+\]
+
+Desarrollando el término $(1-\alpha)$ y reagrupando los términos que contienen $\alpha$, se obtiene
+
+\[
+\begin{aligned}
+&\alpha \,\mathbb{E}\|F-\Sigma\|_F^2
+-\mathbb{E}\|S-\Sigma\|_F^2
++\alpha\,\mathbb{E}\|S-\Sigma\|_F^2 \\
+&\qquad
++\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle
+-2\alpha\,\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle
+=0,
+\end{aligned}
+\]
+
+es decir,
+
+\[
+\alpha \Big(
+\mathbb{E}\|F-\Sigma\|_F^2
++
+\mathbb{E}\|S-\Sigma\|_F^2
+-
+2\,\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle
+\Big)
+=
+\mathbb{E}\|S-\Sigma\|_F^2
+-
+\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle.
+\]
+
+Por tanto,
+
+\[
+\alpha^*
+=
+\frac{
+\mathbb{E}\|S-\Sigma\|_F^2
+-
+\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle
+}{
+\mathbb{E}\|F-\Sigma\|_F^2
++
+\mathbb{E}\|S-\Sigma\|_F^2
+-
+2\,\mathbb{E}\langle F-\Sigma,S-\Sigma\rangle
+}.
+\]
+
+Ahora bien, observando que
+
+\[
+S-F = (S-\Sigma) - (F-\Sigma),
+\]
+se tiene
+
+\[
+\|S-F\|_F^2
+=
+\|S-\Sigma\|_F^2
++
+\|F-\Sigma\|_F^2
+-
+2\langle F-\Sigma,S-\Sigma\rangle,
+\]
+
+y además
+
+\[
+\langle S-\Sigma,S-F\rangle
+=
+\|S-\Sigma\|_F^2
+-
+\langle F-\Sigma,S-\Sigma\rangle.
+\]
+
+Sustituyendo estas identidades en la expresión anterior, se llega a la forma compacta
+
+\[
+\alpha^*
+=
+\frac{
+\mathbb{E}\langle S-\Sigma,S-F\rangle
+}{
+\mathbb{E}\|S-F\|_F^2
+}.
+\]
+
+El resultado es
+
+\[
+\alpha^*
+=
+\frac{
+\mathbb{E}\langle S-\Sigma,S-F\rangle
+}{
+\mathbb{E}\|S-F\|_F^2
+}.
+\]
+
+Una forma equivalente de esta expresión, frecuentemente utilizada en la literatura, es
+
+\[
+\alpha^*
+=
+\frac{
+\mathbb{E}\|S-\Sigma\|_F^2
+}{
+\mathbb{E}\|S-F\|_F^2
+}.
+\]
+
+Esta fórmula muestra que el parámetro óptimo de shrinkage depende del balance entre la variabilidad del estimador muestral y la distancia entre la matriz muestral y la matriz objetivo. Cuando la variabilidad de $S$ es grande, el valor óptimo de $\alpha$ aumenta, otorgando mayor peso a la matriz objetivo $F$.
+
+En la práctica, sin embargo, la matriz poblacional $\Sigma$ es desconocida, por lo que el valor exacto de $\alpha^*$ no puede calcularse directamente. Este problema motiva el desarrollo de estimadores consistentes para el parámetro de shrinkage, como el propuesto por Ledoit y Wolf (2004), que permite estimar $\alpha$ a partir de los datos disponibles.
+
+La expresión obtenida para $\alpha^*$ proporciona el valor óptimo del parámetro de shrinkage en términos de la matriz poblacional $\Sigma$. Sin embargo, en aplicaciones reales esta matriz es desconocida, por lo que la cantidad
+
+\[
+\alpha^*
+=
+\frac{
+\mathbb{E}\langle S-\Sigma,S-F\rangle
+}{
+\mathbb{E}\|S-F\|_F^2
+}
+\]
+
+no puede evaluarse directamente.
+
+Esto transforma el problema original de optimización en un problema de estimación: ya no se trata solamente de encontrar el valor de $\alpha$ que minimiza la función de pérdida, sino de construir un estimador observable que aproxime de manera consistente al parámetro óptimo.
+
+La idea central consiste en identificar los términos que intervienen en la expresión de $\alpha^*$ y sustituirlos por estimadores calculables a partir de la muestra. En particular, se requiere estimar, por un lado, la variabilidad del estimador muestral y, por otro, la distancia entre la matriz muestral y la matriz objetivo.
+
+Desde esta perspectiva, el problema puede reformularse de la siguiente manera: si el numerador de $\alpha^*$ mide la parte de la variabilidad de $S$ que conviene corregir, mientras que el denominador cuantifica la discrepancia entre la matriz muestral y la matriz objetivo, entonces un estimador adecuado de $\alpha$ debe surgir al reemplazar ambas cantidades por versiones empíricas.
+
+Esta observación conduce de manera natural al enfoque propuesto por Ledoit y Wolf, cuyo objetivo es construir un estimador consistente del parámetro de shrinkage utilizando únicamente información contenida en la muestra.
+
+
+
+
+La expresión obtenida para $\alpha^*$ depende de la matriz poblacional $\Sigma$, la cual es desconocida en la práctica. En consecuencia, la cantidad
+
+\[
+\alpha^*
+=
+\frac{
+\mathbb{E}\langle S-\Sigma,S-F\rangle
+}{
+\mathbb{E}\|S-F\|_F^2
+}
+\]
+
+no puede evaluarse directamente a partir de los datos.
+
+Para avanzar, resulta útil analizar la estructura de esta expresión. El denominador mide la distancia entre la matriz muestral $S$ y la matriz objetivo $F$, mientras que el numerador captura la parte de la variabilidad de $S$ que está asociada al error de estimación respecto de la matriz poblacional.
+
+Con el fin de simplificar la notación, introducimos las siguientes cantidades
+
+\[
+\pi
+=
+\mathbb{E}\|S-\Sigma\|_F^2,
+\]
+
+que mide la variabilidad del estimador muestral, y
+
+\[
+\gamma
+=
+\|S-F\|_F^2,
+\]
+
+que representa la discrepancia entre la matriz muestral y la matriz objetivo.
+
+Bajo esta notación, el parámetro óptimo de shrinkage puede interpretarse como una razón entre la variabilidad del estimador muestral y la distancia entre la matriz muestral y la matriz objetivo.
+
+El problema consiste entonces en construir estimadores observables de estas cantidades a partir de los datos disponibles.
+
+Si $\hat{\pi}$ y $\hat{\gamma}$ denotan estimadores de $\pi$ y $\gamma$, respectivamente, una estimación natural del parámetro de shrinkage viene dada por
+
+\[
+\hat{\alpha} = \frac{\hat{\pi}}{\hat{\gamma}}.
+\]
+
+Para construir un estimador del parámetro de shrinkage es necesario estimar las cantidades $\pi$ y $\gamma$ a partir de los datos.
+
+
+
+
+Recordemos que el parámetro óptimo de shrinkage puede escribirse como
+
+\[
+\alpha^* = \frac{\pi}{\gamma},
+\]
+
+donde
+
+\[
+\pi = \mathbb{E}\|S-\Sigma\|_F^2
+\]
+
+mide la variabilidad del estimador muestral, y
+
+\[
+\gamma = \|S-F\|_F^2
+\]
+
+representa la distancia entre la matriz muestral y la matriz objetivo.
+
+El problema consiste entonces en construir estimadores observables de estas cantidades utilizando únicamente la información contenida en la muestra.
+
+\subsubsection*{Desarrollo de la estimación de $\pi$}
+
+Para justificar la construcción de un estimador de $\pi$, introducimos la notación
+
+\[
+Y_t := x_t x_t^\top,
+\qquad t=1,\dots,T.
+\]
+
+Con esta definición, la matriz muestral puede escribirse como
+
+\[
+S = \frac{1}{T}\sum_{t=1}^{T} Y_t.
+\]
+
+Además, bajo el supuesto de que los vectores $x_t$ están centrados,
+
+\[
+\mathbb{E}[Y_t] = \mathbb{E}[x_t x_t^\top] = \Sigma.
+\]
+
+Por tanto, cada matriz $Y_t$ puede interpretarse como una estimación instantánea de la matriz poblacional, mientras que $S$ corresponde al promedio de dichas estimaciones.
+
+Recordemos que
+
+\[
+\pi = \mathbb{E}\|S-\Sigma\|_F^2.
+\]
+
+El problema consiste en estimar esta cantidad sin conocer $\Sigma$. Para ello, Ledoit y Wolf explotan la representación de $S$ como promedio muestral.
+
+\paragraph{Paso 1: expresión de $\pi$ en términos de $Y_t$}
+
+Usando que
+
+\[
+S-\Sigma
+=
+\frac{1}{T}\sum_{t=1}^{T}(Y_t-\Sigma),
+\]
+
+se obtiene
+
+\[
+\pi
+=
+\mathbb{E}\left\|
+\frac{1}{T}\sum_{t=1}^{T}(Y_t-\Sigma)
+\right\|_F^2.
+\]
+
+Por definición de la norma de Frobenius,
+
+\[
+\left\|
+\frac{1}{T}\sum_{t=1}^{T}(Y_t-\Sigma)
+\right\|_F^2
+=
+\left\langle
+\frac{1}{T}\sum_{t=1}^{T}(Y_t-\Sigma),
+\frac{1}{T}\sum_{s=1}^{T}(Y_s-\Sigma)
+\right\rangle,
+\]
+
+de modo que
+
+\[
+\pi
+=
+\frac{1}{T^2}
+\mathbb{E}
+\left[
+\sum_{t=1}^{T}\sum_{s=1}^{T}
+\left\langle Y_t-\Sigma,\; Y_s-\Sigma\right\rangle
+\right].
+\]
+
+Separando los términos diagonales de los términos cruzados, se obtiene
+
+\[
+\pi
+=
+\frac{1}{T^2}
+\mathbb{E}
+\left[
+\sum_{t=1}^{T}\|Y_t-\Sigma\|_F^2
++
+\sum_{t\neq s}
+\left\langle Y_t-\Sigma,\; Y_s-\Sigma\right\rangle
+\right].
+\]
+
+Ahora, para $t\neq s$, la independencia de las observaciones implica
+
+\[
+\mathbb{E}\left\langle Y_t-\Sigma,\; Y_s-\Sigma\right\rangle
+=
+\left\langle
+\mathbb{E}(Y_t-\Sigma),\;
+\mathbb{E}(Y_s-\Sigma)
+\right\rangle.
+\]
+
+Como
+
+\[
+\mathbb{E}(Y_t-\Sigma)
+=
+\mathbb{E}(Y_t)-\Sigma
+=
+\Sigma-\Sigma
+=
+0,
+\]
+
+se sigue que
+
+\[
+\mathbb{E}\left\langle Y_t-\Sigma,\; Y_s-\Sigma\right\rangle = 0,
+\qquad t\neq s.
+\]
+
+Por lo tanto, todos los términos cruzados desaparecen y queda
+
+\[
+\pi
+=
+\frac{1}{T^2}
+\sum_{t=1}^{T}
+\mathbb{E}\|Y_t-\Sigma\|_F^2.
+\]
+
+Dado que las matrices $Y_t$ son idénticamente distribuidas,
+
+\[
+\mathbb{E}\|Y_t-\Sigma\|_F^2
+=
+\mathbb{E}\|Y_1-\Sigma\|_F^2,
+\qquad t=1,\dots,T,
+\]
+
+y en consecuencia
+
+\[
+\pi
+=
+\frac{1}{T^2}\,T\,\mathbb{E}\|Y_1-\Sigma\|_F^2
+=
+\frac{1}{T}\mathbb{E}\|Y_1-\Sigma\|_F^2.
+\]
+
+Es decir,
+
+\[
+\mathbb{E}\|Y_1-\Sigma\|_F^2 = T\pi.
+\]
+
+Expandiendo la norma de Frobenius,
+
+\[
+\pi
+=
+\frac{1}{T^2}
+\mathbb{E}
+\left[
+\sum_{t=1}^{T}\|Y_t-\Sigma\|_F^2
++
+\sum_{t\neq s}\langle Y_t-\Sigma,\,Y_s-\Sigma\rangle
+\right].
+\]
+
+Como las observaciones son independientes e idénticamente distribuidas, y además
+
+\[
+\mathbb{E}[Y_t-\Sigma]=0,
+\]
+
+los términos cruzados satisfacen
+
+\[
+\mathbb{E}\langle Y_t-\Sigma,\,Y_s-\Sigma\rangle = 0,
+\qquad t\neq s.
+\]
+
+Por lo tanto,
+
+\[
+\pi
+=
+\frac{1}{T^2}
+\sum_{t=1}^{T}
+\mathbb{E}\|Y_t-\Sigma\|_F^2
+=
+\frac{1}{T}\,\mathbb{E}\|Y_1-\Sigma\|_F^2.
+\]
+
+Es decir,
+
+\[
+\mathbb{E}\|Y_1-\Sigma\|_F^2 = T\pi.
+\]
+
+\paragraph{Paso 2: identidad para la suma de cuadrados}
+
+Con el fin de eliminar la dependencia explícita de la matriz poblacional $\Sigma$, consideramos la cantidad
+
+\[
+\sum_{t=1}^{T}\|Y_t-S\|_F^2.
+\]
+
+Usando la descomposición
+
+\[
+Y_t-S = (Y_t-\Sigma) - (S-\Sigma),
+\]
+
+se obtiene
+
+\[
+\|Y_t-S\|_F^2
+=
+\|(Y_t-\Sigma) - (S-\Sigma)\|_F^2.
+\]
+
+Aplicando la identidad
+\[
+\|A-B\|_F^2 = \|A\|_F^2 + \|B\|_F^2 - 2\langle A,B\rangle,
+\]
+resulta
+
+\[
+\|Y_t-S\|_F^2
+=
+\|Y_t-\Sigma\|_F^2
++
+\|S-\Sigma\|_F^2
+-
+2\langle Y_t-\Sigma,\; S-\Sigma\rangle.
+\]
+
+Sumando sobre $t=1,\dots,T$,
+
+\[
+\sum_{t=1}^{T}\|Y_t-S\|_F^2
+=
+\sum_{t=1}^{T}\|Y_t-\Sigma\|_F^2
++
+\sum_{t=1}^{T}\|S-\Sigma\|_F^2
+-
+2\sum_{t=1}^{T}\langle Y_t-\Sigma,\; S-\Sigma\rangle.
+\]
+
+Como $\|S-\Sigma\|_F^2$ no depende de $t$, el segundo término se simplifica como
+
+\[
+\sum_{t=1}^{T}\|S-\Sigma\|_F^2
+=
+T\|S-\Sigma\|_F^2.
+\]
+
+Además, usando que
+
+\[
+S-\Sigma
+=
+\frac{1}{T}\sum_{t=1}^{T}(Y_t-\Sigma),
+\]
+
+se tiene
+
+\[
+\sum_{t=1}^{T}(Y_t-\Sigma)=T(S-\Sigma).
+\]
+
+Por lo tanto,
+
+\[
+\sum_{t=1}^{T}\langle Y_t-\Sigma,\; S-\Sigma\rangle
+=
+\left\langle
+\sum_{t=1}^{T}(Y_t-\Sigma),\; S-\Sigma
+\right\rangle
+=
+\langle T(S-\Sigma),\; S-\Sigma\rangle
+=
+T\|S-\Sigma\|_F^2.
+\]
+
+Sustituyendo en la expresión anterior, obtenemos
+
+\[
+\sum_{t=1}^{T}\|Y_t-S\|_F^2
+=
+\sum_{t=1}^{T}\|Y_t-\Sigma\|_F^2
++
+T\|S-\Sigma\|_F^2
+-
+2T\|S-\Sigma\|_F^2,
+\]
+
+es decir,
+
+\[
+\sum_{t=1}^{T}\|Y_t-S\|_F^2
+=
+\sum_{t=1}^{T}\|Y_t-\Sigma\|_F^2
+-
+T\|S-\Sigma\|_F^2.
+\]
+
+\paragraph{Paso 3: tomar esperanza}
+
+Tomando esperanza en ambos lados de la igualdad anterior,
+
+\[
+\mathbb{E}\left[\sum_{t=1}^{T}\|Y_t-S\|_F^2\right]
+=
+\sum_{t=1}^{T}\mathbb{E}\|Y_t-\Sigma\|_F^2
+-
+T\,\mathbb{E}\|S-\Sigma\|_F^2.
+\]
+
+Por el resultado del Paso 1,
+
+\[
+\mathbb{E}\|Y_t-\Sigma\|_F^2 = T\pi,
+\qquad t=1,\dots,T,
+\]
+
+y además
+
+\[
+\mathbb{E}\|S-\Sigma\|_F^2 = \pi.
+\]
+
+Entonces,
+
+\[
+\mathbb{E}\left[\sum_{t=1}^{T}\|Y_t-S\|_F^2\right]
+=
+\sum_{t=1}^{T}T\pi - T\pi
+=
+T^2\pi - T\pi
+=
+T(T-1)\pi.
+\]
+
+De aquí se deduce que
+
+\[
+\pi
+=
+\frac{1}{T(T-1)}
+\mathbb{E}\left[\sum_{t=1}^{T}\|Y_t-S\|_F^2\right].
+\]
+
+Esto sugiere de manera natural el estimador observable
+
+\[
+\hat{\pi}
+=
+\frac{1}{T(T-1)}
+\sum_{t=1}^{T}\|Y_t-S\|_F^2.
+\]
+
+Finalmente, recordando que $Y_t=x_t x_t^\top$, se obtiene
+
+\[
+\hat{\pi}
+=
+\frac{1}{T(T-1)}
+\sum_{t=1}^{T}\|x_t x_t^\top - S\|_F^2.
+\]
+
+Expresado componente a componente,
+
+\[
+\hat{\pi}
+=
+\frac{1}{T(T-1)}
+\sum_{t=1}^{T}
+\sum_{i=1}^{N}\sum_{j=1}^{N}
+(x_{it}x_{jt}-S_{ij})^2.
+\]
+
+\subsubsection*{Estimación de $\gamma$}
+
+La cantidad $\gamma$ no depende de la matriz poblacional $\Sigma$, por lo que puede estimarse directamente mediante
+
+\[
+\hat{\gamma}=\|S-F\|_F^2.
+\]
+
+En consecuencia, el estimador final del parámetro de shrinkage viene dado por
+
+\[
+\hat{\alpha}=\frac{\hat{\pi}}{\hat{\gamma}}.
+\]
+
+\section{Estimadores Rotacionalmente Invariantes}
+
+Los métodos discutidos en las secciones anteriores buscan reducir la variabilidad del estimador muestral mediante transformaciones relativamente simples de la matriz de correlación. El procedimiento de \textit{eigenvalue clipping} modifica únicamente aquellos valores propios asociados al bloque dominado por ruido, mientras que el \textit{shrinkage} lineal introduce una regularización global mediante una combinación convexa entre la matriz muestral y una matriz objetivo estructurada.
+
+Aunque ambos enfoques mejoran la estabilidad del estimador muestral, presentan limitaciones importantes. En particular, el \textit{shrinkage} lineal aplica una contracción uniforme a todos los elementos de la matriz, sin distinguir entre diferentes niveles de información contenidos en los datos. En contextos de alta dimensión, donde el número de variables $N$ es comparable con el tamaño de la muestra $T$, esta aproximación puede resultar insuficiente para capturar la estructura real de las correlaciones.
+
+La teoría de matrices aleatorias proporciona herramientas más refinadas para abordar este problema. En particular, permite estudiar de manera precisa cómo los valores propios de la matriz de correlación muestral se distorsionan debido a la variabilidad inducida por el tamaño finito de la muestra. Este análisis conduce al desarrollo de una clase más general de estimadores conocidos como \textit{estimadores rotacionalmente invariantes}.
+
+La idea central consiste en considerar estimadores que preservan los eigenvectores de la matriz muestral, pero modifican de manera óptima sus valores propios. Formalmente, un estimador rotacionalmente invariante tiene la forma
+
+\[
+\hat{\Sigma} = V D V^\top,
+\]
+
+donde $V$ es la matriz de eigenvectores de la matriz muestral $S$ y $D$ es una matriz diagonal cuyas entradas corresponden a transformaciones de los valores propios observados.
+
+Esta restricción implica que el estimador no introduce rotaciones adicionales en el espacio de los datos, sino que actúa únicamente sobre el espectro de la matriz muestral. Bajo este marco, el problema de estimación se reduce a determinar la transformación óptima que debe aplicarse a los valores propios.
+
+Los resultados de la teoría de matrices aleatorias muestran que, en el régimen asintótico en el que $N,T \to \infty$ con $N/T \to q$, existe una transformación determinista que permite obtener estimadores de covarianza con propiedades óptimas en términos de error cuadrático.
+
+Este enfoque conduce a los llamados \textit{Rotationally Invariant Estimators} (RIE), los cuales constituyen una generalización natural de los métodos de limpieza discutidos anteriormente.
+
+\subsection*{Definición de estimadores rotacionalmente invariantes}
+
+Sea
+
+\[
+S = V \Lambda V^\top
+\]
+
+la descomposición en valores propios de la matriz de correlación muestral, donde $\Lambda=\mathrm{diag}(\lambda_1,\dots,\lambda_N)$ contiene los valores propios y $V$ es la matriz ortogonal de eigenvectores.
+
+Un estimador de covarianza se dice \textit{rotacionalmente invariante} si comparte los eigenvectores de la matriz muestral, es decir, si puede escribirse en la forma
+
+\[
+\hat{\Sigma} = V D V^\top,
+\]
+
+donde $D=\mathrm{diag}(d_1,\dots,d_N)$ es una matriz diagonal cuyas entradas corresponden a transformaciones de los valores propios observados.
+
+Bajo esta restricción, el problema de estimación de la matriz de covarianza se reduce a determinar una función que transforme los valores propios observados en estimaciones más estables. En otras palabras, se busca una transformación
+
+\[
+d_i = f(\lambda_i),
+\]
+
+que permita corregir la distorsión inducida por el tamaño finito de la muestra.
+
+Esta formulación permite interpretar diversos métodos de limpieza de matrices dentro de un mismo marco. En particular, el procedimiento de \textit{eigenvalue clipping} puede entenderse como una transformación por bloques de los valores propios, mientras que los métodos más avanzados buscan aproximar la transformación óptima mediante herramientas de la teoría de matrices aleatorias.
+
+\subsection*{Problema de estimación óptima}
+
+Dado que los estimadores rotacionalmente invariantes preservan los eigenvectores de la matriz muestral, el problema de estimación de la matriz de covarianza se reduce a determinar los valores óptimos de la matriz diagonal $D$.
+
+Sea
+
+\[
+S = V \Lambda V^\top
+\]
+
+la descomposición espectral de la matriz de correlación muestral. Consideramos estimadores de la forma
+
+\[
+\hat{\Sigma} = V D V^\top,
+\]
+
+donde $D=\mathrm{diag}(d_1,\dots,d_N)$.
+
+El objetivo consiste en elegir los valores $d_i$ de modo que el estimador minimice el error cuadrático esperado con respecto a la matriz poblacional $\Sigma$, es decir,
+
+\[
+\min_{D} \;
+\mathbb{E}\|\hat{\Sigma}-\Sigma\|_F^2.
+\]
+
+Este problema restringe la búsqueda a la clase de estimadores rotacionalmente invariantes, es decir, aquellos que comparten los eigenvectores de la matriz muestral y únicamente modifican sus valores propios.
+
+Este problema restringe la búsqueda a la clase de estimadores rotacionalmente invariantes, es decir, aquellos que comparten los eigenvectores de la matriz muestral y únicamente modifican sus valores propios.
+
+En consecuencia, el problema de estimación de la matriz de covarianza se reduce a determinar los valores $d_1,\dots,d_N$ que minimizan la función de pérdida anterior. En otras palabras, en lugar de estimar directamente una matriz de dimensión $N\times N$, el problema se transforma en la elección óptima de $N$ parámetros escalares asociados a los eigenvectores de la matriz muestral.
+
+Este cambio de perspectiva permite estudiar el problema en el sistema de coordenadas definido por los eigenvectores de $S$. En dicha base, la estructura del estimador queda completamente determinada por la matriz diagonal $D$, lo que simplifica considerablemente el análisis del problema de optimización.
+
+\subsubsection*{Función de pérdida}
+
+Para evaluar la calidad de un estimador dentro de la clase considerada, introducimos una función de pérdida que mida la discrepancia entre el estimador y la matriz poblacional verdadera.
+
+Como en las secciones anteriores, utilizaremos la norma de Frobenius. Para una matriz $A=(a_{ij})$, esta norma se define como
+
+\[
+\|A\|_F^2
+=
+\sum_{i=1}^{N}\sum_{j=1}^{N} a_{ij}^2.
+\]
+
+En consecuencia, la discrepancia entre el estimador $\hat{\Sigma}$ y la matriz poblacional $\Sigma$ puede medirse mediante
+
+\[
+\mathcal{L}(\hat{\Sigma},\Sigma)
+=
+\|\hat{\Sigma}-\Sigma\|_F^2.
+\]
+
+Esta función penaliza cuadráticamente las diferencias entre las entradas de ambas matrices y resulta particularmente conveniente por su invariancia bajo transformaciones ortogonales.
+
+En el caso de estimadores rotacionalmente invariantes de la forma
+
+\[
+\hat{\Sigma}=VDV^\top,
+\]
+
+la función de pérdida se escribe como
+
+\[
+\mathcal{L}(D)
+=
+\|VDV^\top-\Sigma\|_F^2.
+\]
+
+Por lo tanto, el problema de estimación consiste en determinar la matriz diagonal $D$ que minimiza esta función.
+
+Una vez fijada la función de pérdida, el siguiente paso consiste en determinar cuál es el mejor estimador posible dentro de la clase de estimadores rotacionalmente invariantes. Recordemos que estamos restringiendo la búsqueda a matrices de la forma
+
+\[
+\hat{\Sigma}=VDV^\top,
+\]
+
+donde $V$ contiene los eigenvectores de la matriz muestral $S$ y
+$D=\mathrm{diag}(d_1,\dots,d_N)$ es una matriz diagonal.
+
+Bajo esta restricción, la función de pérdida toma la forma
+
+\[
+\mathcal{L}(D)
+=
+\|VDV^\top-\Sigma\|_F^2.
+\]
+
+El problema consiste entonces en encontrar la matriz diagonal $D$ que minimiza esta cantidad. Es decir,
+
+\[
+D^*
+=
+\arg\min_D
+\|VDV^\top-\Sigma\|_F^2.
+\]
+
+Este problema puede interpretarse como la búsqueda de la mejor aproximación posible a la matriz poblacional $\Sigma$ dentro de la clase de matrices que comparten los eigenvectores de la matriz muestral. En otras palabras, no se permite modificar la base propia dada por $V$, sino únicamente ajustar los valores propios del estimador.
+
+Para avanzar, resulta natural reescribir la función de pérdida en la base determinada por los eigenvectores de $S$. Esto es posible gracias a que la norma de Frobenius es invariante bajo transformaciones ortogonales. En efecto, si $U$ es una matriz ortogonal, entonces
+
+\[
+\|A\|_F^2 = \|U^\top A U\|_F^2.
+\]
+
+Aplicando esta propiedad con $U=V$, obtenemos
+
+\[
+\|VDV^\top-\Sigma\|_F^2
+=
+\|V^\top(VDV^\top-\Sigma)V\|_F^2.
+\]
+
+Usando que $V^\top V=I$, se sigue que
+
+\[
+V^\top(VDV^\top-\Sigma)V
+=
+D - V^\top \Sigma V.
+\]
+
+Por lo tanto,
+
+\[
+\mathcal{L}(D)
+=
+\|D - V^\top \Sigma V\|_F^2.
+\]
+
+Definamos ahora la matriz
+
+\[
+B := V^\top \Sigma V.
+\]
+
+Con esta notación, la función de pérdida puede escribirse como
+
+\[
+\mathcal{L}(D)=\|D-B\|_F^2.
+\]
+
+Esta expresión muestra con claridad el sentido del problema: en la base de eigenvectores de la matriz muestral, la matriz poblacional $\Sigma$ se representa por $B$, mientras que el estimador rotacionalmente invariante se representa por una matriz diagonal $D$. El problema consiste entonces en aproximar $B$ por una matriz diagonal en el sentido de la norma de Frobenius.
+
+Expandiendo la norma componente a componente, se obtiene
+
+\[
+\|D-B\|_F^2
+=
+\sum_{i=1}^{N}\sum_{j=1}^{N}(D_{ij}-B_{ij})^2.
+\]
+
+Como $D$ es diagonal, se tiene
+
+\[
+D_{ij}=
+\begin{cases}
+d_i, & i=j,\\
+0, & i\neq j.
+\end{cases}
+\]
+
+Sustituyendo esta estructura en la suma anterior, resulta
+
+\[
+\|D-B\|_F^2
+=
+\sum_{i=1}^{N}(d_i-B_{ii})^2
++
+\sum_{i\neq j}(0-B_{ij})^2.
+\]
+
+Es decir,
+
+\[
+\|D-B\|_F^2
+=
+\sum_{i=1}^{N}(d_i-B_{ii})^2
++
+\sum_{i\neq j}B_{ij}^2.
+\]
+
+Obsérvese ahora que el segundo término no depende de $D$. Por consiguiente, minimizar la función de pérdida equivale a minimizar únicamente la parte
+
+\[
+\sum_{i=1}^{N}(d_i-B_{ii})^2.
+\]
+
+De este modo, el problema matricial original se separa en $N$ problemas escalares independientes:
+
+\[
+\min_{d_i}(d_i-B_{ii})^2,
+\qquad i=1,\dots,N.
+\]
+
+Para cada $i$, consideramos la función
+
+\[
+f(d_i) = (d_i - B_{ii})^2.
+\]
+
+Derivando respecto a $d_i$ obtenemos
+
+\[
+\frac{d}{d d_i} f(d_i) = 2(d_i - B_{ii}).
+\]
+
+La condición de primer orden para un mínimo es
+
+\[
+2(d_i - B_{ii}) = 0,
+\]
+
+de donde se obtiene
+
+\[
+d_i = B_{ii}.
+\]
+
+Además,
+
+\[
+\frac{d^2}{d d_i^2} f(d_i) = 2 > 0,
+\]
+
+lo que confirma que este punto corresponde a un mínimo global.
+
+Recordando la definición de $B$, se obtiene
+
+\[
+d_i^* = (V^\top \Sigma V)_{ii}.
+\]
+
+Si $v_i$ denota el $i$-ésimo eigenvector de la matriz muestral, entonces la entrada diagonal correspondiente puede escribirse como
+
+\[
+(V^\top \Sigma V)_{ii}=v_i^\top \Sigma v_i.
+\]
+
+Por lo tanto, los valores óptimos de la matriz diagonal están dados por
+
+\[
+d_i^{oracle}=v_i^\top \Sigma v_i,
+\qquad i=1,\dots,N.
+\]
+
+La aplicación que asigna a cada valor propio observado $\lambda_i$ el valor óptimo $d_i^{oracle}$ constituye la llamada \textit{función oráculo}. En consecuencia, el estimador óptimo dentro de la clase de estimadores rotacionalmente invariantes puede escribirse como
+
+\[
+\hat{\Sigma}_{oracle}
+=
+V D^{oracle} V^\top,
+\]
+
+donde
+
+\[
+D^{oracle}
+=
+\mathrm{diag}(v_1^\top\Sigma v_1,\dots,v_N^\top\Sigma v_N).
+\]
+
+Este estimador recibe el nombre de \textit{oráculo} porque depende explícitamente de la matriz poblacional $\Sigma$, la cual no es observable en la práctica. Sin embargo, su importancia radica en que proporciona la solución exacta del problema de optimización restringido y sirve como referencia teórica para construir estimadores realizables.
+
+\subsection*{Aproximación del estimador oráculo}
+
+El principal inconveniente del estimador oráculo radica en que depende explícitamente de la matriz poblacional $\Sigma$, la cual no es observable en la práctica. En particular, las cantidades
+
+\[
+d_i^{oracle}=v_i^\top \Sigma v_i
+\]
+
+no pueden calcularse directamente a partir de los datos.
+
+No obstante, en el régimen de alta dimensión en el que $N,T \to \infty$ con $N/T \to q \in (0,\infty)$, la teoría de matrices aleatorias permite establecer una relación determinista entre los valores propios muestrales y las cantidades anteriores. Más precisamente, se puede demostrar que, bajo condiciones generales, existe una función $L(\cdot)$ tal que
+
+\[
+d_i^{oracle} \approx L(\lambda_i),
+\qquad i=1,\dots,N,
+\]
+
+donde $\lambda_i$ son los valores propios de la matriz muestral $S$.
+
+Esta función $L(\cdot)$, denominada \textit{función oráculo espectral}, describe la transformación óptima que debe aplicarse a los valores propios observados para aproximar los valores propios poblacionales en el sentido de la función de pérdida considerada.
+
+Desde un punto de vista conceptual, este resultado establece que la corrección óptima de los valores propios no depende directamente de la matriz poblacional $\Sigma$, sino que puede expresarse en términos de propiedades globales del espectro de la matriz muestral.
+
+La construcción explícita de la función $L(\cdot)$ requiere introducir herramientas adicionales de la teoría de matrices aleatorias, en particular el resolvente de la matriz muestral y su transformada de Stieltjes. Estas herramientas permiten capturar la estructura global del espectro y conducen a una expresión cerrada para la función oráculo.
+
+\subsubsection*{Resolvente y transformada de Stieltjes}
+
+Como se introdujo en la Sección 1.2, el resolvente de la matriz muestral $S$ se define como
+
+\[
+G(z) = (S - zI)^{-1},
+\]
+
+y su traza normalizada da lugar a la transformada de Stieltjes
+
+\[
+m(z) = \frac{1}{N} \operatorname{Tr}(G(z)).
+\]
+
+Estas herramientas permiten describir la distribución de los valores propios de $S$ y resultan fundamentales para el análisis en alta dimensión.
+
+En el contexto actual, el resolvente y su transformada de Stieltjes permiten caracterizar de manera precisa la relación entre los valores propios muestrales y las cantidades del tipo
+
+\[
+v_i^\top \Sigma v_i,
+\]
+
+lo que conduce a una representación funcional del estimador oráculo en términos de los valores propios observados.
+
+\subsubsection*{Expresión del estimador oráculo mediante el resolvente}
+
+Recordemos que los valores óptimos del estimador rotacionalmente invariante están dados por
+
+\[
+d_i^{oracle}=v_i^\top \Sigma v_i.
+\]
+
+El objetivo consiste en expresar estas cantidades en términos de objetos observables asociados a la matriz muestral $S$. Para ello, se recurre al resolvente de la matriz muestral, definido como
+
+\[
+G(z) = (S - zI)^{-1}.
+\]
+
+Dado que la matriz $S$ admite la descomposición espectral
+
+\[
+S = V \Lambda V^\top,
+\]
+
+se tiene que el resolvente puede escribirse como
+
+\[
+G(z) = V (\Lambda - zI)^{-1} V^\top.
+\]
+
+En particular, esto implica que
+
+\[
+(\Lambda - zI)^{-1} = \mathrm{diag}\left(\frac{1}{\lambda_1 - z}, \dots, \frac{1}{\lambda_N - z}\right).
+\]
+
+Por lo tanto, el resolvente contiene información explícita sobre los valores propios de la matriz muestral.
+
+Para relacionar el resolvente con las cantidades del tipo $v_i^\top \Sigma v_i$, se considera la matriz
+
+\[
+V^\top \Sigma V,
+\]
+
+cuyos elementos diagonales corresponden precisamente a los valores $d_i^{oracle}$.
+
+El análisis en alta dimensión muestra que estas cantidades pueden expresarse, de manera asintótica, en términos de promedios espectrales que involucran el resolvente. En particular, expresiones del tipo
+
+\[
+\frac{1}{N} \sum_{j=1}^N \frac{1}{\lambda_j - z}
+\]
+
+aparecen de manera natural, y están directamente relacionadas con la transformada de Stieltjes $m(z)$.
+
+De este modo, el problema de estimar los valores $d_i^{oracle}$ se reduce a estudiar la relación entre la matriz poblacional $\Sigma$ y el resolvente de la matriz muestral, lo cual permite reemplazar cantidades no observables por funciones deterministas del espectro de $S$ en el régimen asintótico.
+
+\subsubsection*{Funciones auxiliares y representación funcional del oráculo}
+
+La estrategia general consiste en reemplazar las cantidades no observables contenidas en
+
+\[
+d_i^{oracle}=v_i^\top \Sigma v_i
+\]
+
+por funciones construidas a partir del espectro de la matriz muestral. En el régimen de alta dimensión, esta sustitución puede realizarse mediante promedios espectrales asociados al resolvente.
+
+Como se recordó anteriormente, la transformada de Stieltjes de la matriz muestral está dada por
+
+\[
+m(z)=\frac{1}{N}\operatorname{Tr}(G(z))
+=
+\frac{1}{N}\sum_{j=1}^{N}\frac{1}{\lambda_j-z}.
+\]
+
+Esta expresión muestra que el resolvente resume la información global del espectro a través de cantidades racionales en los valores propios observados. A partir de este tipo de expresiones, se introducen funciones auxiliares que permiten reescribir la aproximación asintótica del estimador oráculo.
+
+En particular, se consideran funciones del parámetro complejo $z$ construidas a partir de promedios espectrales y de las cantidades derivadas del resolvente. Denotaremos estas funciones por
+
+\[
+H(z),\qquad A(z),\qquad B(z),\qquad \Theta(z).
+\]
+
+Su papel es capturar, de manera agregada, la influencia del espectro observado sobre la corrección óptima de los valores propios muestrales.
+
+De manera esquemática, la función $H(z)$ resume el efecto medio del espectro a través del resolvente, mientras que las funciones $A(z)$ y $B(z)$ recogen términos auxiliares necesarios para describir la interacción entre la estructura poblacional y la matriz muestral en el régimen asintótico. A partir de estas cantidades se construye la función
+
+\[
+\Theta(z),
+\]
+
+la cual interviene directamente en la representación de la función oráculo espectral.
+
+Bajo estas notaciones, la aproximación del estimador oráculo adopta una forma funcional del tipo
+
+\[
+d_i^{oracle}\approx L(\lambda_i),
+\]
+
+donde la función $L(z)$ puede expresarse en términos de $H(z)$ y $\Theta(z)$. Así, el problema de estimación de los valores $d_i^{oracle}$ se transforma en el estudio de una función determinista del espectro muestral.
+
+Recordemos que el estimador oráculo exacto está dado por
+
+\[
+d_i^{oracle}=v_i^\top \Sigma v_i.
+\]
+
+El problema fundamental consiste en que esta cantidad depende de la matriz poblacional $\Sigma$, por lo que no puede calcularse directamente a partir de la muestra. En consecuencia, el objetivo es construir una aproximación observable de $d_i^{oracle}$ en términos únicamente de los valores propios de la matriz muestral.
+
+% construccion funcion oraculo
+
+\subsubsection*{Construcción de la función oráculo}
+
+Recordemos que el estimador oráculo exacto está dado por
+
+\[
+d_i^{oracle}=v_i^\top \Sigma v_i.
+\]
+
+El principal inconveniente de esta expresión es que depende explícitamente de la matriz poblacional $\Sigma$, la cual no es observable en la práctica. Por tanto, el objetivo consiste en obtener una aproximación de $d_i^{oracle}$ en términos únicamente de la información contenida en la matriz muestral $S$.
+
+En el régimen de alta dimensión, en el que $N,T \to \infty$ con $N/T \to q \in (0,\infty)$, la teoría de matrices aleatorias establece que las cantidades del tipo $v_i^\top \Sigma v_i$ pueden aproximarse mediante una función determinista de los valores propios muestrales. Es decir, existe una función $L(\cdot)$ tal que
+
+\[
+d_i^{oracle}\approx L(\lambda_i),
+\qquad i=1,\dots,N,
+\]
+
+donde $\lambda_i$ son los valores propios de la matriz muestral.
+
+Para construir explícitamente esta función, se utiliza el resolvente de la matriz muestral
+
+\[
+G(z)=(S-zI)^{-1},
+\]
+
+junto con su transformada de Stieltjes
+
+\[
+m(z)=\frac{1}{N}\operatorname{Tr}(G(z)).
+\]
+
+La clave consiste en analizar el comportamiento de $m(z)$ cuando el argumento complejo $z$ se aproxima al eje real. Para $\lambda$ en el soporte de los valores propios, se considera el límite
+
+\[
+m(\lambda-i0^+)
+=
+\lim_{\eta\downarrow 0} m(\lambda-i\eta).
+\]
+
+Este límite puede descomponerse en sus partes real e imaginaria como
+
+\[
+m(\lambda-i0^+)=\mathfrak{h}(\lambda)-i\pi\rho(\lambda),
+\]
+
+donde $\mathfrak{h}(\lambda)$ es la parte real de la transformada de Stieltjes y $\rho(\lambda)$ corresponde a la densidad de valores propios de la matriz muestral.
+
+Bajo esta notación, la teoría asintótica conduce a la representación funcional
+
+\[
+L(\lambda)
+=
+\frac{\lambda}
+{\left|1-q+q\lambda\,m(\lambda-i0^+)\right|^2},
+\]
+
+donde
+
+\[
+q=\lim_{N,T\to\infty}\frac{N}{T}.
+\]
+
+A continuación, desarrollamos explícitamente el denominador de esta expresión. Sustituyendo la descomposición de $m(\lambda-i0^+)$, se obtiene
+
+\[
+1-q+q\lambda\,m(\lambda-i0^+)
+=
+1-q+q\lambda\bigl(\mathfrak{h}(\lambda)-i\pi\rho(\lambda)\bigr).
+\]
+
+Distribuyendo el término $q\lambda$,
+
+\[
+=
+\bigl(1-q+q\lambda\,\mathfrak{h}(\lambda)\bigr)
+-
+i\,q\pi\lambda\,\rho(\lambda).
+\]
+
+Definimos
+
+\[
+a(\lambda)=1-q+q\lambda\,\mathfrak{h}(\lambda),
+\qquad
+b(\lambda)=q\pi\lambda\,\rho(\lambda),
+\]
+
+de modo que
+
+\[
+1-q+q\lambda\,m(\lambda-i0^+)=a(\lambda)-ib(\lambda).
+\]
+
+Recordando que para un número complejo $z=a-ib$ se cumple
+
+\[
+|z|^2 = z\overline{z},
+\]
+
+se tiene
+
+\[
+|a(\lambda)-ib(\lambda)|^2
+=
+(a(\lambda)-ib(\lambda))(a(\lambda)+ib(\lambda)).
+\]
+
+Desarrollando el producto,
+
+\[
+=
+a(\lambda)^2 + b(\lambda)^2,
+\]
+
+ya que los términos imaginarios se cancelan y $i^2=-1$.
+
+Por lo tanto,
+
+\[
+\left|1-q+q\lambda\,m(\lambda-i0^+)\right|^2
+=
+\bigl(1-q+q\lambda\,\mathfrak{h}(\lambda)\bigr)^2
++
+\bigl(q\pi\lambda\,\rho(\lambda)\bigr)^2.
+\]
+
+Sustituyendo en la expresión de $L(\lambda)$, se obtiene finalmente
+
+\[
+L(\lambda)
+=
+\frac{\lambda}
+{\bigl(1-q+q\lambda\,\mathfrak{h}(\lambda)\bigr)^2
++
+\bigl(q\pi\lambda\,\rho(\lambda)\bigr)^2 }.
+\]
+
+Esta expresión proporciona la forma explícita de la función oráculo, en la cual la corrección óptima de cada valor propio depende únicamente de la estructura global de los valores propios de la matriz muestral a través de la transformada de Stieltjes y de su densidad.
+
+La expresión anterior proporciona una representación general de la función oráculo en términos de la transformada de Stieltjes y de la densidad de valores propios. Sin embargo, para su implementación práctica, resulta conveniente reescribir esta expresión en términos de cantidades directamente calculables a partir de los valores propios de la matriz muestral.
+
+En la literatura, en particular en los trabajos de Bun, Bouchaud y Potters, esta reparametrización se realiza introduciendo funciones auxiliares construidas a partir del resolvente. Estas funciones permiten expresar la corrección óptima de los valores propios sin recurrir explícitamente a la matriz poblacional.
+
+De manera general, la función oráculo puede escribirse en la forma\footnote{Es importante notar que esta representación no introduce un estimador distinto, sino que constituye una reparametrización de la función oráculo previamente derivada en términos de la transformada de Stieltjes. En particular, las funciones auxiliares $H(z)$ y $\Theta(z)$ encapsulan la misma información contenida en $m(z)$ y en la densidad de valores propios, pero en una forma más conveniente para su implementación numérica.}
+
+\[
+L(z)\approx
+\frac{H(z)-\Theta(z)}{1+H(z)-\Theta(z)}.
+\]
+
+donde $H(z)$ y $\Theta(z)$ son funciones que dependen únicamente de los valores propios de la matriz muestral y de combinaciones del resolvente.
+
+Estas funciones encapsulan la información contenida en la transformada de Stieltjes y en la densidad de valores propios, permitiendo una representación más compacta y adecuada para cálculos numéricos.
+
+En ciertos casos particulares, como cuando la matriz poblacional presenta una estructura simplificada, esta expresión puede reducirse a formas cerradas más explícitas. Por ejemplo, se obtiene
+
+\[
+L(z)=
+\frac{1+2H(z)-\sqrt{1+4K(z)}}
+{2(1+H(z))},
+\]
+
+donde $K(z)$ es una función auxiliar derivada de las mismas cantidades anteriores.
+
+Estas representaciones constituyen la base de los llamados estimadores rotacionalmente invariantes en su forma computacional, y permiten implementar la limpieza de matrices de covarianza de manera eficiente en contextos de alta dimensión.
+
+Podemos ver también que las funciones auxiliares introducidas anteriormente pueden expresarse en términos de la transformada de Stieltjes de la matriz muestral. En particular, una elección natural para $H(z)$ viene dada por
+
+\[
+H(z) = z\, m(z).
+\]
+
+En el eje real, tomando el límite $z=\lambda - i0^+$, se obtiene
+
+\[
+H(\lambda) = \lambda\, m(\lambda - i0^+)
+= \lambda\bigl(\mathfrak{h}(\lambda) - i\pi \rho(\lambda)\bigr).
+\]
+
+De este modo, $H(z)$ encapsula directamente la información contenida en la transformada de Stieltjes, permitiendo reescribir la función oráculo en términos de cantidades observables derivadas de los valores propios de la matriz muestral.
+
+Los estimadores rotacionalmente invariantes constituyen una generalización natural de los métodos de limpieza de matrices de correlación discutidos previamente.
+
+A diferencia del procedimiento de \textit{eigenvalue clipping}, que introduce una separación abrupta entre componentes dominados por ruido y componentes informativos, el enfoque basado en funciones del tipo $L(\lambda)$ permite realizar una corrección continua de los valores propios, ajustando cada uno de ellos de acuerdo con la información contenida en los datos.
+
+Por otra parte, en contraste con el \textit{shrinkage} lineal, que aplica una contracción uniforme hacia una matriz objetivo, los estimadores rotacionalmente invariantes incorporan una transformación no lineal que depende de la posición de cada valor propio dentro de la distribución observada. Esto permite capturar de manera más precisa la estructura de dependencia entre las variables, especialmente en contextos de alta dimensión.
+
+En conjunto, este enfoque proporciona estimadores más estables y mejor condicionados, lo cual resulta particularmente relevante en aplicaciones como la optimización de portafolios, donde la inversión de la matriz de covarianza juega un papel central.
+
+De este modo, la teoría de matrices aleatorias no sólo permite entender la distorsión inducida por el tamaño finito de la muestra, sino también construir procedimientos de estimación que corrigen dicha distorsión de manera sistemática y fundamentada.
+
+Los resultados obtenidos en esta sección muestran que es posible mejorar significativamente la estimación de matrices de covarianza en alta dimensión mediante transformaciones adecuadas de los valores propios de la matriz muestral. En particular, los estimadores rotacionalmente invariantes permiten aproximar de manera sistemática la corrección óptima de dichos valores propios, utilizando únicamente información contenida en los datos observados.
+
+Sin embargo, el enfoque desarrollado hasta este punto se basa en resultados asintóticos provenientes de la teoría de matrices aleatorias, los cuales proporcionan aproximaciones deterministas del estimador oráculo. Esto plantea de manera natural la siguiente pregunta: ¿es posible formular el problema de estimación de la matriz de covarianza dentro de un marco completamente óptimo, en el que la noción de optimalidad esté definida explícitamente a partir de un criterio probabilístico o estadístico?
+
+En otras palabras, más allá de las aproximaciones asintóticas, resulta de interés estudiar el problema desde una perspectiva en la que la matriz de covarianza se considere como un objeto aleatorio, y en la que la estimación se realice minimizando una función de pérdida bajo una distribución a priori.
+
+Esta motivación conduce al desarrollo de enfoques basados en principios bayesianos, así como a la caracterización de estimadores óptimos dentro de la clase de estimadores rotacionalmente invariantes. En el siguiente capítulo se abordará esta formulación, con el objetivo de establecer de manera rigurosa las condiciones bajo las cuales se obtiene un estimador óptimo de la matriz de covarianza.
+
+\chapter{Estimación óptima de la matriz de covarianza}
+
+En los capítulos anteriores se ha estudiado el problema de estimación de matrices de covarianza en regímenes de alta dimensión, así como las limitaciones del estimador muestral y las ventajas de los métodos basados en Teoría de Matrices Aleatorias. En particular, se ha mostrado que, cuando la razón $q = N/T$ toma valores positivos en el límite, el ruido presente en los datos afecta de manera significativa la estructura de la matriz estimada, deteriorando su uso en aplicaciones como la optimización de portafolios.
+
+Los métodos derivados de la Teoría de Matrices Aleatorias permiten obtener aproximaciones más estables de la matriz de covarianza, al corregir sistemáticamente las distorsiones inducidas por el ruido. Sin embargo, dichas correcciones surgen a partir de argumentos asintóticos y construcciones analíticas que, si bien son efectivas, no parten explícitamente de un criterio de optimalidad en un sentido estadístico formal.
+
+Esto motiva la introducción de un enfoque alternativo, en el que el problema de estimación se formula a partir de un criterio de pérdida bien definido. En este contexto, el marco bayesiano proporciona una herramienta natural para incorporar incertidumbre y derivar estimadores óptimos bajo dicho criterio.
+
+En este capítulo se presenta una reinterpretación del problema de estimación de matrices de covarianza desde una perspectiva bayesiana, lo que permite justificar de manera rigurosa la forma de los estimadores rotacionalmente invariantes y establecer su carácter óptimo bajo funciones de pérdida apropiadas.
+
+\section{Formulación bayesiana}
+
+El problema de estimación de la matriz de covarianza puede plantearse de manera natural como un problema de decisión estadística. En este contexto, se busca construir un estimador $\widehat{\Sigma}$ que sea lo más cercano posible a la verdadera matriz de covarianza $\Sigma$, la cual es desconocida.
+
+Para formalizar esta idea, se introduce una función de pérdida que mide la discrepancia entre el estimador y la matriz verdadera. Una elección común, particularmente adecuada en aplicaciones financieras, es la pérdida cuadrática de tipo de Frobenius:
+\[
+\mathcal{L}(\widehat{\Sigma}, \Sigma)
+=
+\|\widehat{\Sigma} - \Sigma\|_F^2.
+\]
+
+Dado que $\Sigma$ es desconocida, no es posible minimizar directamente esta cantidad. En su lugar, se considera el valor esperado de la pérdida condicionado a la información disponible, lo que conduce a la noción de riesgo:
+\[
+\mathcal{R}(\widehat{\Sigma})
+=
+\mathbb{E}
+\left[
+\|\widehat{\Sigma} - \Sigma\|_F^2
+\,\middle|\,
+\mathcal{D}
+\right],
+\]
+donde $\mathcal{D}$ representa los datos observados.
+
+Desde una perspectiva bayesiana, la matriz $\Sigma$ se modela como una variable aleatoria con una distribución a priori. Bajo este enfoque, el estimador óptimo se define como aquel que minimiza el riesgo esperado. Es bien conocido que, bajo pérdida cuadrática, el estimador óptimo viene dado por la esperanza condicional:
+\[
+\widehat{\Sigma}^{\text{opt}}
+=
+\mathbb{E}
+\left[
+\Sigma
+\,\middle|\,
+\mathcal{D}
+\right].
+\]
+
+Este resultado proporciona una caracterización formal del problema de estimación: la mejor estimación posible de la matriz de covarianza, en el sentido de minimizar el error cuadrático medio, es su media posterior.
+
+Sin embargo, en la práctica, el cálculo explícito de esta esperanza es intratable en alta dimensión. Esto motiva la búsqueda de clases restringidas de estimadores que sean manejables y, al mismo tiempo, capturen la estructura esencial del problema. En particular, en la siguiente sección se estudiará la clase de estimadores rotacionalmente invariantes, los cuales permiten obtener soluciones explícitas y conectan de manera directa con los resultados derivados de la Teoría de Matrices Aleatorias.
+
+\section{Estimador Rotacionalmente Invariante Óptimo}
+
+Como se ha señalado en la sección anterior, el estimador óptimo bajo pérdida cuadrática viene dado por la esperanza condicional
+\[
+\widehat{\Sigma}^{\text{opt}} = \mathbb{E}[\Sigma \mid \mathcal{D}].
+\]
+Sin embargo, el cálculo explícito de esta cantidad resulta inabordable en alta dimensión. Por ello, se introduce una restricción natural sobre la clase de estimadores considerados.
+
+En particular, se restringe la búsqueda a la clase de matrices que comparten los eigenvectores de la matriz de covarianza muestral. Sea la descomposición espectral de $\widehat{\Sigma}$ dada por
+\[
+\widehat{\Sigma} = U \Lambda U^\top,
+\]
+donde $U$ es una matriz ortogonal cuyos vectores columna son los eigenvectores, y $\Lambda = \mathrm{diag}(\lambda_1, \dots, \lambda_N)$ contiene los eigenvalores muestrales.
+
+Se considera entonces la clase de estimadores de la forma
+\[
+\widehat{\Sigma}_{\text{RIE}} = U \widehat{\Lambda} U^\top,
+\]
+donde $\widehat{\Lambda} = \mathrm{diag}(\widehat{\lambda}_1, \dots, \widehat{\lambda}_N)$ es una matriz diagonal cuyos elementos deben ser determinados.
+
+Esta restricción, conocida como invarianza rotacional, se justifica por el hecho de que, en ausencia de información adicional, los eigenvectores muestrales constituyen los mejores estimadores disponibles de las direcciones principales del sistema.
+
+Bajo esta clase de estimadores, el problema de optimización se reduce a encontrar los valores $\widehat{\lambda}_i$ que minimizan el riesgo esperado. Es posible demostrar que la solución óptima viene dada por
+\[
+\widehat{\lambda}_i^{\text{opt}} = u_i^\top \Sigma u_i,
+\]
+donde $u_i$ es el $i$-ésimo eigenvector de la matriz muestral.
+
+El siguiente resultado caracteriza la forma del estimador óptimo dentro de la clase de estimadores rotacionalmente invariantes.
+
+\begin{proposition}
+Sea $\widehat{\Sigma} = U \Lambda U^\top$ la descomposición espectral de la matriz de covarianza muestral. Entonces, el estimador que minimiza la pérdida cuadrática de Frobenius dentro de la clase de estimadores rotacionalmente invariantes está dado por
+\[
+\widehat{\lambda}_i^{\mathrm{opt}} = u_i^\top \Sigma u_i,
+\]
+donde $u_i$ es el $i$-ésimo eigenvector de $\widehat{\Sigma}$.
+\end{proposition}
+
+\begin{proof}
+Bajo la restricción de invarianza rotacional, los estimadores considerados tienen la forma
+\[
+\widehat{\Sigma} = U \widehat{\Lambda} U^\top,
+\]
+donde $U$ es la matriz de eigenvectores de $\widehat{\Sigma}$ y $\widehat{\Lambda} = \mathrm{diag}(\widehat{\lambda}_1,\dots,\widehat{\lambda}_N)$.
+
+La pérdida de Frobenius puede escribirse como
+\[
+\|\widehat{\Sigma} - \Sigma\|_F^2
+=
+\|U \widehat{\Lambda} U^\top - \Sigma\|_F^2.
+\]
+
+Utilizando la invariancia de la norma de Frobenius bajo transformaciones ortogonales, se obtiene
+\[
+\|\widehat{\Sigma} - \Sigma\|_F^2
+=
+\|\widehat{\Lambda} - U^\top \Sigma U\|_F^2.
+\]
+
+Denotando
+\[
+M = U^\top \Sigma U,
+\]
+se tiene que $M$ es simétrica, y por tanto
+\[
+\|\widehat{\Lambda} - M\|_F^2
+=
+\sum_{i=1}^N (\widehat{\lambda}_i - M_{ii})^2
++
+\sum_{i \neq j} M_{ij}^2.
+\]
+
+Obsérvese que el segundo término no depende de los valores $\widehat{\lambda}_i$, por lo que minimizar la pérdida es equivalente a resolver
+\[
+\min_{\widehat{\lambda}_1,\dots,\widehat{\lambda}_N}
+\sum_{i=1}^N (\widehat{\lambda}_i-M_{ii})^2.
+\]
+
+Como cada término de la suma depende únicamente de una variable $\widehat{\lambda}_i$, el problema se separa en $N$ problemas escalares independientes de la forma
+\[
+\min_{\widehat{\lambda}_i} (\widehat{\lambda}_i-M_{ii})^2,
+\qquad i=1,\dots,N.
+\]
+
+Para cada $i$, la función
+\[
+f_i(x)=(x-M_{ii})^2
+\]
+es cuadrática y convexa, por lo que su mínimo global se obtiene en el punto donde su derivada se anula. En efecto,
+\[
+f_i'(x)=2(x-M_{ii}),
+\]
+y al imponer la condición de primer orden
+\[
+f_i'(x)=0
+\]
+se obtiene
+\[
+x=M_{ii}.
+\]
+
+Por consiguiente, para cada $i$,
+\[
+\widehat{\lambda}_i^{\mathrm{opt}}=M_{ii}.
+\]
+
+Finalmente, como $M=U^\top \Sigma U$, su entrada diagonal $i$-ésima viene dada por
+\[
+M_{ii}=u_i^\top \Sigma u_i.
+\]
+Por lo tanto,
+\[
+\widehat{\lambda}_i^{\mathrm{opt}}=u_i^\top \Sigma u_i,
+\]
+como se quería demostrar.
+\end{proof}
+
+%------------------------------------------
+
+
+El resultado anterior muestra que el problema de estimación, dentro de la clase de matrices rotacionalmente invariantes, se reduce a aproximar las cantidades
+\[
+u_i^\top \Sigma u_i.
+\]
+Estas cantidades no son observables, ya que dependen de la matriz verdadera $\Sigma$. Por ello, se requiere una forma de expresarlas mediante los eigenvalores muestrales.
+
+Sea
+\[
+\Sigma = V T V^\top,
+\qquad
+T=\operatorname{diag}(\tau_1,\dots,\tau_N),
+\]
+la descomposición espectral de la matriz verdadera. Entonces,
+\[
+u_i^\top \Sigma u_i
+=
+u_i^\top VTV^\top u_i
+=
+\sum_{j=1}^N \tau_j (u_i^\top v_j)^2.
+\]
+
+Esta igualdad muestra que el eigenvalor óptimo no es simplemente un eigenvalor verdadero $\tau_j$, sino una combinación ponderada de los eigenvalores verdaderos. Los pesos están dados por los alineamientos entre los eigenvectores muestrales $u_i$ y los eigenvectores verdaderos $v_j$.
+
+En alta dimensión, estos alineamientos no pueden conocerse directamente. Sin embargo, la Teoría de Matrices Aleatorias permite describir su efecto agregado mediante la transformada de Stieltjes de los eigenvalores muestrales:
+\[
+m(z)
+=
+\frac{1}{N}\sum_{j=1}^N
+\frac{1}{\lambda_j-z}.
+\]
+A partir de ella se define
+\[
+H(z)=z\,m(z).
+\]
+
+El papel de $H(z)$ es resumir cómo los eigenvalores muestrales se deforman por efecto del ruido. En particular, los resultados asintóticos de la Teoría de Matrices Aleatorias establecen que la proyección verdadera
+\[
+u_i^\top \Sigma u_i
+\]
+puede aproximarse por una función del eigenvalor muestral correspondiente:
+\[
+u_i^\top \Sigma u_i
+\approx
+\phi(\lambda_i).
+\]
+
+La función $\phi$ recibe el nombre de función oráculo porque representa el reemplazo ideal de cada eigenvalor muestral. Su forma explícita es
+\[
+\phi(\lambda)
+=
+\frac{\lambda}
+{\left|1-q+qH(\lambda-i0^+)\right|^2}.
+\]
+
+La razón de esta forma es la siguiente: el término
+\[
+1-q+qH(\lambda-i0^+)
+\]
+corrige la distorsión que aparece al pasar de la matriz verdadera $\Sigma$ a la matriz muestral $\widehat{\Sigma}$. Como la estimación óptima busca recuperar la varianza verdadera proyectada sobre el eigenvector muestral, dicha corrección aparece en el denominador y se toma en módulo cuadrado para incorporar tanto la parte real como la parte imaginaria de la transformada evaluada sobre el eje real.
+
+Por tanto, si
+\[
+\widehat{\lambda}_i^{\mathrm{opt}}
+=
+u_i^\top \Sigma u_i
+\]
+y, en alta dimensión,
+\[
+u_i^\top \Sigma u_i
+\approx
+\phi(\lambda_i),
+\]
+entonces el reemplazo implementable de cada eigenvalor muestral está dado por
+\[
+\widehat{\lambda}_i^{\mathrm{RIE}}
+=
+\phi(\lambda_i).
+\]
+
+Sustituyendo la expresión explícita de $\phi$, se obtiene
+\[
+\widehat{\lambda}_i^{\mathrm{RIE}}
+=
+\frac{\lambda_i}
+{\left|1-q+qH(\lambda_i-i0^+)\right|^2}.
+\]
+
+Finalmente, como el estimador rotacionalmente invariante conserva los eigenvectores muestrales, la matriz estimada se construye reemplazando únicamente los eigenvalores:
+\[
+\widehat{\Sigma}_{\mathrm{RIE}}
+=
+U
+\operatorname{diag}
+\left(
+\widehat{\lambda}_1^{\mathrm{RIE}},
+\dots,
+\widehat{\lambda}_N^{\mathrm{RIE}}
+\right)
+U^\top.
+\]
+
+Finalmente, el estimador de la matriz de covarianza queda dado por
+\[
+\widehat{\Sigma}_{\mathrm{RIE}}
+=
+U
+\operatorname{diag}
+\left(
+\widehat{\lambda}_1^{\mathrm{RIE}},
+\dots,
+\widehat{\lambda}_N^{\mathrm{RIE}}
+\right)
+U^\top.
+\]
+
+Este resultado muestra que el estimador óptimo puede implementarse en la práctica mediante una corrección explícita de los eigenvalores muestrales, sin modificar los eigenvectores.
+
+De este modo, el desarrollo anterior nos dice que el problema central en la optimización de portafolios no radica únicamente en el modelo de Markowitz, sino en la calidad de la matriz de covarianza utilizada como insumo. Cuando la dimensión del sistema es comparable con el tamaño de la muestra, el estimador muestral introduce distorsiones significativas en los eigenvalores, lo que provoca inestabilidad en la inversión de la matriz y deteriora el desempeño fuera de muestra de los portafolios óptimos.
+
+El estimador rotacionalmente invariante permite corregir este problema mediante una limpieza sistemática de los eigenvalores muestrales, preservando al mismo tiempo la estructura direccional contenida en los eigenvectores observados. Desde esta perspectiva, la Teoría de Matrices Aleatorias proporciona un mecanismo natural para separar la información estructural del ruido inducido por el muestreo.
+
+A diferencia de los métodos clásicos de regularización global, como los enfoques de tipo shrinkage, el estimador RIE realiza una corrección no uniforme sobre cada eigenvalor, adaptándose a la distribución de los eigenvalores observados. Esto permite obtener matrices de covarianza más estables y, en consecuencia, portafolios con un comportamiento fuera de muestra más robusto.
+
+Por tanto, el enfoque desarrollado en este trabajo proporciona una justificación teórica y estadística para el uso de estimadores basados en Teoría de Matrices Aleatorias dentro del problema de optimización de portafolios de Markowitz en alta dimensión.
+
+\addtocontents{toc}{\protect\newpage}
+\chapter{Aplicación a teoría de portafolios}
+
+\section{Introducción}
+
+La teoría moderna de portafolios, desarrollada originalmente por Harry Markowitz, establece que el riesgo de un portafolio financiero depende no sólo de la volatilidad individual de los activos, sino también de la estructura de dependencia entre ellos. En este contexto, la matriz de covarianza juega un papel central, ya que determina tanto el riesgo total del portafolio como la asignación óptima de capital entre los distintos activos.
+
+Sin embargo, en problemas de alta dimensión, donde el número de activos es comparable con el número de observaciones disponibles, la estimación clásica de la matriz de covarianza presenta importantes dificultades. La presencia de ruido estadístico produce inestabilidades en la inversión de la matriz, generando portafolios extremadamente sensibles a pequeñas perturbaciones en los datos. Como consecuencia, los pesos óptimos obtenidos mediante la matriz muestral suelen presentar un desempeño deficiente fuera de muestra.
+
+La Teoría de Matrices Aleatorias proporciona un marco matemático adecuado para analizar estas distorsiones y construir estimadores más robustos de la matriz de covarianza. En particular, los métodos de limpieza basados en valores propios permiten reducir el efecto del ruido estadístico y mejorar la estabilidad de los portafolios obtenidos mediante optimización de Markowitz.
+
+El objetivo de este capítulo es estudiar el impacto de los errores de estimación sobre la optimización de portafolios y mostrar cómo los estimadores derivados de la Teoría de Matrices Aleatorias permiten obtener matrices de covarianza más estables y adecuadas para problemas financieros de alta dimensión.
+
+\section{Optimización de Markowitz}
+
+La teoría moderna de portafolios propuesta por Harry Markowitz constituye uno de los pilares fundamentales de las finanzas cuantitativas. Su objetivo principal consiste en determinar la combinación óptima de activos que minimiza el riesgo total del portafolio para un nivel dado de rendimiento esperado.
+
+Dentro de este enfoque, la matriz de covarianza desempeña un papel central, ya que describe la estructura de dependencia entre los activos financieros y determina la magnitud del riesgo asociado a cada asignación de capital. En consecuencia, la calidad de la estimación de dicha matriz influye directamente sobre la estabilidad y el desempeño de los portafolios obtenidos.
+
+En esta sección se desarrolla el modelo clásico de optimización de Markowitz, se obtiene la solución del problema de mínima varianza mediante multiplicadores de Lagrange y se analizan las dificultades que aparecen en problemas de alta dimensión, particularmente cuando el número de activos es comparable con el número de observaciones disponibles.
+
+\subsection{Rendimiento y riesgo del portafolio}
+
+Considérese un conjunto de $N$ activos financieros cuyos rendimientos aleatorios están representados por el vector\[r =(r_1,r_2,\dots,r_N)^\top.\]Sea además\[w =(w_1,w_2,\dots,w_N)^\top\]el vector de pesos del portafolio, donde $w_i$ representa la proporción del capital invertida en el activo $i$. Para cada activo financiero, el rendimiento esperado se define como el valor esperado de su rendimiento aleatorio. Es decir,\[\mu_i = \mathbb{E}[r_i],\]para \(i=1,\dots,N\). En términos probabilísticos, el valor esperado representa el promedio teórico de los posibles rendimientos del activo. Sin embargo, en aplicaciones financieras la distribución verdadera de los rendimientos generalmente es desconocida, por lo que el rendimiento esperado debe estimarse a partir de datos históricos. De esta manera, el vector de rendimientos esperados individuales queda dado por\[\mu =(\mu_1,\mu_2,\dots,\mu_N)^\top.\] En la práctica, los rendimientos esperados suelen aproximarse mediante el promedio histórico de los rendimientos observados:\[\widehat{\mu}_i=\frac{1}{T}\sum_{t=1}^T r_{i,t},\]donde \(r_{i,t}\) representa el rendimiento del activo \(i\) en el instante \(t\), y \(T\) es el número total de observaciones disponibles. El rendimiento esperado del portafolio está dado por\[\mu_p = w^\top \mu.\]
+
+El rendimiento total del portafolio se define como la combinación lineal de los rendimientos individuales ponderados por los pesos de inversión. Es decir,
+\[
+r_p = w^\top r.
+\]
+
+Por otra parte, el riesgo del portafolio se mide mediante la varianza de sus rendimientos. Si
+\[
+\Sigma =
+(\sigma_{ij})_{i,j=1}^N
+\]
+denota la matriz de covarianza de los activos, entonces la varianza del portafolio puede obtenerse a partir de
+\[
+\operatorname{Var}(r_p)
+=
+\operatorname{Var}(w^\top r).
+\]
+
+Utilizando la propiedad de la covarianza para transformaciones lineales,
+\[
+\operatorname{Var}(AX)
+=
+A\,\operatorname{Cov}(X)\,A^\top,
+\]
+se obtiene
+\[
+\operatorname{Var}(w^\top r)
+=
+w^\top \Sigma w.
+\]
+
+Por lo tanto, la varianza del portafolio queda dada por
+\[
+\sigma_p^2
+=
+w^\top \Sigma w.
+\]
+
+\subsection{Problema de mínima varianza}
+
+Uno de los problemas fundamentales en la teoría de portafolios consiste en determinar la combinación de activos que minimiza el riesgo total de inversión. En el modelo de Markowitz, el riesgo se mide mediante la varianza del portafolio, por lo que el problema de optimización puede formularse como
+\[
+\min_w \quad w^\top \Sigma w,
+\]
+sujeto a la restricción
+\[
+\mathbf{1}^\top w = 1,
+\]
+donde
+\[
+\mathbf{1} =
+(1,1,\dots,1)^\top \in \mathbb{R}^N
+\]
+denota el vector de unos.
+
+La restricción
+\[
+\mathbf{1}^\top w = 1
+\]
+garantiza que la totalidad del capital disponible sea invertida en el portafolio.
+
+El problema anterior recibe el nombre de problema de mínima varianza global y su solución proporciona el portafolio con menor riesgo posible dentro del conjunto de asignaciones admisibles.
+
+\subsection{Solución mediante multiplicadores de Lagrange}
+
+El problema de mínima varianza global consiste en resolver
+\[
+\min_w \quad w^\top \Sigma w,
+\]
+sujeto a la restricción presupuestal
+\[
+\mathbf{1}^\top w = 1.
+\]
+
+Esta restricción puede escribirse de forma equivalente como
+\[
+\mathbf{1}^\top w - 1 = 0.
+\]
+
+El método de multiplicadores de Lagrange permite incorporar esta restricción dentro de una función auxiliar, llamada función Lagrangiana. Para un problema de optimización con una restricción de igualdad, se construye una función que combina la función objetivo con la restricción multiplicada por un escalar. En este caso, la función objetivo es
+\[
+f(w)=w^\top \Sigma w,
+\]
+y la restricción es
+\[
+g(w)=\mathbf{1}^\top w - 1 = 0.
+\]
+
+Por lo tanto, la función Lagrangiana queda definida como
+\[
+\mathcal{L}(w,\lambda)
+=
+f(w)-\lambda g(w),
+\]
+es decir,
+\[
+\mathcal{L}(w,\lambda)
+=
+w^\top \Sigma w
+-
+\lambda(\mathbf{1}^\top w - 1),
+\]
+donde \(\lambda\) es el multiplicador de Lagrange asociado a la restricción presupuestal.
+
+Para obtener la condición de primer orden respecto al vector \(w\), primero desarrollamos el término cuadrático. Como
+\[
+w =
+(w_1,w_2,\dots,w_N)^\top,
+\]
+se tiene
+\[
+w^\top \Sigma w
+=
+\sum_{i=1}^N
+\sum_{j=1}^N
+w_i \sigma_{ij} w_j.
+\]
+
+Derivando este término respecto a \(w_k\), se obtiene
+\[
+\frac{\partial}{\partial w_k}
+\left(
+w^\top \Sigma w
+\right)
+=
+\frac{\partial}{\partial w_k}
+\left(
+\sum_{i=1}^N
+\sum_{j=1}^N
+w_i \sigma_{ij} w_j
+\right).
+\]
+
+El término \(w_k\) aparece cuando \(i=k\) y también cuando \(j=k\). Por tanto,
+\[
+\frac{\partial}{\partial w_k}
+\left(
+w^\top \Sigma w
+\right)
+=
+\sum_{j=1}^N \sigma_{kj}w_j
++
+\sum_{i=1}^N w_i\sigma_{ik}.
+\]
+
+Como la matriz de covarianza \(\Sigma\) es simétrica, se cumple que
+\[
+\sigma_{ik}=\sigma_{ki}.
+\]
+
+Entonces,
+\[
+\sum_{i=1}^N w_i\sigma_{ik}
+=
+\sum_{i=1}^N \sigma_{ki}w_i.
+\]
+
+Por lo tanto,
+\[
+\frac{\partial}{\partial w_k}
+\left(
+w^\top \Sigma w
+\right)
+=
+2\sum_{j=1}^N \sigma_{kj}w_j.
+\]
+
+En forma vectorial, esto equivale a
+\[
+\nabla_w
+\left(
+w^\top \Sigma w
+\right)
+=
+2\Sigma w.
+\]
+
+Ahora derivamos el término de la restricción. Como
+\[
+\mathbf{1}^\top w
+=
+\sum_{i=1}^N w_i,
+\]
+se tiene
+\[
+\frac{\partial}{\partial w_k}
+\left(
+\mathbf{1}^\top w - 1
+\right)
+=
+1.
+\]
+
+Por lo tanto,
+\[
+\nabla_w
+\left(
+\mathbf{1}^\top w - 1
+\right)
+=
+\mathbf{1}.
+\]
+
+Así, el gradiente de la función Lagrangiana respecto a \(w\) es
+\[
+\nabla_w \mathcal{L}(w,\lambda)
+=
+2\Sigma w
+-
+\lambda \mathbf{1}.
+\]
+
+La condición de primer orden exige que
+\[
+\nabla_w \mathcal{L}(w,\lambda)=0.
+\]
+
+Por tanto,
+\[
+2\Sigma w
+-
+\lambda \mathbf{1}
+=
+0,
+\]
+lo cual implica
+\[
+2\Sigma w
+=
+\lambda \mathbf{1}.
+\]
+
+Suponiendo que la matriz de covarianza \(\Sigma\) es invertible, multiplicamos ambos lados por \(\Sigma^{-1}\):
+\[
+\Sigma^{-1}(2\Sigma w)
+=
+\Sigma^{-1}(\lambda \mathbf{1}).
+\]
+
+Como \(\Sigma^{-1}\Sigma=I\), se obtiene
+\[
+2w
+=
+\lambda \Sigma^{-1}\mathbf{1}.
+\]
+
+Por lo tanto,
+\[
+w
+=
+\frac{\lambda}{2}
+\Sigma^{-1}\mathbf{1}.
+\]
+
+Para determinar el valor de \(\lambda\), utilizamos la restricción presupuestal
+\[
+\mathbf{1}^\top w = 1.
+\]
+
+Sustituyendo la expresión obtenida para \(w\), se tiene
+\[
+\mathbf{1}^\top
+\left(
+\frac{\lambda}{2}
+\Sigma^{-1}\mathbf{1}
+\right)
+=
+1.
+\]
+
+Como \(\lambda/2\) es un escalar, puede salir del producto:
+\[
+\frac{\lambda}{2}
+\mathbf{1}^\top
+\Sigma^{-1}
+\mathbf{1}
+=
+1.
+\]
+
+Despejando \(\lambda\),
+\[
+\lambda
+=
+\frac{
+2
+}{
+\mathbf{1}^\top
+\Sigma^{-1}
+\mathbf{1}
+}.
+\]
+
+Finalmente, sustituyendo este valor en
+\[
+w
+=
+\frac{\lambda}{2}
+\Sigma^{-1}\mathbf{1},
+\]
+se obtiene
+\[
+w^*
+=
+\frac{1}{\mathbf{1}^\top\Sigma^{-1}\mathbf{1}}
+\Sigma^{-1}\mathbf{1}.
+\]
+
+Por lo tanto, el portafolio de mínima varianza global está dado por
+\[
+w^*
+=
+\frac{
+\Sigma^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\Sigma^{-1}
+\mathbf{1}
+}.
+\]
+
+Esta expresión muestra que la solución óptima depende explícitamente de la inversa de la matriz de covarianza. En consecuencia, errores pequeños en la estimación de \(\Sigma\) pueden producir variaciones significativas en los pesos óptimos del portafolio.
+
+Este fenómeno se vuelve particularmente importante en problemas de alta dimensión, donde la matriz de covarianza muestral suele presentar una fuerte contaminación por ruido estadístico y problemas de estabilidad numérica.
+
+\subsection{Sensibilidad de la matriz de covarianza}
+
+La expresión obtenida para el portafolio de mínima varianza global,
+\[
+w^*
+=
+\frac{
+\Sigma^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\Sigma^{-1}\mathbf{1}
+},
+\]
+muestra que la solución óptima depende explícitamente de la inversa de la matriz de covarianza.
+
+Esta dependencia tiene consecuencias importantes desde el punto de vista estadístico y numérico. En particular, pequeñas perturbaciones en los elementos de la matriz \(\Sigma\) pueden generar cambios significativos en los pesos óptimos del portafolio.
+
+Para comprender este fenómeno, considérese una perturbación
+\[
+\Sigma + \Delta\Sigma,
+\]
+donde \(\Delta\Sigma\) representa un error de estimación pequeño. En general,
+\[
+(\Sigma+\Delta\Sigma)^{-1}
+\neq
+\Sigma^{-1},
+\]
+y las diferencias entre ambas matrices pueden amplificarse considerablemente cuando \(\Sigma\) posee valores propios pequeños.
+
+En efecto, si
+\[
+\Sigma
+=
+U\Lambda U^\top,
+\]
+donde
+\[
+\Lambda
+=
+\operatorname{diag}(\lambda_1,\dots,\lambda_N),
+\]
+entonces
+\[
+\Sigma^{-1}
+=
+U
+\operatorname{diag}
+\left(
+\frac{1}{\lambda_1},
+\dots,
+\frac{1}{\lambda_N}
+\right)
+U^\top.
+\]
+
+La expresión anterior muestra que la inversión de la matriz de covarianza transforma cada valor propio \(\lambda_i\) en su inverso \(1/\lambda_i\). En consecuencia, valores propios pequeños producen contribuciones muy grandes en la matriz inversa.
+
+Desde el punto de vista numérico, esto implica que pequeñas perturbaciones en los valores propios de la matriz de covarianza pueden amplificarse significativamente después de la inversión. Por ejemplo, si un valor propio es cercano a cero, entonces su inverso puede alcanzar magnitudes muy grandes, provocando inestabilidad en los pesos del portafolio.
+
+Este fenómeno resulta particularmente problemático cuando la matriz de covarianza se estima a partir de muestras finitas, ya que los errores estadísticos introducen fluctuaciones artificiales en los valores propios de la matriz muestral.
+
+Como consecuencia, el problema de optimización puede asignar pesos excesivamente grandes a ciertos activos, generando portafolios altamente sensibles a pequeñas variaciones en los datos históricos.
+
+En términos financieros, esto significa que el portafolio óptimo calculado mediante la matriz muestral puede cambiar drásticamente ante modificaciones pequeñas en la información observada. Por lo tanto, la estabilidad de la matriz de covarianza constituye un elemento fundamental para obtener soluciones robustas y confiables en optimización de portafolios.
+
+Así pues, valores propios cercanos a cero producen contribuciones muy grandes en la matriz inversa.
+
+Como consecuencia, errores pequeños en la estimación de los valores propios pueden traducirse en variaciones importantes en los pesos óptimos del portafolio. Este fenómeno genera soluciones inestables y asignaciones extremas de capital, especialmente cuando la matriz de covarianza es estimada a partir de muestras finitas.
+
+En aplicaciones financieras, esta sensibilidad representa uno de los principales problemas de la optimización clásica de Markowitz, ya que el portafolio obtenido puede depender fuertemente del ruido presente en los datos históricos.
+
+\subsection{Problemas en alta dimensión}
+
+La expresión obtenida para el portafolio de mínima varianza global muestra que la solución óptima depende explícitamente de la inversa de la matriz de covarianza:
+\[
+w^*
+=
+\frac{
+\Sigma^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\Sigma^{-1}\mathbf{1}
+}.
+\]
+
+En aplicaciones financieras reales, la matriz de covarianza \(\Sigma\) es desconocida y debe estimarse a partir de datos históricos. El estimador más utilizado es la matriz de covarianza muestral,
+\[
+\widehat{\Sigma}
+=
+\frac{1}{T}YY^\top,
+\]
+donde
+\[
+Y\in\mathbb{R}^{N\times T}
+\]
+representa la matriz de rendimientos centrados, \(N\) es el número de activos y \(T\) el número de observaciones disponibles.
+
+Por lo tanto, en la práctica el portafolio óptimo se aproxima mediante
+\[
+\widehat{w}
+=
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}\mathbf{1}
+}.
+\]
+
+La calidad de esta aproximación depende directamente de la precisión con la que la matriz de covarianza es estimada. En el régimen clásico de estadística multivariada se supone que el número de variables permanece fijo mientras el número de observaciones tiende a infinito. Es decir,
+\[
+N \text{ fijo},
+\qquad
+T\to\infty.
+\]
+
+Bajo estas condiciones, la matriz de covarianza muestral satisface
+\[
+\widehat{\Sigma}
+\xrightarrow[T\to\infty]{}
+\Sigma,
+\]
+por lo que constituye un estimador consistente de la matriz de covarianza verdadera.
+
+Sin embargo, en aplicaciones financieras modernas el número de activos puede ser comparable con el número de observaciones disponibles. En este contexto resulta natural introducir el parámetro
+\[
+q=\frac{N}{T}.
+\]
+
+El régimen de alta dimensión corresponde al caso en que
+\[
+N,T\to\infty,
+\qquad
+\frac{N}{T}\to q>0.
+\]
+
+En estas condiciones, la matriz de covarianza muestral deja de comportarse como un estimador estable de la matriz verdadera. Las fluctuaciones estadísticas asociadas al tamaño finito de la muestra producen distorsiones significativas en los valores propios de la matriz.
+
+Uno de los primeros problemas aparece cuando el número de activos excede al número de observaciones disponibles. En efecto, como
+\[
+\widehat{\Sigma}
+=
+\frac{1}{T}YY^\top,
+\]
+se tiene
+\[
+\operatorname{rango}(\widehat{\Sigma})
+=
+\operatorname{rango}(YY^\top).
+\]
+
+Utilizando la propiedad
+\[
+\operatorname{rango}(YY^\top)
+\leq
+\min(N,T),
+\]
+se obtiene
+\[
+\operatorname{rango}(\widehat{\Sigma})
+\leq
+T.
+\]
+
+Por lo tanto, si
+\[
+N>T,
+\]
+entonces
+\[
+\operatorname{rango}(\widehat{\Sigma})<N.
+\]
+
+Esto implica que la matriz muestral es singular y, en consecuencia, no puede invertirse.
+
+Incluso en los casos donde \(\widehat{\Sigma}\) es invertible, pueden aparecer problemas importantes de estabilidad numérica. Para analizar este fenómeno, considérese la descomposición
+\[
+\Sigma
+=
+U\Lambda U^\top,
+\]
+donde
+\[
+\Lambda
+=
+\operatorname{diag}(\lambda_1,\dots,\lambda_N)
+\]
+contiene los valores propios de la matriz de covarianza.
+
+La matriz inversa queda dada por
+\[
+\Sigma^{-1}
+=
+U\Lambda^{-1}U^\top,
+\]
+donde
+\[
+\Lambda^{-1}
+=
+\operatorname{diag}
+\left(
+\frac{1}{\lambda_1},
+\dots,
+\frac{1}{\lambda_N}
+\right).
+\]
+
+La expresión anterior muestra que la inversión de la matriz transforma cada valor propio \(\lambda_i\) en su inverso \(1/\lambda_i\). Como consecuencia, valores propios pequeños generan contribuciones muy grandes en la matriz inversa.
+
+Este comportamiento puede cuantificarse mediante el número de condición,
+\[
+\kappa(\Sigma)
+=
+\frac{\lambda_{\max}}{\lambda_{\min}},
+\]
+donde \(\lambda_{\max}\) y \(\lambda_{\min}\) representan el mayor y el menor valor propio de la matriz.
+
+Cuando
+\[
+\lambda_{\min}\to0,
+\]
+el número de condición crece significativamente:
+\[
+\kappa(\Sigma)\to\infty.
+\]
+
+En estas condiciones, pequeñas perturbaciones en la matriz de covarianza pueden amplificarse considerablemente después de la inversión, produciendo soluciones altamente inestables.
+
+Para comprender mejor el origen de estas distorsiones, considérese el caso idealizado en el que los activos son independientes y poseen varianza unitaria. En este caso,
+\[
+\Sigma=I_N.
+\]
+
+Intuitivamente, podría esperarse que los valores propios de la matriz muestral permanezcan cercanos a \(1\). Sin embargo, la Teoría de Matrices Aleatorias muestra que, en alta dimensión, los valores propios de
+\[
+\widehat{\Sigma}
+\]
+se distribuyen aproximadamente en el intervalo
+\[
+\left[
+(1-\sqrt q)^2,
+(1+\sqrt q)^2
+\right].
+\]
+
+Este resultado corresponde a la ley de Marčenko--Pastur y muestra que las fluctuaciones observadas en los valores propios pueden originarse únicamente por ruido estadístico, aun cuando los activos verdaderamente sean independientes.
+
+Como consecuencia, la matriz de covarianza muestral contiene componentes espurias que no representan información real del mercado.
+
+Estas distorsiones afectan directamente la construcción del portafolio óptimo. En efecto, pequeñas perturbaciones en la matriz de covarianza producen perturbaciones en la matriz inversa. Si
+\[
+\widehat{\Sigma}
+=
+\Sigma+\Delta\Sigma,
+\]
+entonces, para perturbaciones pequeñas,
+\[
+(\Sigma+\Delta\Sigma)^{-1}
+\approx
+\Sigma^{-1}
+-
+\Sigma^{-1}
+\Delta\Sigma
+\Sigma^{-1}.
+\]
+
+Para justificar esta aproximación, escribimos
+\[
+\widehat{\Sigma}
+=
+\Sigma+\Delta\Sigma
+=
+\Sigma
+\left(
+I+\Sigma^{-1}\Delta\Sigma
+\right).
+\]
+
+Entonces,
+\[
+(\Sigma+\Delta\Sigma)^{-1}
+=
+\left[
+\Sigma
+\left(
+I+\Sigma^{-1}\Delta\Sigma
+\right)
+\right]^{-1}.
+\]
+
+Usando que
+\[
+(AB)^{-1}=B^{-1}A^{-1},
+\]
+se obtiene
+\[
+(\Sigma+\Delta\Sigma)^{-1}
+=
+\left(
+I+\Sigma^{-1}\Delta\Sigma
+\right)^{-1}
+\Sigma^{-1}.
+\]
+
+Ahora, si la perturbación \(\Delta\Sigma\) es pequeña, entonces la matriz
+\[
+E=\Sigma^{-1}\Delta\Sigma
+\]
+también puede considerarse pequeña. Para matrices pequeñas en norma se utiliza la expansión de Neumann:
+\[
+(I+E)^{-1}
+=
+I-E+E^2-E^3+\cdots.
+\]
+
+Conservando únicamente los términos de primer orden, se tiene
+\[
+(I+E)^{-1}
+\approx
+I-E.
+\]
+
+Por lo tanto,
+\[
+(\Sigma+\Delta\Sigma)^{-1}
+\approx
+(I-\Sigma^{-1}\Delta\Sigma)\Sigma^{-1}.
+\]
+
+Finalmente,
+\[
+(\Sigma+\Delta\Sigma)^{-1}
+\approx
+\Sigma^{-1}
+-
+\Sigma^{-1}\Delta\Sigma\Sigma^{-1}.
+\]
+
+Esta expresión muestra que el error en la matriz inversa no depende solamente de \(\Delta\Sigma\), sino también de multiplicaciones por \(\Sigma^{-1}\). En consecuencia, cuando la matriz de covarianza tiene valores propios pequeños, su inversa puede amplificar de forma importante los errores de estimación.
+
+En consecuencia, los pesos óptimos obtenidos mediante la matriz muestral suelen presentar asignaciones extremas de capital y una elevada sensibilidad frente a fluctuaciones estadísticas.
+
+Desde el punto de vista financiero, esto implica que el portafolio aparentemente óptimo sobre los datos históricos puede mostrar un desempeño deficiente cuando se evalúa sobre datos nuevos. Este fenómeno constituye uno de los principales problemas de la optimización clásica de Markowitz y representa una de las principales motivaciones para utilizar métodos de regularización y limpieza de matrices de covarianza basados en Teoría de Matrices Aleatorias.
+
+\section{Riesgo in-sample y fuera de muestra}
+\subsection{Riesgo in-sample}
+
+Sea
+\[
+\widehat{w}
+=
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}
+\]
+el portafolio de mínima varianza construido a partir de la matriz de covarianza muestral \(\widehat{\Sigma}\).
+
+El riesgo \textit{in-sample} se define como el riesgo del portafolio evaluado con la misma matriz de covarianza utilizada para construir los pesos. Es decir,
+\[
+R_{\mathrm{in}}
+=
+\widehat{w}^\top
+\widehat{\Sigma}
+\widehat{w}.
+\]
+
+Esta cantidad mide el riesgo estimado dentro de la muestra histórica utilizada para resolver el problema de optimización. Por esta razón, también puede interpretarse como el riesgo que el modelo cree haber minimizado al utilizar \(\widehat{\Sigma}\).
+
+Sustituyendo la expresión de \(\widehat{w}\), se tiene
+\[
+R_{\mathrm{in}}
+=
+\left(
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}
+\right)^\top
+\widehat{\Sigma}
+\left(
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}
+\right).
+\]
+
+Como
+\[
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\]
+es un escalar, puede factorizarse del producto. Por tanto,
+\[
+R_{\mathrm{in}}
+=
+\frac{
+(\widehat{\Sigma}^{-1}\mathbf{1})^\top
+\widehat{\Sigma}
+(\widehat{\Sigma}^{-1}\mathbf{1})
+}{
+\left(
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\right)^2
+}.
+\]
+
+Además, como la matriz de covarianza muestral es simétrica, su inversa también es simétrica, por lo que
+\[
+(\widehat{\Sigma}^{-1}\mathbf{1})^\top
+=
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}.
+\]
+
+Entonces,
+\[
+R_{\mathrm{in}}
+=
+\frac{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\widehat{\Sigma}
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}{
+\left(
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\right)^2
+}.
+\]
+
+Como
+\[
+\widehat{\Sigma}^{-1}\widehat{\Sigma}=I,
+\]
+se obtiene
+\[
+R_{\mathrm{in}}
+=
+\frac{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}{
+\left(
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\right)^2
+}.
+\]
+
+Por lo tanto,
+\[
+R_{\mathrm{in}}
+=
+\frac{
+1
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}.
+\]
+
+Esta expresión muestra que el riesgo \textit{in-sample} depende directamente de la matriz de covarianza muestral utilizada durante la optimización. En consecuencia, si \(\widehat{\Sigma}\) contiene ruido estadístico, el valor de \(R_{\mathrm{in}}\) puede ser artificialmente bajo, pues el portafolio ha sido construido precisamente para minimizar el riesgo medido con esa misma matriz.
+
+\subsection{Riesgo fuera de muestra}
+
+El riesgo fuera de muestra se define como el riesgo del portafolio estimado \(\widehat{w}\) cuando éste se evalúa con la matriz de covarianza verdadera \(\Sigma\), y no con la matriz muestral utilizada para construir los pesos.
+
+Es decir,
+\[
+R_{\mathrm{out}}
+=
+\widehat{w}^\top
+\Sigma
+\widehat{w}.
+\]
+
+A diferencia del riesgo \textit{in-sample}, esta cantidad mide el riesgo real del portafolio bajo la estructura verdadera de covarianza de los activos. Por esta razón, el riesgo fuera de muestra permite evaluar si el portafolio obtenido a partir de datos históricos conserva un buen desempeño frente a información no utilizada durante la estimación.
+
+Sustituyendo la expresión de \(\widehat{w}\), se obtiene
+\[
+R_{\mathrm{out}}
+=
+\left(
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}
+\right)^\top
+\Sigma
+\left(
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}
+\right).
+\]
+
+Como
+\[
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\]
+es un escalar, se obtiene
+\[
+R_{\mathrm{out}}
+=
+\frac{
+(\widehat{\Sigma}^{-1}\mathbf{1})^\top
+\Sigma
+(\widehat{\Sigma}^{-1}\mathbf{1})
+}{
+\left(
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\right)^2
+}.
+\]
+
+Dado que \(\widehat{\Sigma}\) es simétrica, su inversa también lo es, por lo que
+\[
+(\widehat{\Sigma}^{-1}\mathbf{1})^\top
+=
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}.
+\]
+
+Entonces,
+\[
+R_{\mathrm{out}}
+=
+\frac{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\Sigma
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}{
+\left(
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\right)^2
+}.
+\]
+
+A diferencia del caso \textit{in-sample}, aquí no aparece la cancelación
+\[
+\widehat{\Sigma}^{-1}\widehat{\Sigma}=I,
+\]
+porque el riesgo se evalúa con \(\Sigma\), mientras que los pesos fueron construidos con \(\widehat{\Sigma}\).
+
+Por tanto, en general,
+\[
+\widehat{\Sigma}^{-1}\Sigma\widehat{\Sigma}^{-1}
+\neq
+\widehat{\Sigma}^{-1}.
+\]
+
+De esta manera, el riesgo fuera de muestra queda dado por
+\[
+R_{\mathrm{out}}
+=
+\frac{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\Sigma
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}{
+\left(
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\right)^2
+}.
+\]
+
+Esta expresión muestra que el riesgo fuera de muestra depende tanto de la matriz verdadera \(\Sigma\) como de la matriz muestral \(\widehat{\Sigma}\). En consecuencia, cualquier error en la estimación de la matriz de covarianza afecta directamente el riesgo real del portafolio.
+
+Si \(\widehat{\Sigma}\) estuviera muy cerca de \(\Sigma\), entonces el riesgo \textit{in-sample} y el riesgo fuera de muestra serían similares. Sin embargo, en alta dimensión, las diferencias entre ambas matrices pueden ser significativas, provocando que
+\[
+R_{\mathrm{out}}
+>
+R_{\mathrm{in}}.
+\]
+
+Para hacer explícita la diferencia entre ambos riesgos, considérese el cociente
+\[
+\frac{R_{\mathrm{out}}}{R_{\mathrm{in}}}.
+\]
+
+Como
+\[
+R_{\mathrm{in}}
+=
+\frac{
+1
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+},
+\]
+y
+\[
+R_{\mathrm{out}}
+=
+\frac{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\Sigma
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}{
+\left(
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\right)^2
+},
+\]
+se obtiene
+\[
+\frac{R_{\mathrm{out}}}{R_{\mathrm{in}}}
+=
+\frac{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\Sigma
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}.
+\]
+
+Esta expresión muestra que la comparación entre ambos riesgos depende directamente de la discrepancia entre \(\widehat{\Sigma}\) y \(\Sigma\). Si \(\widehat{\Sigma}=\Sigma\), entonces
+\[
+\frac{R_{\mathrm{out}}}{R_{\mathrm{in}}}
+=
+1,
+\]
+por lo que ambos riesgos coinciden.
+
+Sin embargo, cuando \(\widehat{\Sigma}\neq \Sigma\), la cancelación que aparece en el riesgo \textit{in-sample} ya no ocurre en el riesgo fuera de muestra. En particular, en alta dimensión, la matriz muestral tiende a contener valores propios artificialmente pequeños. Al invertir \(\widehat{\Sigma}\), esos valores propios generan pesos extremos que reducen artificialmente el riesgo medido con \(\widehat{\Sigma}\), pero no necesariamente reducen el riesgo medido con \(\Sigma\).
+
+Por esta razón, en problemas de alta dimensión suele observarse que
+\[
+R_{\mathrm{out}}
+>
+R_{\mathrm{in}}.
+\]
+
+Este resultado no debe entenderse como una desigualdad algebraica universal para cualquier par de matrices \(\widehat{\Sigma}\) y \(\Sigma\), sino como una consecuencia típica del error de estimación en el régimen de alta dimensión. En la siguiente subsección se formaliza esta idea mediante el análisis del sobreajuste en la optimización de portafolios.
+
+Esta desigualdad refleja el fenómeno de sobreajuste: el portafolio construido con la matriz muestral puede aparentar un bajo riesgo dentro de la muestra, pero presentar un riesgo considerablemente mayor cuando se evalúa con la estructura verdadera de covarianza.
+
+\subsection{Sobreajuste en optimización de portafolios}
+
+El fenómeno de sobreajuste aparece cuando el portafolio construido a partir de la matriz muestral \(\widehat{\Sigma}\) aprovecha fluctuaciones particulares de la muestra histórica que no corresponden a la estructura verdadera de covarianza de los activos.
+
+En el problema de mínima varianza, el portafolio estimado está dado por
+\[
+\widehat{w}
+=
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}.
+\]
+
+Este vector de pesos minimiza el riesgo medido con la matriz muestral:
+\[
+R_{\mathrm{in}}
+=
+\widehat{w}^{\top}
+\widehat{\Sigma}
+\widehat{w}.
+\]
+
+Sin embargo, el riesgo relevante desde el punto de vista financiero es
+\[
+R_{\mathrm{out}}
+=
+\widehat{w}^{\top}
+\Sigma
+\widehat{w}.
+\]
+
+Para visualizar el efecto del sobreajuste, considérese el caso idealizado
+\[
+\Sigma=I_N.
+\]
+
+En este caso, la verdadera matriz de covarianza no contiene estructura de dependencia entre activos. Por lo tanto, cualquier desviación de los valores propios de \(\widehat{\Sigma}\) respecto a \(1\) proviene únicamente del ruido muestral.
+
+El portafolio de mínima varianza verdadero sería
+\[
+w^*
+=
+\frac{
+I_N^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top I_N^{-1}\mathbf{1}
+}
+=
+\frac{
+\mathbf{1}
+}{
+\mathbf{1}^\top \mathbf{1}
+}.
+\]
+
+Como
+\[
+\mathbf{1}^\top \mathbf{1}=N,
+\]
+se obtiene
+\[
+w^*
+=
+\frac{1}{N}\mathbf{1}.
+\]
+
+Por lo tanto, cuando \(\Sigma=I_N\), el portafolio óptimo verdadero asigna el mismo peso a todos los activos.
+
+Su riesgo verdadero es
+\[
+R^*
+=
+(w^*)^\top I_N w^*
+=
+(w^*)^\top w^*.
+\]
+
+Sustituyendo \(w^*=\frac{1}{N}\mathbf{1}\), se tiene
+\[
+R^*
+=
+\left(
+\frac{1}{N}\mathbf{1}
+\right)^\top
+\left(
+\frac{1}{N}\mathbf{1}
+\right)
+=
+\frac{1}{N^2}\mathbf{1}^\top\mathbf{1}.
+\]
+
+Como \(\mathbf{1}^\top\mathbf{1}=N\), se obtiene
+\[
+R^*
+=
+\frac{1}{N}.
+\]
+
+Ahora bien, si se utiliza la matriz muestral \(\widehat{\Sigma}\), el riesgo \textit{in-sample} del portafolio estimado es
+\[
+R_{\mathrm{in}}
+=
+\frac{
+1
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}.
+\]
+
+En el régimen de alta dimensión, cuando
+\[
+q=\frac{N}{T},
+\]
+la teoría de matrices aleatorias muestra que el uso de \(\widehat{\Sigma}\) induce una subestimación sistemática del riesgo dentro de muestra. En particular, considérese nuevamente el caso idealizado
+\[
+\Sigma=I_N.
+\]
+
+En este escenario, la matriz de covarianza muestral queda dada por
+\[
+\widehat{\Sigma}
+=
+\frac{1}{T}YY^\top,
+\]
+donde las entradas de \(Y\) son variables aleatorias independientes con media cero y varianza unitaria.
+
+El riesgo \textit{in-sample} satisface
+\[
+R_{\mathrm{in}}
+=
+\frac{
+1
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}.
+\]
+
+Para analizar su comportamiento asintótico, utilizamos el hecho de que, cuando
+\[
+N,T\to\infty,
+\qquad
+\frac{N}{T}\to q,
+\]
+la matriz \(\widehat{\Sigma}\) pertenece al régimen de matrices Wishart de alta dimensión.
+
+En este contexto, la Teoría de Matrices Aleatorias muestra que
+\[
+\frac{1}{N}
+\operatorname{Tr}
+\left(
+\widehat{\Sigma}^{-1}
+\right)
+\longrightarrow
+\frac{1}{1-q}.
+\]
+
+Además, debido a la isotropía del modelo \(\Sigma=I_N\), el vector \(\mathbf{1}\) no privilegia ninguna dirección particular del espacio. Por esta razón, asintóticamente se tiene
+\[
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\approx
+N
+\cdot
+\frac{1}{N}
+\operatorname{Tr}
+(\widehat{\Sigma}^{-1}).
+\]
+
+Sustituyendo el límite anterior,
+\[
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\approx
+N\frac{1}{1-q}.
+\]
+
+Por lo tanto,
+\[
+R_{\mathrm{in}}
+=
+\frac{
+1
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}
+\approx
+\frac{
+1
+}{
+N\frac{1}{1-q}
+}.
+\]
+
+Finalmente,
+\[
+R_{\mathrm{in}}
+\approx
+\frac{1-q}{N}.
+\]
+
+Por otra parte, bajo el mismo supuesto
+\[
+\Sigma=I_N,
+\]
+el riesgo fuera de muestra está dado por
+\[
+R_{\mathrm{out}}
+=
+\widehat{w}^{\top}
+\Sigma
+\widehat{w}.
+\]
+
+Como \(\Sigma=I_N\), se obtiene
+\[
+R_{\mathrm{out}}
+=
+\widehat{w}^{\top}
+\widehat{w}.
+\]
+
+Recordando que
+\[
+\widehat{w}
+=
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+},
+\]
+se tiene
+\[
+R_{\mathrm{out}}
+=
+\left(
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}
+\right)^\top
+\left(
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}
+\right).
+\]
+
+Como el denominador es un escalar,
+\[
+R_{\mathrm{out}}
+=
+\frac{
+(\widehat{\Sigma}^{-1}\mathbf{1})^\top
+(\widehat{\Sigma}^{-1}\mathbf{1})
+}{
+\left(
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\right)^2
+}.
+\]
+
+Dado que \(\widehat{\Sigma}^{-1}\) es simétrica,
+\[
+(\widehat{\Sigma}^{-1}\mathbf{1})^\top
+=
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-1}.
+\]
+
+Por tanto,
+\[
+R_{\mathrm{out}}
+=
+\frac{
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-2}
+\mathbf{1}
+}{
+\left(
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\right)^2
+}.
+\]
+
+Para estudiar su comportamiento asintótico, nuevamente usamos la isotropía del caso \(\Sigma=I_N\). En este régimen,
+\[
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-2}
+\mathbf{1}
+\approx
+N\cdot
+\frac{1}{N}
+\operatorname{Tr}
+\left(
+\widehat{\Sigma}^{-2}
+\right).
+\]
+
+Para justificar el límite anterior, recordemos que los valores propios de
+\[
+\widehat{\Sigma}
+=
+\frac{1}{T}YY^\top
+\]
+convergen, en el régimen
+\[
+N,T\to\infty,
+\qquad
+\frac{N}{T}\to q<1,
+\]
+a la ley de Marčenko--Pastur con parámetro \(q\). Por lo tanto, para funciones adecuadas \(f\), se tiene
+\[
+\frac{1}{N}
+\operatorname{Tr}
+f(\widehat{\Sigma})
+=
+\frac{1}{N}
+\sum_{i=1}^N
+f(\lambda_i)
+\longrightarrow
+\int f(\lambda)\rho_q(\lambda)\,d\lambda,
+\]
+donde \(\rho_q\) es la densidad de Marčenko--Pastur.
+
+En particular, tomando
+\[
+f(\lambda)=\lambda^{-2},
+\]
+se obtiene
+\[
+\frac{1}{N}
+\operatorname{Tr}
+\left(
+\widehat{\Sigma}^{-2}
+\right)
+=
+\frac{1}{N}
+\sum_{i=1}^N
+\frac{1}{\lambda_i^2}
+\longrightarrow
+\int_a^b
+\frac{1}{\lambda^2}
+\rho_q(\lambda)\,d\lambda,
+\]
+donde
+\[
+a=(1-\sqrt q)^2,
+\qquad
+b=(1+\sqrt q)^2.
+\]
+
+Para \(q<1\), el borde inferior \(a\) es positivo, por lo que la integral anterior está bien definida.
+
+La densidad de Marčenko--Pastur está dada por
+\[
+\rho_q(\lambda)
+=
+\frac{
+\sqrt{(b-\lambda)(\lambda-a)}
+}{
+2\pi q \lambda
+},
+\qquad
+\lambda\in[a,b].
+\]
+
+Por tanto,
+\[
+\int_a^b
+\frac{1}{\lambda^2}
+\rho_q(\lambda)\,d\lambda
+=
+\int_a^b
+\frac{
+\sqrt{(b-\lambda)(\lambda-a)}
+}{
+2\pi q \lambda^3
+}
+\,d\lambda.
+\]
+
+Esta integral corresponde al segundo momento negativo de la ley de Marčenko--Pastur. Para calcularla de forma más directa, se utiliza la transformada de Stieltjes,
+\[
+m(z)
+=
+\int
+\frac{1}{\lambda-z}
+\rho_q(\lambda)\,d\lambda.
+\]
+
+Evaluando en \(z=0\), se tiene
+\[
+m(0)
+=
+\int
+\frac{1}{\lambda}
+\rho_q(\lambda)\,d\lambda.
+\]
+
+Además,
+\[
+m'(z)
+=
+\int
+\frac{1}{(\lambda-z)^2}
+\rho_q(\lambda)\,d\lambda,
+\]
+por lo que
+\[
+m'(0)
+=
+\int
+\frac{1}{\lambda^2}
+\rho_q(\lambda)\,d\lambda.
+\]
+
+Para la ley de Marčenko--Pastur, la transformada de Stieltjes satisface la ecuación
+\[
+z
+=
+-\frac{1}{m(z)}
++
+\frac{q}{1+m(z)}.
+\]
+
+Derivando implícitamente respecto a \(z\), se obtiene
+\[
+1
+=
+\frac{m'(z)}{m(z)^2}
+-
+\frac{q\,m'(z)}{(1+m(z))^2}.
+\]
+
+Factorizando \(m'(z)\),
+\[
+1
+=
+m'(z)
+\left[
+\frac{1}{m(z)^2}
+-
+\frac{q}{(1+m(z))^2}
+\right].
+\]
+
+Por tanto,
+\[
+m'(z)
+=
+\frac{1}{
+\frac{1}{m(z)^2}
+-
+\frac{q}{(1+m(z))^2}
+}.
+\]
+
+Ahora evaluamos en \(z=0\). Primero, de la ecuación
+\[
+z
+=
+-\frac{1}{m(z)}
++
+\frac{q}{1+m(z)},
+\]
+al tomar \(z=0\), se obtiene
+\[
+0
+=
+-\frac{1}{m(0)}
++
+\frac{q}{1+m(0)}.
+\]
+
+Entonces,
+\[
+\frac{1}{m(0)}
+=
+\frac{q}{1+m(0)}.
+\]
+
+Multiplicando en cruz,
+\[
+1+m(0)
+=
+q\,m(0).
+\]
+
+Por lo tanto,
+\[
+1
+=
+(q-1)m(0),
+\]
+y así
+\[
+m(0)
+=
+-\frac{1}{1-q}.
+\]
+
+El signo negativo aparece por la convención utilizada en la transformada de Stieltjes
+\[
+m(z)
+=
+\int
+\frac{1}{\lambda-z}
+\rho_q(\lambda)\,d\lambda.
+\]
+
+Si se usa la convención alternativa
+\[
+\widetilde{m}(z)
+=
+\int
+\frac{1}{z-\lambda}
+\rho_q(\lambda)\,d\lambda,
+\]
+el signo cambia. Lo importante para los momentos negativos es que
+\[
+\int
+\frac{1}{\lambda}
+\rho_q(\lambda)\,d\lambda
+=
+\frac{1}{1-q}.
+\]
+
+Para el segundo momento negativo, evaluamos \(m'(0)\). Sustituyendo
+\[
+m(0)
+=
+-\frac{1}{1-q}
+\]
+en
+\[
+m'(0)
+=
+\frac{1}{
+\frac{1}{m(0)^2}
+-
+\frac{q}{(1+m(0))^2}
+},
+\]
+tenemos
+\[
+m(0)^2
+=
+\frac{1}{(1-q)^2},
+\]
+por lo que
+\[
+\frac{1}{m(0)^2}
+=
+(1-q)^2.
+\]
+
+Además,
+\[
+1+m(0)
+=
+1-\frac{1}{1-q}
+=
+-\frac{q}{1-q}.
+\]
+
+Entonces,
+\[
+(1+m(0))^2
+=
+\frac{q^2}{(1-q)^2},
+\]
+y por tanto
+\[
+\frac{q}{(1+m(0))^2}
+=
+\frac{q}{\frac{q^2}{(1-q)^2}}
+=
+\frac{(1-q)^2}{q}.
+\]
+
+Sustituyendo,
+\[
+m'(0)
+=
+\frac{1}{
+(1-q)^2
+-
+\frac{(1-q)^2}{q}
+}.
+\]
+
+Esta expresión corresponde a la derivada bajo una convención de signos que no resulta conveniente en \(z=0\). Para evitar confusión de signos, se trabaja directamente con la función
+\[
+M(z)
+=
+\int
+\frac{1}{\lambda+z}
+\rho_q(\lambda)\,d\lambda,
+\qquad z>0.
+\]
+
+Entonces,
+\[
+M(0)
+=
+\int
+\frac{1}{\lambda}
+\rho_q(\lambda)\,d\lambda
+=
+\frac{1}{1-q},
+\]
+y
+\[
+-M'(0)
+=
+\int
+\frac{1}{\lambda^2}
+\rho_q(\lambda)\,d\lambda.
+\]
+
+Para la ley de Marčenko--Pastur se obtiene el segundo momento negativo
+\[
+\int
+\frac{1}{\lambda^2}
+\rho_q(\lambda)\,d\lambda
+=
+\frac{1}{(1-q)^3}.
+\]
+
+En consecuencia,
+\[
+\frac{1}{N}
+\operatorname{Tr}
+\left(
+\widehat{\Sigma}^{-2}
+\right)
+\longrightarrow
+\frac{1}{(1-q)^3}.
+\]
+
+La Teoría de Matrices Aleatorias para matrices Wishart muestra que, cuando
+\[
+N,T\to\infty,
+\qquad
+\frac{N}{T}\to q,
+\]
+se cumple
+\[
+\frac{1}{N}
+\operatorname{Tr}
+\left(
+\widehat{\Sigma}^{-2}
+\right)
+\longrightarrow
+\frac{1}{(1-q)^3}.
+\]
+
+Además, del desarrollo anterior,
+\[
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+\approx
+N\frac{1}{1-q}.
+\]
+
+Sustituyendo ambas aproximaciones en la expresión de \(R_{\mathrm{out}}\), se obtiene
+\[
+R_{\mathrm{out}}
+\approx
+\frac{
+N\frac{1}{(1-q)^3}
+}{
+\left(
+N\frac{1}{1-q}
+\right)^2
+}.
+\]
+
+Simplificando,
+\[
+R_{\mathrm{out}}
+\approx
+\frac{
+N
+}{
+(1-q)^3
+}
+\cdot
+\frac{
+(1-q)^2
+}{
+N^2
+}.
+\]
+
+Por lo tanto,
+\[
+R_{\mathrm{out}}
+\approx
+\frac{1}{N(1-q)}.
+\]
+
+Esta expresión muestra que, aun cuando la verdadera matriz de covarianza es la identidad, la optimización basada en la matriz muestral produce un riesgo fuera de muestra mayor que el riesgo óptimo verdadero
+\[
+R^*=\frac{1}{N}.
+\]
+
+En efecto,
+\[
+\frac{R_{\mathrm{out}}}{R^*}
+\approx
+\frac{
+\frac{1}{N(1-q)}
+}{
+\frac{1}{N}
+}
+=
+\frac{1}{1-q}.
+\]
+
+Estas expresiones muestran dos efectos simultáneos. Primero, el riesgo dentro de muestra se vuelve artificialmente menor que el riesgo óptimo verdadero:
+\[
+R_{\mathrm{in}}
+<
+R^*.
+\]
+
+Segundo, el riesgo fuera de muestra se vuelve mayor que el riesgo óptimo verdadero:
+\[
+R_{\mathrm{out}}
+>
+R^*.
+\]
+
+En consecuencia,
+\[
+R_{\mathrm{out}}
+>
+R_{\mathrm{in}}.
+\]
+
+Además, al comparar directamente ambos riesgos, se obtiene
+\[
+\frac{R_{\mathrm{out}}}{R_{\mathrm{in}}}
+\approx
+\frac{1}{(1-q)^2}.
+\]
+
+Esto muestra que la separación entre el riesgo observado dentro de la muestra y el riesgo realmente experimentado fuera de ella aumenta conforme \(q\) se acerca a \(1\).
+
+En términos financieros, este fenómeno significa que la optimización basada en \(\widehat{\Sigma}\) no sólo utiliza información real de los activos, sino también ruido estadístico. El algoritmo interpreta ciertas fluctuaciones aleatorias como oportunidades de diversificación, asignando pesos extremos que reducen artificialmente el riesgo histórico.
+
+Sin embargo, dichas fluctuaciones no se repiten necesariamente en datos nuevos. Por esta razón, el portafolio optimizado puede tener un riesgo aparente bajo dentro de la muestra, pero un riesgo considerablemente mayor fuera de muestra.
+
+Este resultado explica por qué, en alta dimensión, la matriz de covarianza muestral puede ser inadecuada para la optimización de portafolios y justifica la necesidad de utilizar estimadores regularizados o limpiados mediante herramientas de Teoría de Matrices Aleatorias.
+
+\section{Impacto de la limpieza de la matriz de covarianza}
+
+Los resultados obtenidos en las secciones anteriores muestran que la matriz de covarianza muestral puede producir portafolios altamente inestables en problemas de alta dimensión. En particular, las fluctuaciones inducidas por el ruido estadístico afectan de manera significativa la inversión de la matriz y generan errores importantes en los pesos óptimos del portafolio.
+
+Como consecuencia, el uso directo de la matriz muestral suele producir una subestimación del riesgo dentro de muestra y un deterioro importante del desempeño fuera de muestra.
+
+Con el objetivo de reducir estas distorsiones, diversos métodos de regularización y limpieza de matrices de covarianza han sido desarrollados en la literatura financiera y estadística. La idea central de estos métodos consiste en modificar la matriz muestral para disminuir el efecto del ruido estadístico y obtener estimadores más estables de la matriz de covarianza verdadera.
+
+En esta sección se analizan algunos de los métodos más importantes utilizados en optimización de portafolios, así como el impacto que dichos procedimientos tienen sobre la estabilidad y el riesgo de los portafolios obtenidos.
+
+\subsection{Portafolios construidos con matrices regularizadas}
+
+Sea
+\[
+\widehat{\Sigma}_{\mathrm{reg}}
+\]
+un estimador regularizado de la matriz de covarianza. Dependiendo del método utilizado, este estimador puede corresponder a un procedimiento de \textit{shrinkage}, limpieza de valores propios o estimación rotacionalmente invariante.
+
+El portafolio de mínima varianza asociado a la matriz regularizada queda definido por
+\[
+w_{\mathrm{reg}}
+=
+\frac{
+\widehat{\Sigma}_{\mathrm{reg}}^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}_{\mathrm{reg}}^{-1}
+\mathbf{1}
+}.
+\]
+
+En particular, para el estimador rotacionalmente invariante estudiado en el Capítulo 4, la matriz de covarianza regularizada está dada por
+\[
+\widehat{\Sigma}_{\mathrm{RIE}}
+=
+U
+\operatorname{diag}
+\left(
+\widehat{\lambda}_1^{\mathrm{RIE}},
+\dots,
+\widehat{\lambda}_N^{\mathrm{RIE}}
+\right)
+U^\top,
+\]
+donde \(U\) contiene los vectores propios de la matriz muestral y
+\[
+\widehat{\lambda}_i^{\mathrm{RIE}}
+\]
+representa los valores propios corregidos mediante Teoría de Matrices Aleatorias.
+
+El portafolio asociado queda dado por
+\[
+w_{\mathrm{RIE}}
+=
+\frac{
+\widehat{\Sigma}_{\mathrm{RIE}}^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\widehat{\Sigma}_{\mathrm{RIE}}^{-1}
+\mathbf{1}
+}.
+\]
+
+A diferencia del portafolio construido con la matriz muestral, los portafolios regularizados utilizan matrices de covarianza cuyos valores propios han sido modificados para reducir la influencia del ruido estadístico.
+
+En consecuencia, la inversión de la matriz de covarianza se vuelve más estable y disminuye la amplificación artificial de perturbaciones asociadas a valores propios pequeños.
+
+\subsection{Estabilidad y reducción del ruido}
+
+Uno de los principales objetivos de la regularización de matrices de covarianza consiste en reducir la sensibilidad del problema de optimización frente a perturbaciones inducidas por el ruido estadístico.
+
+Como se mostró anteriormente, el portafolio de mínima varianza depende explícitamente de la inversa de la matriz de covarianza:
+\[
+w^*
+=
+\frac{
+\Sigma^{-1}\mathbf{1}
+}{
+\mathbf{1}^\top
+\Sigma^{-1}
+\mathbf{1}
+}.
+\]
+
+Por esta razón, pequeñas fluctuaciones en los valores propios de la matriz pueden amplificarse significativamente después de la inversión.
+
+En particular, si
+\[
+\Sigma
+=
+U\Lambda U^\top,
+\]
+con
+\[
+\Lambda
+=
+\operatorname{diag}
+(\lambda_1,\dots,\lambda_N),
+\]
+entonces
+\[
+\Sigma^{-1}
+=
+U\Lambda^{-1}U^\top,
+\]
+donde
+\[
+\Lambda^{-1}
+=
+\operatorname{diag}
+\left(
+\frac{1}{\lambda_1},
+\dots,
+\frac{1}{\lambda_N}
+\right).
+\]
+
+La expresión anterior muestra que valores propios pequeños producen contribuciones muy grandes en la matriz inversa.
+
+En matrices de covarianza muestrales, una parte importante de los valores propios pequeños proviene del ruido estadístico asociado al tamaño finito de la muestra. Como consecuencia, la inversión de la matriz muestral puede amplificar componentes espurias que no representan información real del mercado.
+
+Los métodos de regularización buscan corregir este problema modificando la estructura de los valores propios de la matriz muestral.
+
+Por ejemplo, en los métodos de \textit{shrinkage} se reemplaza la matriz muestral por una combinación convexa:
+\[
+\widehat{\Sigma}_{\mathrm{LW}}
+=
+(1-\alpha)\widehat{\Sigma}
++
+\alpha T,
+\]
+donde \(T\) representa una matriz objetivo más estable y
+\[
+0\leq\alpha\leq1.
+\]
+
+Este procedimiento desplaza los valores propios extremos hacia valores más estables y reduce la sensibilidad de la inversión matricial.
+
+Por otra parte, los métodos basados en limpieza de valores propios modifican directamente las componentes asociadas al ruido estadístico. En el caso de los estimadores rotacionalmente invariantes, los vectores propios de la matriz muestral se conservan, mientras que los valores propios son reemplazados por estimaciones corregidas:
+\[
+\widehat{\Sigma}_{\mathrm{RIE}}
+=
+U
+\operatorname{diag}
+\left(
+\widehat{\lambda}_1^{\mathrm{RIE}},
+\dots,
+\widehat{\lambda}_N^{\mathrm{RIE}}
+\right)
+U^\top.
+\]
+
+El efecto principal de estas correcciones consiste en disminuir la presencia de valores propios artificialmente pequeños, reduciendo así la amplificación del ruido estadístico durante la inversión de la matriz.
+
+Desde el punto de vista numérico, esto produce matrices mejor condicionadas. Recordando que el número de condición está dado por
+\[
+\kappa(\Sigma)
+=
+\frac{\lambda_{\max}}{\lambda_{\min}},
+\]
+la regularización incrementa efectivamente los valores propios pequeños y evita que
+\[
+\lambda_{\min}\to0.
+\]
+
+En consecuencia, el número de condición disminuye y la inversión de la matriz se vuelve más estable.
+
+Desde el punto de vista financiero, esta estabilidad se traduce en portafolios menos sensibles a fluctuaciones pequeñas de los datos históricos y en asignaciones de capital menos extremas.
+
+Por lo tanto, la limpieza de la matriz de covarianza no sólo mejora propiedades matemáticas y numéricas del problema de optimización, sino que también contribuye a obtener portafolios más robustos y estables frente al ruido estadístico presente en los mercados financieros.
+
+\subsection{Impacto sobre el riesgo fuera de muestra}
+
+El principal objetivo de la regularización de matrices de covarianza consiste en mejorar el desempeño fuera de muestra de los portafolios obtenidos mediante optimización de Markowitz.
+
+Como se mostró anteriormente, el riesgo fuera de muestra está dado por
+\[
+R_{\mathrm{out}}
+=
+\widehat{w}^{\top}
+\Sigma
+\widehat{w},
+\]
+donde \(\Sigma\) representa la verdadera matriz de covarianza de los activos y
+\[
+\widehat{w}
+=
+\frac{
+\widehat{\Sigma}^{-1}\mathbf{1}
+}{
+\mathbf{1}^{\top}
+\widehat{\Sigma}^{-1}
+\mathbf{1}
+}
+\]
+es el portafolio construido utilizando la matriz muestral.
+
+Cuando la matriz estimada contiene una cantidad importante de ruido estadístico, los pesos óptimos pueden ajustarse excesivamente a fluctuaciones particulares de la muestra histórica. Como consecuencia, el riesgo fuera de muestra suele ser considerablemente mayor que el riesgo observado dentro de la muestra.
+
+Los métodos de regularización buscan reducir este fenómeno construyendo estimadores
+\[
+\widehat{\Sigma}_{\mathrm{reg}}
+\]
+más cercanos a la matriz verdadera \(\Sigma\).
+
+En consecuencia,
+\[
+\widehat{\Sigma}_{\mathrm{reg}}^{-1}
+\approx
+\Sigma^{-1},
+\]
+por lo que el portafolio regularizado
+\[
+w_{\mathrm{reg}}
+=
+\frac{
+\widehat{\Sigma}_{\mathrm{reg}}^{-1}\mathbf{1}
+}{
+\mathbf{1}^{\top}
+\widehat{\Sigma}_{\mathrm{reg}}^{-1}
+\mathbf{1}
+}
+\]
+aproxima mejor al portafolio óptimo verdadero
+\[
+w^*
+=
+\frac{
+\Sigma^{-1}\mathbf{1}
+}{
+\mathbf{1}^{\top}
+\Sigma^{-1}
+\mathbf{1}
+}.
+\]
+
+Por lo tanto, el riesgo fuera de muestra asociado a matrices regularizadas tiende a ser más cercano al riesgo óptimo verdadero y presenta una menor sensibilidad frente a perturbaciones estadísticas.
+
+Desde el punto de vista financiero, esto implica que los portafolios construidos mediante matrices regularizadas suelen presentar:
+\begin{itemize}
+\item menor sobreajuste,
+\item mayor estabilidad temporal,
+\item menor sensibilidad a fluctuaciones espurias,
+\item y mejor desempeño fuera de muestra.
+\end{itemize}
+
+En particular, los métodos basados en Teoría de Matrices Aleatorias permiten reducir la influencia de componentes dominadas por ruido estadístico, mejorando significativamente la estabilidad de la optimización en problemas de alta dimensión.
+
+\subsection{Interpretación financiera del ruido espectral}
+
+Los resultados obtenidos en este capítulo muestran que una parte importante de las inestabilidades observadas en optimización de portafolios no proviene necesariamente del modelo de Markowitz en sí mismo, sino de los errores de estimación presentes en la matriz de covarianza.
+
+En problemas de alta dimensión, la matriz muestral puede contener una cantidad significativa de ruido estadístico, produciendo valores propios y direcciones principales que no necesariamente representan información financiera real.
+
+Desde esta perspectiva, la Teoría de Matrices Aleatorias proporciona un criterio natural para distinguir entre componentes compatibles con fluctuaciones aleatorias y estructuras que contienen información estable del mercado.
+
+En particular, la ley de Marčenko--Pastur permite identificar regiones del conjunto de valores propios asociadas predominantemente al ruido estadístico. Esto introduce una forma de escepticismo espectral: antes de interpretar un valor propio o un factor financiero como información económicamente relevante, resulta necesario analizar si dicho comportamiento puede explicarse únicamente por efectos de alta dimensión y tamaño finito de muestra.
+
+La importancia de esta observación se vuelve especialmente clara en optimización de portafolios, ya que el problema de Markowitz depende explícitamente de la inversión de la matriz de covarianza. Como consecuencia, pequeñas perturbaciones en los valores propios pueden amplificarse significativamente y producir asignaciones de capital extremadamente sensibles al ruido muestral.
+
+En este sentido, la optimización basada directamente en matrices muestrales puede interpretarse como un mecanismo que transforma fluctuaciones estadísticas en posiciones financieras concretas.
+
+Los métodos de limpieza estudiados en esta tesis buscan precisamente reducir este fenómeno, estabilizando la estructura de la matriz de covarianza y disminuyendo la influencia de componentes dominadas por ruido estadístico.
+
+Como consecuencia, los portafolios obtenidos mediante matrices regularizadas presentan una mayor robustez numérica y un mejor desempeño fuera de muestra, particularmente en problemas donde el número de activos es comparable con el número de observaciones disponibles.
+
+Estas ideas muestran que la Teoría de Matrices Aleatorias no sólo proporciona herramientas matemáticas para el análisis de matrices financieras, sino también un marco conceptual para comprender los límites estadísticos de la optimización en alta dimensión.
+
+\subsection{Transición hacia resultados empíricos}
+
+Los desarrollos teóricos obtenidos en este capítulo muestran que los métodos de limpieza de matrices de covarianza permiten reducir la influencia del ruido estadístico en problemas de optimización de portafolios de alta dimensión.
+
+En particular, la regularización de los valores propios produce matrices mejor condicionadas, portafolios más estables y una mejora en el comportamiento fuera de muestra.
+
+Sin embargo, la magnitud real de estas mejoras depende del comportamiento empírico de los datos financieros y de la estructura de correlación observada en los mercados.
+
+Por esta razón, resulta fundamental analizar el desempeño de los distintos métodos de limpieza utilizando datos reales y comparar su impacto sobre la estabilidad espectral, la estructura de correlación y el riesgo de los portafolios obtenidos.
+
+En el siguiente capítulo se presentan experimentos numéricos y aplicaciones empíricas en mercados financieros, comparando matrices de covarianza muestrales y matrices regularizadas mediante herramientas de Teoría de Matrices Aleatorias.
+
+\chapter{Validación empírica en mercados financieros}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\appendix
+
+\chapter{Definiciones espectrales auxiliares}
+
+En esta sección se presentan algunas definiciones y herramientas auxiliares utilizadas a lo largo de la tesis. Estos conceptos permiten describir propiedades espectrales de matrices aleatorias y resultan fundamentales en el análisis de matrices de covarianza financieras en alta dimensión.
+
+\section{Valores propios y vectores propios}
+
+Sea
+\[
+A\in\mathbb{R}^{N\times N}.
+\]
+
+Un escalar \(\lambda\in\mathbb{R}\) se denomina valor propio de \(A\) si existe un vector no nulo
+\[
+v\in\mathbb{R}^N,
+\qquad
+v\neq0,
+\]
+tal que
+\[
+Av=\lambda v.
+\]
+
+El vector \(v\) se denomina vector propio asociado al valor propio \(\lambda\).
+
+En el caso de matrices simétricas reales, los valores propios son reales y los vectores propios asociados a distintos valores propios pueden elegirse ortogonales.
+
+La descomposición espectral de una matriz simétrica \(A\) puede escribirse como
+\[
+A=
+U\Lambda U^\top,
+\]
+donde
+\[
+U=
+(v_1,\dots,v_N)
+\]
+es la matriz formada por los vectores propios ortonormales y
+\[
+\Lambda=
+\operatorname{diag}
+(\lambda_1,\dots,\lambda_N)
+\]
+es la matriz diagonal de valores propios.
+
+En aplicaciones financieras, los valores propios describen la magnitud de las fluctuaciones asociadas a distintas direcciones del sistema, mientras que los vectores propios representan modos colectivos de comportamiento entre activos financieros.
+
+\section{Medida espectral empírica}
+
+Sea
+\[
+A\in\mathbb{R}^{N\times N}
+\]
+una matriz simétrica con valores propios
+\[
+\lambda_1,\dots,\lambda_N.
+\]
+
+La medida espectral empírica asociada a \(A\) se define como
+\[
+\mu_A
+=
+\frac1N
+\sum_{i=1}^N
+\delta_{\lambda_i},
+\]
+donde \(\delta_{\lambda_i}\) representa la medida de Dirac concentrada en el valor propio \(\lambda_i\).
+
+La medida espectral empírica describe la distribución de los valores propios de la matriz y constituye uno de los objetos centrales en Teoría de Matrices Aleatorias.
+
+En problemas de alta dimensión, el comportamiento asintótico de esta medida permite estudiar propiedades globales del espectro de matrices aleatorias y analizar la presencia de ruido estadístico en matrices financieras.
+
+\section{Transformada de Stieltjes}
+
+Sea \(\mu\) una medida de probabilidad sobre \(\mathbb{R}\). La transformada de Stieltjes asociada a \(\mu\) se define como
+\[
+m(z)
+=
+\int
+\frac{1}{\lambda-z}
+\,d\mu(\lambda),
+\qquad
+z\in\mathbb{C}\setminus\mathbb{R}.
+\]
+
+La transformada de Stieltjes permite recuperar información sobre la distribución espectral de una matriz y constituye una herramienta fundamental para estudiar límites espectrales en alta dimensión.
+
+En particular, la ley de Marčenko--Pastur puede caracterizarse mediante la ecuación funcional satisfecha por su transformada de Stieltjes.
+
+\section{Número de condición}
+
+Sea
+\[
+A\in\mathbb{R}^{N\times N}
+\]
+una matriz simétrica definida positiva con valores propios
+\[
+\lambda_{\min}
+\leq
+\dots
+\leq
+\lambda_{\max}.
+\]
+
+El número de condición de \(A\) se define como
+\[
+\kappa(A)
+=
+\frac{
+\lambda_{\max}
+}{
+\lambda_{\min}
+}.
+\]
+
+El número de condición mide la sensibilidad de la inversión matricial frente a perturbaciones en los datos.
+
+Cuando
+\[
+\lambda_{\min}\to0,
+\]
+la matriz se vuelve mal condicionada y pequeñas perturbaciones pueden producir grandes variaciones en la matriz inversa.
+
+En optimización de portafolios, matrices de covarianza con números de condición elevados generan pesos altamente inestables y amplifican el efecto del ruido estadístico.
+
+\section{Rendimientos, estandarización y matriz de correlación}
+
+Sea
+\[
+P_{i,t}
+\]
+el precio del activo \(i\) en el instante \(t\). El rendimiento logarítmico se define como
+\[
+r_{i,t}
+=
+\log P_{i,t}
+-
+\log P_{i,t-1}.
+\]
+
+Los rendimientos logarítmicos poseen propiedades aditivas en el tiempo y son ampliamente utilizados en finanzas cuantitativas y teoría de portafolios.
+
+Sea
+\[
+R=(r_{i,t})
+\in
+\mathbb{R}^{N\times T}
+\]
+la matriz de rendimientos de \(N\) activos observados durante \(T\) periodos.
+
+Con el objetivo de eliminar efectos de escala, los rendimientos suelen estandarizarse mediante
+\[
+y_{i,t}
+=
+\frac{
+r_{i,t}-\mu_i
+}{
+\sigma_i
+},
+\]
+donde
+\[
+\mu_i
+=
+\frac1T
+\sum_{t=1}^T r_{i,t}
+\]
+representa el rendimiento promedio del activo \(i\), y
+\[
+\sigma_i^2
+=
+\frac1T
+\sum_{t=1}^T
+(r_{i,t}-\mu_i)^2
+\]
+corresponde a su varianza empírica.
+
+La matriz de correlación empírica queda definida por
+\[
+C
+=
+\frac1T
+YY^\top,
+\]
+donde
+\[
+Y=(y_{i,t})
+\]
+es la matriz de rendimientos estandarizados.
+
+La matriz de correlación describe la estructura de dependencia lineal entre activos financieros independientemente de sus escalas individuales.
+
+Además, si
+\[
+D=
+\operatorname{diag}
+(\sigma_1,\dots,\sigma_N),
+\]
+la matriz de covarianza puede reconstruirse mediante
+\[
+\Sigma
+=
+DCD.
+\]
+
+\section{Modo de mercado}
+
+En matrices de correlación financieras, el valor propio más grande suele asociarse a un modo colectivo de movimiento del mercado.
+
+Sea
+\[
+\lambda_1
+\]
+el mayor valor propio de la matriz de correlación \(C\). La proporción
+\[
+\frac{\lambda_1}{\operatorname{Tr}(C)}
+\]
+mide la fracción de varianza total explicada por el modo dominante del sistema.
+
+Cuando esta cantidad aumenta significativamente, los activos tienden a moverse de manera más sincronizada, fenómeno común durante periodos de estrés financiero o crisis sistémicas.
+
+El vector propio asociado a \(\lambda_1\) suele interpretarse como el modo global de mercado.
+
+\section{Participación inversa y participación efectiva}
+
+Sea
+\[
+v=(v_1,\dots,v_N)
+\]
+un vector propio normalizado, es decir,
+\[
+\sum_{i=1}^N v_i^2=1.
+\]
+
+El índice de participación inversa (\textit{Inverse Participation Ratio}, IPR) se define como
+\[
+\operatorname{IPR}(v)
+=
+\sum_{i=1}^N v_i^4.
+\]
+
+El IPR mide el grado de localización de un vector propio.
+
+Si el vector está distribuido homogéneamente entre todas las componentes,
+\[
+v_i\approx\frac1{\sqrt N},
+\]
+entonces
+\[
+\operatorname{IPR}(v)\approx\frac1N.
+\]
+
+En cambio, valores grandes de IPR indican que el vector está concentrado en pocas componentes.
+
+La participación efectiva se define como
+\[
+N_{\mathrm{eff}}
+=
+\frac1{\operatorname{IPR}(v)}.
+\]
+
+Esta cantidad representa el número efectivo de componentes relevantes en el vector propio.
+
+\section{Rango efectivo y entropía espectral}
+
+Sea
+\[
+\lambda_1,\dots,\lambda_N
+\]
+el conjunto de valores propios positivos de una matriz de correlación \(C\).
+
+Definimos las proporciones normalizadas
+\[
+p_i
+=
+\frac{
+\lambda_i
+}{
+\sum_{j=1}^N\lambda_j
+}.
+\]
+
+La entropía espectral se define como
+\[
+H
+=
+-\sum_{i=1}^N
+p_i\log p_i.
+\]
+
+A partir de esta cantidad se define el rango efectivo:
+\[
+r_{\mathrm{eff}}
+=
+e^H.
+\]
+
+El rango efectivo mide el número efectivo de direcciones relevantes del sistema.
+
+Valores pequeños de \(r_{\mathrm{eff}}\) indican que gran parte de la varianza está concentrada en pocas direcciones principales, mientras que valores grandes reflejan una estructura espectral más distribuida.
+
+\section{Absorption ratio}
+
+Sea
+\[
+\lambda_1\geq\lambda_2\geq\dots\geq\lambda_N
+\]
+el conjunto de valores propios de una matriz de correlación.
+
+El \textit{absorption ratio} se define como
+\[
+AR_k
+=
+\frac{
+\sum_{i=1}^k\lambda_i
+}{
+\sum_{i=1}^N\lambda_i
+},
+\]
+donde \(k\) representa el número de componentes principales consideradas.
+
+Esta cantidad mide la proporción de varianza total absorbida por las principales direcciones del sistema.
+
+Incrementos significativos del \textit{absorption ratio} suelen asociarse a aumentos de dependencia colectiva y fragilidad sistémica en mercados financieros.
+
+\section{Giro de eigenvectores}
+
+Sean
+\[
+v_i(t)
+\qquad
+\text{y}
+\qquad
+v_i(t+\Delta t)
+\]
+los vectores propios asociados al mismo valor propio en dos ventanas temporales consecutivas.
+
+El giro de eigenvectores puede cuantificarse mediante el producto interno
+\[
+\gamma_i
+=
+\left|
+v_i(t)^\top
+v_i(t+\Delta t)
+\right|.
+\]
+
+Valores cercanos a \(1\) indican estabilidad temporal de la dirección principal asociada al vector propio, mientras que valores pequeños reflejan cambios importantes en la estructura de correlación del sistema financiero.
+
+\clearpage
+
+\chapter{Guía empírica y métricas del análisis financiero}
+
+En este apéndice se presentan las principales métricas, herramientas y criterios metodológicos utilizados en el análisis empírico de matrices de correlación financieras y optimización de portafolios.
+
+\section{Objetivos del análisis empírico}
+
+El análisis empírico busca comparar matrices de correlación muestrales y matrices regularizadas utilizando herramientas de Teoría de Matrices Aleatorias, métricas espectrales y medidas de desempeño fuera de muestra.
+
+En particular, se pretende estudiar cómo el ruido estadístico afecta la estructura espectral de matrices financieras y cómo los métodos de limpieza permiten obtener matrices de covarianza más estables y adecuadas para problemas de optimización en alta dimensión.
+
+\section{Métricas espectrales}
+
+El análisis considera distintas métricas espectrales asociadas a matrices de correlación financieras.
+
+\subsection{Distribución de valores propios}
+
+La distribución empírica de valores propios permite comparar el espectro observado con la ley de Marčenko--Pastur y detectar componentes dominadas por ruido estadístico.
+
+\subsection{Proporción del primer valor propio}
+
+La cantidad
+\[
+\frac{\lambda_1}{\operatorname{Tr}(C)}
+\]
+mide la proporción de varianza total explicada por el modo dominante del mercado.
+
+Incrementos significativos de esta cantidad suelen asociarse a una mayor sincronización entre activos financieros.
+
+\subsection{Número de condición}
+
+El número de condición
+\[
+\kappa(C)
+=
+\frac{\lambda_{\max}}{\lambda_{\min}}
+\]
+permite evaluar la estabilidad numérica de la matriz de correlación.
+
+Valores elevados indican sensibilidad importante frente a perturbaciones estadísticas.
+
+\subsection{Rango efectivo}
+
+El rango efectivo proporciona una medida del número efectivo de direcciones relevantes del sistema financiero.
+
+Disminuciones del rango efectivo suelen indicar una concentración creciente de la varianza en pocas componentes principales.
+
+\subsection{Participación inversa}
+
+El índice de participación inversa permite analizar la localización de vectores propios y detectar concentraciones anómalas en componentes espectrales.
+
+\section{Comparación entre matrices muestrales y matrices regularizadas}
+
+El análisis considera comparaciones entre:
+
+\begin{itemize}
+\item matrices de correlación muestrales;
+\item matrices obtenidas mediante \textit{shrinkage};
+\item matrices limpiadas mediante métodos espectrales;
+\item estimadores rotacionalmente invariantes.
+\end{itemize}
+
+Las comparaciones se realizan tanto a nivel espectral como en términos de estabilidad numérica, estabilidad temporal y riesgo fuera de muestra.
+
+\section{Visualizaciones y análisis gráfico}
+
+Entre las principales representaciones gráficas consideradas se encuentran:
+
+\begin{itemize}
+\item histogramas de valores propios comparados con la densidad de Marčenko--Pastur;
+\item mapas de calor de matrices de correlación;
+\item comparación entre espectros antes y después de la limpieza;
+\item evolución temporal de métricas espectrales;
+\item comparación de riesgos dentro y fuera de muestra;
+\item análisis de estabilidad temporal de vectores propios;
+\item comparación de fronteras eficientes y portafolios de mínima varianza.
+\end{itemize}
+
+Estas representaciones permiten visualizar la presencia de ruido estadístico y evaluar el efecto de distintos procedimientos de regularización sobre matrices financieras.
+
+\section{Interpretación financiera}
+
+Las métricas espectrales consideradas permiten estudiar propiedades colectivas de los mercados financieros y analizar fenómenos de dependencia sistémica, fragilidad estructural y concentración del riesgo.
+
+En particular, aumentos en la concentración espectral suelen asociarse a una reducción efectiva de la diversificación y a una mayor sincronización entre activos financieros.
+
+Por otra parte, matrices mal condicionadas pueden producir portafolios altamente sensibles a perturbaciones estadísticas, generando inestabilidad y deterioro fuera de muestra.
+
+La limpieza espectral y los métodos de regularización buscan reducir estos efectos, permitiendo construir estimadores de covarianza más robustos y adecuados para problemas de optimización en alta dimensión.
+
+Finalmente, el análisis empírico permite evaluar cómo distintas técnicas de limpieza afectan la estructura espectral de matrices financieras y cómo dichas modificaciones se reflejan en el comportamiento de portafolios optimizados mediante teoría de Markowitz.
+
+
+
+
+
+%\bibliographystyle{humannat}
+%\bibliography{references}
+%\backmatter%@sglvgdor
+
+
+\end{document}

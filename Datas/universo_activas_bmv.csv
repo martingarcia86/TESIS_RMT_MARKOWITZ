@@ -1,0 +1,197 @@
+Activo,Nombre,Clase,Pais Sede,Tipo de Activo,Activo /|Cancelado,Codigo,Bolsa / Fuente,Descripción del|tipo valor,Fecha del|Inicio de la Serie,Fecha de la|Ult Cotización,Moneda de las|Cotizaciones,Sector NAICS|ult disponib,Sector|Economatica
+ACCELSAB<XMEX>,Accel,B,MX,Accion,activo,ACCELSAB,BMV,Acciones,30/01/1992,31/12/2025,Peso Mexico,Comercio al por mayor de material primario para productos rurales,Comercio
+GAVA<XMEX>,Acosta Verde,A,MX,Accion,activo,GAVA,BMV,Acciones,09/10/2020,24/04/2026,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+GAVB<XMEX>,Acosta Verde,B,MX,Accion,activo,GAVB,BMV,Acciones,-,-,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+GAVEC001<XMEX>,Acosta Verde,EC001,MX,Accion,activo,GAVEC001,BMV,Acciones,-,-,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+AGUILASA<XMEX>,Aguilas,A,MX,Accion,activo,AGUILASA,BMV,Acciones,-,-,Peso Mexico,"Promotores de espectáculos artísticos, culturales, deportivos y similares",Otros
+AGUILASB<XMEX>,Aguilas,B,MX,Accion,activo,AGUILASB,BMV,Acciones,-,-,Peso Mexico,"Promotores de espectáculos artísticos, culturales, deportivos y similares",Otros
+AGUILASCPO<XMEX>,Aguilas,CPO,MX,Accion,activo,AGUILASCPO,BMV,Acciones,19/02/2024,08/05/2026,Peso Mexico,"Promotores de espectáculos artísticos, culturales, deportivos y similares",Otros
+AGUILASD<XMEX>,Aguilas,D,MX,Accion,activo,AGUILASD,BMV,Acciones,-,-,Peso Mexico,"Promotores de espectáculos artísticos, culturales, deportivos y similares",Otros
+AGUILASL<XMEX>,Aguilas,L,MX,Accion,activo,AGUILASL,BMV,Acciones,-,-,Peso Mexico,"Promotores de espectáculos artísticos, culturales, deportivos y similares",Otros
+ALEATIC<XMEX>,Aleatica,*,MX,Accion,activo,ALEATIC,BMV,Acciones,11/11/2010,29/11/2024,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+ALPEKA<XMEX>,Alpek,A,MX,Accion,activo,ALPEKA,BMV,Acciones,26/04/2012,08/05/2026,Peso Mexico,Fabricación de productos químicos básicos,Química
+ALSEA<XMEX>,Alsea,*,MX,Accion,activo,ALSEA,BMV,Acciones,25/06/1999,08/05/2026,Peso Mexico,Otras industrias alimentarias,Alimentos y Beb
+ALTERNAB<XMEX>,Alterna Asesoría Internacional,B,MX,Accion,activo,ALTERNAB,BMV,Acciones,02/06/2021,05/05/2026,Peso Mexico,Bancos,Finanzas y Seguros
+AMXA<XMEX>,America Movil,A,MX,Accion,activo,AMXA,BMV,Acciones,07/02/2001,15/03/2023,Peso Mexico,Operadores de servicios de telecomunicaciones inalámbricas (excepto satélite),Telecomunicación
+AMXB<XMEX>,America Movil,B,MX,Accion,activo,AMXB,BMV,Acciones,07/02/2001,08/05/2026,Peso Mexico,Operadores de servicios de telecomunicaciones inalámbricas (excepto satélite),Telecomunicación
+AMXL<XMEX>,America Movil,L,MX,Accion,activo,AMXL,BMV,Acciones,07/02/2001,15/03/2023,Peso Mexico,Operadores de servicios de telecomunicaciones inalámbricas (excepto satélite),Telecomunicación
+ARA<XMEX>,Ara Consorcio,*,MX,Accion,activo,ARA,BMV,Acciones,26/09/1996,08/05/2026,Peso Mexico,Edificación residencial,Construcción
+AC<XMEX>,Arca Continental,*,MX,Accion,activo,AC,BMV,Acciones,14/12/2001,08/05/2026,Peso Mexico,Industria de las bebidas,Alimentos y Beb
+ARISTOSA<XMEX>,Aristos Consorcio,A,MX,Accion,activo,ARISTOSA,BMV,Acciones,18/01/1996,23/01/2026,Peso Mexico,Construcción,Construcción
+ASURB<XMEX>,Asureste,B,MX,Accion,activo,ASURB,BMV,Acciones,28/09/2000,08/05/2026,Peso Mexico,Servicios relacionados con el transporte aéreo,Transporte Servic
+AUTLANB<XMEX>,Autlan Cia. Minera,B,MX,Accion,activo,AUTLANB,BMV,Acciones,04/02/1994,08/05/2026,Peso Mexico,Minería de minerales metálicos,Minería
+AXTELCPO<XMEX>,Axtel,CPO,MX,Accion,activo,AXTELCPO,BMV,Acciones,05/12/2005,08/05/2026,Peso Mexico,Otros servicios de telecomunicaciones,Telecomunicación
+BACHOCOB<XMEX>,Bachoco Industrias,B,MX,Accion,activo,BACHOCOB,BMV,Acciones,19/09/1997,09/02/2024,Peso Mexico,Explotación avícola y Huevos,Agro & Pesca
+BAFARB<XMEX>,Bafar Grupo,B,MX,Accion,activo,BAFARB,BMV,Acciones,13/09/1996,08/05/2026,Peso Mexico,Explotación de otros animales,Agro & Pesca
+BIMBOA<XMEX>,Bimbo,A,MX,Accion,activo,BIMBOA,BMV,Acciones,02/12/1991,08/05/2026,Peso Mexico,Elaboración de productos de panadería y tortillas,Alimentos y Beb
+BOLSAA<XMEX>,Bolsa Mexicana Val,A,MX,Accion,activo,BOLSAA,BMV,Acciones,13/06/2008,08/05/2026,Peso Mexico,Bolsa de valores,Finanzas y Seguros
+CABLECPO<XMEX>,Cablevision,CPO,MX,Accion,activo,CABLECPO,BMV,Acciones,09/04/2002,30/09/2024,Peso Mexico,Telecomunicaciones,Telecomunicación
+GCC<XMEX>,Cementos Chihuahua,*,MX,Accion,activo,GCC,BMV,Acciones,27/02/1992,08/05/2026,Peso Mexico,Fabricación de cemento y productos de concreto,Minerales no Met
+CEMEXCPO<XMEX>,Cemex,CPO,MX,Accion,activo,CEMEXCPO,BMV,Acciones,03/04/1992,08/05/2026,Peso Mexico,Fabricación de cemento y productos de concreto,Minerales no Met
+CHDRAUIB<XMEX>,Chedraui Grupo,B,MX,Accion,activo,CHDRAUIB,BMV,Acciones,30/04/2010,08/05/2026,Peso Mexico,Grandes almacenes,Comercio
+CIDMEGA<XMEX>,Cid Mega Resort,*,MX,Accion,activo,CIDMEGA,BMV,Acciones,29/09/1997,08/05/2026,Peso Mexico,"Hoteles, moteles y similares",Otros
+CMRB<XMEX>,Cmr,B,MX,Accion,activo,CMRB,BMV,Acciones,02/06/1997,08/05/2026,Peso Mexico,Otras industrias alimentarias,Alimentos y Beb
+KOFUBL<XMEX>,Coca Cola Femsa,UBL,MX,Accion,activo,KOFUBL,BMV,Acciones,05/06/2018,08/05/2026,Peso Mexico,Industria de las bebidas,Alimentos y Beb
+COLLADO<XMEX>,Collado,*,MX,Accion,activo,COLLADO,BMV,Acciones,22/07/1997,27/12/2023,Peso Mexico,Industria básica del hierro y del acero,Siderur & Metalur
+CTALPEKA<XMEX>,Controladora Alpek,A,MX,Accion,activo,CTALPEKA,BMV,Acciones,07/04/2025,08/12/2025,Peso Mexico,Fabricación de productos derivados del petróleo y del carbón,Petróleo y Gas
+NMKA<XMEX>,Controladora Nemak Innovative Lighweighting,A,MX,Accion,activo,NMKA,BMV,Acciones,14/12/2020,03/09/2021,Peso Mexico,Fabricación de partes para vehículos automotores,Vehículos y Pieza
+CONVERA<XMEX>,Convertidora Ind.,A,MX,Accion,activo,CONVERA,BMV,Acciones,09/02/1998,06/05/2026,Peso Mexico,Fabricación de productos de plástico,Otros
+CIEB<XMEX>,Corp Interam de Ent,B,MX,Accion,activo,CIEB,BMV,Acciones,19/12/1995,08/05/2026,Peso Mexico,Parques con instalaciones recreativas y casas de juegos electrónicos,Otros
+CMOCTEZ<XMEX>,Corp Moctezuma,*,MX,Accion,activo,CMOCTEZ,BMV,Acciones,15/09/1997,07/05/2026,Peso Mexico,Fabricación de cemento y productos de concreto,Minerales no Met
+ACTINVRB<XMEX>,Corporación Actinver,B,MX,Accion,activo,ACTINVRB,BMV,Acciones,06/04/2010,08/05/2026,Peso Mexico,Bancos,Finanzas y Seguros
+CADUA<XMEX>,Corpovael,A,MX,Accion,activo,CADUA,BMV,Acciones,04/12/2015,08/05/2026,Peso Mexico,Edificación residencial,Construcción
+COXA<BIVA>,Cox Energy América,*,MX,Accion,activo,COXA,BIVA,Acciones,08/07/2020,07/05/2026,Peso Mexico,"Generación, transmisión y suministro de energía eléctrica",Energía Eléctrica
+CTAXTELA<XMEX>,Ctaxtel,A,MX,Accion,activo,CTAXTELA,BMV,Acciones,29/05/2023,08/05/2026,Peso Mexico,Operadores de servicios de telecomunicaciones alámbricas,Telecomunicación
+CUERVO<XMEX>,Cuervo,*,MX,Accion,activo,CUERVO,BMV,Acciones,08/02/2017,08/05/2026,Peso Mexico,Industria de las bebidas,Alimentos y Beb
+CULTIBAB<XMEX>,Cultiba,B,MX,Accion,activo,CULTIBAB,BMV,Acciones,02/01/1992,08/05/2026,Peso Mexico,Industria de las bebidas,Alimentos y Beb
+CYDSASAA<XMEX>,Cydsa,A,MX,Accion,activo,CYDSASAA,BMV,Acciones,02/12/1991,08/05/2026,Peso Mexico,Fabricación de otros productos químicos,Química
+DIABLOSA<XMEX>,Diablos Rojos,A,MX,Accion,activo,DIABLOSA,BMV,Acciones,-,-,Peso Mexico,Deportistas y equipos deportivos profesionales,Otros
+DIABLOSO<XMEX>,Diablos Rojos,O,MX,Accion,activo,DIABLOSO,BMV,Acciones,10/01/2025,07/05/2026,Peso Mexico,Deportistas y equipos deportivos profesionales,Otros
+DINEA<XMEX>,Dine,A,MX,Accion,activo,DINEA,BMV,Acciones,30/05/2007,20/04/2026,Peso Mexico,Loteamento de inmuebles,Construcción
+DINEB<XMEX>,Dine,B,MX,Accion,activo,DINEB,BMV,Acciones,30/05/2007,20/04/2026,Peso Mexico,Loteamento de inmuebles,Construcción
+ELEKTRA<XMEX>,Elektra Gpo,*,MX,Accion,activo,ELEKTRA,BMV,Acciones,15/07/1994,29/09/2025,Peso Mexico,Otros tipos de tienda,Comercio
+ELEMAT<XMEX>,Elemat,*,MX,Accion,activo,ELEMAT,BMV,Acciones,01/09/2021,23/06/2022,Peso Mexico,Fabricación de cemento y productos de concreto,Minerales no Met
+ESENTIAII<XMEX>,Esentia Energy,II,MX,Accion,activo,ESENTIAII,BMV,Acciones,21/11/2025,08/05/2026,Peso Mexico,Suministro de gas por ductos al consumidor final,Petróleo y Gas
+BEVIDESA<XMEX>,Far-Ben,A,MX,Accion,activo,BEVIDESA,BMV,Acciones,20/12/2001,26/11/2015,Peso Mexico,Tienda de artículos de salud y cuidados personales,Comercio
+BEVIDESB<XMEX>,Far-Ben,B,MX,Accion,activo,BEVIDESB,BMV,Acciones,28/04/1993,29/10/2025,Peso Mexico,Tienda de artículos de salud y cuidados personales,Comercio
+FEMSAUB<XMEX>,Fomento Econ Mex,UB,MX,Accion,activo,FEMSAUB,BMV,Acciones,03/06/1998,06/05/2026,Peso Mexico,Industria de las bebidas,Alimentos y Beb
+FEMSAUBD<XMEX>,Fomento Econ Mex,UBD,MX,Accion,activo,FEMSAUBD,BMV,Acciones,02/12/1991,08/05/2026,Peso Mexico,Industria de las bebidas,Alimentos y Beb
+FORTALE<XMEX>,Fortale,*,MX,Accion,activo,FORTALE,BMV,Acciones,10/07/2015,23/06/2022,Peso Mexico,Fabricación de cemento y productos de concreto,Minerales no Met
+FRAGUAB<XMEX>,Fragua Corporativo,B,MX,Accion,activo,FRAGUAB,BMV,Acciones,06/10/1997,08/05/2026,Peso Mexico,Tienda de artículos de salud y cuidados personales,Comercio
+GBMO<XMEX>,GBM,O,MX,Accion,activo,GBMO,BMV,Acciones,30/01/2006,07/05/2026,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+GCARSOA1<XMEX>,GCarso,A1,MX,Accion,activo,GCARSOA1,BMV,Acciones,02/12/1991,08/05/2026,Peso Mexico,Fabricación de otra maquinaria y equipo para la industria en general,Maquinaria Indust
+LABB<XMEX>,Genomma Lab Intern,B,MX,Accion,activo,LABB,BMV,Acciones,18/06/2008,08/05/2026,Peso Mexico,Fabricación de productos farmacéuticos,Química
+GENTERA<XMEX>,Gentera,*,MX,Accion,activo,GENTERA,BMV,Acciones,24/12/2010,08/05/2026,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+GFNORTEO<XMEX>,GFBanorte,O,MX,Accion,activo,GFNORTEO,BMV,Acciones,13/10/1992,08/05/2026,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+GFINBURO<XMEX>,GFInbursa,O,MX,Accion,activo,GFINBURO,BMV,Acciones,26/02/1993,08/05/2026,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+GFMULTIO<XMEX>,GFMultiva,O,MX,Accion,activo,GFMULTIO,BMV,Acciones,03/04/1992,22/10/2025,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+GICSAB<XMEX>,Gicsa,B,MX,Accion,activo,GICSAB,BMV,Acciones,04/06/2015,08/05/2026,Peso Mexico,Edificación residencial,Construcción
+GIGANTE<XMEX>,Gigante Gpo,*,MX,Accion,activo,GIGANTE,BMV,Acciones,02/01/1992,29/04/2026,Peso Mexico,Grandes almacenes,Comercio
+GISSAA<XMEX>,GInd Saltillo,A,MX,Accion,activo,GISSAA,BMV,Acciones,12/04/2010,08/05/2026,Peso Mexico,Fabricación de productos a base de arcillas y minerales refractarios,Minerales no Met
+GMD<XMEX>,GMex Desarrollo,*,MX,Accion,activo,GMD,BMV,Acciones,22/01/2008,08/05/2026,Peso Mexico,"Construcción de carreteras, calles, puentes y tuneles",Construcción
+GMEXICOB<XMEX>,GMexico,B,MX,Accion,activo,GMEXICOB,BMV,Acciones,11/08/1994,08/05/2026,Peso Mexico,Minería de minerales metálicos,Minería
+GPH1<XMEX>,GPalacio de Hierro,1,MX,Accion,activo,GPH1,BMV,Acciones,08/01/1992,07/08/2025,Peso Mexico,Grandes almacenes,Comercio
+GAPB<XMEX>,Gpo Aeroport Pacif,B,MX,Accion,activo,GAPB,BMV,Acciones,24/02/2006,08/05/2026,Peso Mexico,Servicios relacionados con el transporte aéreo,Transporte Servic
+GPROFUT<XMEX>,GProfut,*,MX,Accion,activo,GPROFUT,BMV,Acciones,02/04/2002,13/02/2026,Peso Mexico,Instituciones de seguros,Finanzas y Seguros
+GRUMAB<XMEX>,Gruma,B,MX,Accion,activo,GRUMAB,BMV,Acciones,29/04/1994,08/05/2026,Peso Mexico,Molienda de granos y de semillas oleaginosas,Alimentos y Beb
+AERO<XMEX>,"Grupo Aeroméxico, S.A.B. de C.V.",*,MX,Accion,activo,AERO,BMV,Acciones,07/11/2025,08/05/2026,Peso Mexico,Transporte aéreo regular,Transporte Servic
+KUOA<XMEX>,Grupo Kuo,A,MX,Accion,activo,KUOA,BMV,Acciones,02/01/1992,20/04/2026,Peso Mexico,Fabricación de otra maquinaria y equipo para la industria en general,Maquinaria Indust
+KUOB<XMEX>,Grupo Kuo,B,MX,Accion,activo,KUOB,BMV,Acciones,02/12/1991,08/05/2026,Peso Mexico,Fabricación de otra maquinaria y equipo para la industria en general,Maquinaria Indust
+POCHTECB<XMEX>,Grupo Pochteca,B,MX,Accion,activo,POCHTECB,BMV,Acciones,30/04/1996,08/05/2026,Peso Mexico,Fabricación de productos químicos básicos,Química
+TRAXIONA<XMEX>,Grupo Traxión,A,MX,Accion,activo,TRAXIONA,BMV,Acciones,29/09/2017,08/05/2026,Peso Mexico,Otros servicios relacionados con el transporte,Transporte Servic
+GSANBORB-1<XMEX>,Gsanborns,B-1,MX,Accion,activo,GSANBORB-1,BMV,Acciones,21/04/1999,19/09/2023,Peso Mexico,Otras tiendas de mercancias diversas,Comercio
+HERDEZ<XMEX>,Herdez,*,MX,Accion,activo,HERDEZ,BMV,Acciones,02/01/1992,08/05/2026,Peso Mexico,"Conservación de frutas, verduras, guisos y otros alimentos preparados",Alimentos y Beb
+HIMEXSAA<XMEX>,Himexsa,A,MX,Accion,activo,HIMEXSAA,BMV,Acciones,27/06/1996,14/02/2018,Peso Mexico,"Preparación e hilado de fibras textiles, y fabricación de hilos",Textil
+HIMEXSAB<XMEX>,Himexsa,B,MX,Accion,activo,HIMEXSAB,BMV,Acciones,-,-,Peso Mexico,"Preparación e hilado de fibras textiles, y fabricación de hilos",Textil
+MONEXB<XMEX>,Holding Monex,B,MX,Accion,activo,MONEXB,BMV,Acciones,12/07/2010,15/02/2023,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+HOMEX<XMEX>,Homex Desarr,*,MX,Accion,activo,HOMEX,BMV,Acciones,29/06/2004,30/05/2025,Peso Mexico,Edificación residencial,Construcción
+HOTEL<XMEX>,Hotel,*,MX,Accion,activo,HOTEL,BMV,Acciones,12/09/2014,07/05/2026,Peso Mexico,"Hoteles, moteles y similares",Otros
+HCITY<XMEX>,Hoteles City Express,*,MX,Accion,activo,HCITY,BMV,Acciones,14/06/2013,08/05/2026,Peso Mexico,"Hoteles, moteles y similares",Otros
+IDEALB-1<XMEX>,Ideal,B-1,MX,Accion,activo,IDEALB-1,BMV,Acciones,15/09/2005,18/02/2026,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+ICHB<XMEX>,Industrias Ch,B,MX,Accion,activo,ICHB,BMV,Acciones,11/08/1992,08/05/2026,Peso Mexico,Industria básica del hierro y del acero,Siderur & Metalur
+INGEALB<XMEX>,Ingeal,B,MX,Accion,activo,INGEALB,BMV,Acciones,08/12/1994,11/04/2011,Peso Mexico,Elaboración de productos de panadería y tortillas,Alimentos y Beb
+CERAMICB<XMEX>,Inter de Ceramica,B,MX,Accion,activo,CERAMICB,BMV,Acciones,09/01/1992,26/01/2024,Peso Mexico,Fabricación de productos a base de arcillas y minerales refractarios,Minerales no Met
+INVEXA<XMEX>,Invex Controladora,A,MX,Accion,activo,INVEXA,BMV,Acciones,24/02/1998,05/05/2026,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+KIMBERA<XMEX>,Kimberly Clark Mex,A,MX,Accion,activo,KIMBERA,BMV,Acciones,02/12/1991,08/05/2026,Peso Mexico,Tienda de artículos de salud y cuidados personales,Comercio
+KIMBERB<XMEX>,Kimberly Clark Mex,B,MX,Accion,activo,KIMBERB,BMV,Acciones,07/01/1992,05/05/2026,Peso Mexico,Tienda de artículos de salud y cuidados personales,Comercio
+LACOMERUB<XMEX>,La Comer,UB,MX,Accion,activo,LACOMERUB,BMV,Acciones,-,-,Peso Mexico,Grandes almacenes,Comercio
+LACOMERUBC<XMEX>,La Comer,UBC,MX,Accion,activo,LACOMERUBC,BMV,Acciones,04/01/2016,08/05/2026,Peso Mexico,Grandes almacenes,Comercio
+LALAB<XMEX>,Lala,B,MX,Accion,activo,LALAB,BMV,Acciones,16/10/2013,24/10/2022,Peso Mexico,Elaboración de productos lácteos,Alimentos y Beb
+LAMOSA<XMEX>,Lamosa Gpo,*,MX,Accion,activo,LAMOSA,BMV,Acciones,28/01/1992,08/05/2026,Peso Mexico,Fabricación de productos a base de arcillas y minerales refractarios,Minerales no Met
+LIVEPOL1<XMEX>,Liverpool Puerto de,1,MX,Accion,activo,LIVEPOL1,BMV,Acciones,02/01/1992,07/05/2026,Peso Mexico,Grandes almacenes,Comercio
+LIVEPOLC-1<XMEX>,Liverpool Puerto de,C-1,MX,Accion,activo,LIVEPOLC-1,BMV,Acciones,11/06/1992,08/05/2026,Peso Mexico,Grandes almacenes,Comercio
+MAXCOMA<XMEX>,Maxcom Telecom,A,MX,Accion,activo,MAXCOMA,BMV,Acciones,23/08/2016,02/05/2022,Peso Mexico,Otros servicios de telecomunicaciones,Telecomunicación
+MEDICAB<XMEX>,Medica Sur,B,MX,Accion,activo,MEDICAB,BMV,Acciones,11/03/1994,08/05/2026,Peso Mexico,Consultorios médicos,Otros
+MEGACPO<XMEX>,Megacable Holdings,CPO,MX,Accion,activo,MEGACPO,BMV,Acciones,07/11/2007,08/05/2026,Peso Mexico,Otros servicios de telecomunicaciones,Telecomunicación
+MFRISCOA-1<XMEX>,Mfrisco,A-1,MX,Accion,activo,MFRISCOA-1,BMV,Acciones,06/01/2011,08/05/2026,Peso Mexico,Minería de minerales metálicos,Minería
+MFRISCOA-2<XMEX>,Mfrisco,A-2,MX,Accion,activo,MFRISCOA-2,BMV,Acciones,30/10/2019,20/05/2021,Peso Mexico,Minería de minerales metálicos,Minería
+MINSAB<XMEX>,Minsa,B,MX,Accion,activo,MINSAB,BMV,Acciones,20/08/1997,14/01/2026,Peso Mexico,Molienda de granos y de semillas oleaginosas,Alimentos y Beb
+NUTRISAA<XMEX>,Nutrisa,A,MX,Accion,activo,NUTRISAA,BMV,Acciones,18/09/2025,08/05/2026,Peso Mexico,Tienda de alimentos especiales,Comercio
+OMAB<XMEX>,OMA,B,MX,Accion,activo,OMAB,BMV,Acciones,29/11/2006,08/05/2026,Peso Mexico,Servicios relacionados con el transporte aéreo,Transporte Servic
+SITES1A-1<XMEX>,Operadora de Sites Mexicanos,A-1,MX,Accion,activo,SITES1A-1,BMV,Acciones,16/03/2022,08/05/2026,Peso Mexico,Instalaciones y equipamiento en construcciones,Construcción
+ORBIA<XMEX>,Orbia,*,MX,Accion,activo,ORBIA,BMV,Acciones,09/12/1992,08/05/2026,Peso Mexico,Fabricación de otra maquinaria y equipo para la industria en general,Maquinaria Indust
+PV<XMEX>,Peña Verde,*,MX,Accion,activo,PV,BMV,Acciones,26/10/2012,05/05/2026,Peso Mexico,Servicios relacionados con los seguros y las fianzas,Finanzas y Seguros
+PE&OLES<XMEX>,Penoles Industrias,*,MX,Accion,activo,PE&OLES,BMV,Acciones,03/12/1991,08/05/2026,Peso Mexico,Minería de minerales no metálicos,Minería
+PLANI<XMEX>,Planigrupo Latam,*,MX,Accion,activo,PLANI,BMV,Acciones,30/06/2016,25/04/2023,Peso Mexico,Edificación no residencial,Construcción
+PMCPACA<XMEX>,Pmcpac,A,MX,Accion,activo,PMCPACA,BMV,Acciones,23/03/2018,06/08/2020,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+PMCPACB<XMEX>,Pmcpac,B,MX,Accion,activo,PMCPACB,BMV,Acciones,-,-,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+PMCPACC<XMEX>,Pmcpac,C,MX,Accion,activo,PMCPACC,BMV,Acciones,-,-,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+POSADASA<XMEX>,Posadas Gpo,A,MX,Accion,activo,POSADASA,BMV,Acciones,21/12/1992,07/05/2026,Peso Mexico,"Hoteles, moteles y similares",Otros
+PROCORPA<XMEX>,Procorp,A,MX,Accion,activo,PROCORPA,BMV,Acciones,01/09/2004,25/02/2015,Peso Mexico,Uniones de crédito e instituciones de ahorro,Finanzas y Seguros
+PROCORPB<XMEX>,Procorp,B,MX,Accion,activo,PROCORPB,BMV,Acciones,16/12/1994,21/04/2026,Peso Mexico,Uniones de crédito e instituciones de ahorro,Finanzas y Seguros
+PINFRA<XMEX>,Prom Y Op de Infra,*,MX,Accion,activo,PINFRA,BMV,Acciones,22/09/1993,08/05/2026,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+PINFRAL<XMEX>,Prom Y Op de Infra,L,MX,Accion,activo,PINFRAL,BMV,Acciones,16/07/2014,08/05/2026,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+PASAB<XMEX>,Promotora Ambiental,B,MX,Accion,activo,PASAB,BMV,Acciones,11/11/2005,21/04/2026,Peso Mexico,Servicios de apoyo a los negocios,Otros
+TEAKCPO<XMEX>,Proteak Uno,CPO,MX,Accion,activo,TEAKCPO,BMV,Acciones,01/07/2010,08/05/2026,Peso Mexico,Fabricación de otros productos de madera,Otros
+Q<XMEX>,Qualitas Controladora,*,MX,Accion,activo,Q,BMV,Acciones,17/07/2012,08/05/2026,Peso Mexico,Instituciones de seguros,Finanzas y Seguros
+RCENTROA<XMEX>,Radio Centro,A,MX,Accion,activo,RCENTROA,BMV,Acciones,03/08/1993,05/03/2024,Peso Mexico,Telecomunicaciones,Telecomunicación
+RA<XMEX>,Regional,A,MX,Accion,activo,RA,BMV,Acciones,15/07/2011,08/05/2026,Peso Mexico,Bancos,Finanzas y Seguros
+RLHA<XMEX>,Rlh Properties,A,MX,Accion,activo,RLHA,BMV,Acciones,05/11/2015,31/03/2026,Peso Mexico,"Promotores de espectáculos artísticos, culturales, deportivos y similares",Otros
+RLHB<XMEX>,Rlh Properties,B,MX,Accion,activo,RLHB,BMV,Acciones,13/12/2016,17/03/2017,Peso Mexico,"Promotores de espectáculos artísticos, culturales, deportivos y similares",Otros
+AGUA<XMEX>,Rotoplas,*,MX,Accion,activo,AGUA,BMV,Acciones,10/12/2014,08/05/2026,Peso Mexico,Fabricación de productos de plástico,Otros
+JAVER<XMEX>,Servicios Javer,*,MX,Accion,activo,JAVER,BMV,Acciones,13/01/2016,28/01/2025,Peso Mexico,Edificación residencial,Construcción
+SIGMAFA<XMEX>,Sigmaf,A,MX,Accion,activo,SIGMAFA,BMV,Acciones,02/12/1991,08/05/2026,Peso Mexico,"Fabricación de maquinaria y equipo para las industrias manufactureras, excepto la metalmecánica",Maquinaria Indust
+SIMECB<XMEX>,Simec Grupo,B,MX,Accion,activo,SIMECB,BMV,Acciones,02/07/1993,08/05/2026,Peso Mexico,Industria básica del hierro y del acero,Siderur & Metalur
+LASITEB-1<XMEX>,Sitios Latinoamerica,B-1,MX,Accion,activo,LASITEB-1,BMV,Acciones,29/09/2022,27/03/2025,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+LASITEB-2<XMEX>,Sitios Latinoamerica,B-2,MX,Accion,activo,LASITEB-2,BMV,Acciones,05/12/2024,24/03/2025,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+SORIANAB<XMEX>,Soriana Organizacio,B,MX,Accion,activo,SORIANAB,BMV,Acciones,03/12/1991,08/05/2026,Peso Mexico,Grandes almacenes,Comercio
+SPORTS<XMEX>,Sports World,S,MX,Accion,activo,SPORTS,BMV,Acciones,07/10/2010,08/05/2026,Peso Mexico,"Servicios de esparcimiento culturales y deportivos, y otros servicios recreativos",Otros
+TLEVISACPO<XMEX>,Televisa Gpo,CPO,MX,Accion,activo,TLEVISACPO,BMV,Acciones,10/12/1991,08/05/2026,Peso Mexico,Otros servicios de telecomunicaciones,Telecomunicación
+NEMAKA<XMEX>,Tenedora Nemak,A,MX,Accion,activo,NEMAKA,BMV,Acciones,01/07/2015,08/05/2026,Peso Mexico,Fabricación de partes para vehículos automotores,Vehículos y Pieza
+TMMA<XMEX>,TMM Grupo,A,MX,Accion,activo,TMMA,BMV,Acciones,03/12/1991,08/05/2026,Peso Mexico,Transporte marítimo,Transporte Servic
+URBI<XMEX>,Urbi Desarrollos,*,MX,Accion,activo,URBI,BMV,Acciones,07/05/2004,31/05/2024,Peso Mexico,Edificación residencial,Construcción
+VALUEGFO<XMEX>,Value GF,O,MX,Accion,activo,VALUEGFO,BMV,Acciones,14/07/1998,06/04/2026,Peso Mexico,Otros servicios relacionados con la intermediación bursátil,Finanzas y Seguros
+VASCONI<XMEX>,Vasconia,*,MX,Accion,activo,VASCONI,BMV,Acciones,10/12/1991,08/05/2026,Peso Mexico,Fabricación de productos metálicos forjados y troquelados,Siderur & Metalur
+VESTA<XMEX>,Vesta,*,MX,Accion,activo,VESTA,BMV,Acciones,20/07/2012,08/05/2026,Peso Mexico,Loteamento de inmuebles,Construcción
+VINTE<XMEX>,Vinte Viviendas Integrales,*,MX,Accion,activo,VINTE,BMV,Acciones,29/09/2016,08/05/2026,Peso Mexico,Edificación residencial,Construcción
+VISTAA<XMEX>,Vista Oil & Gas,A,MX,Accion,activo,VISTAA,BMV,Acciones,10/08/2017,08/05/2026,Peso Mexico,Extracción de petróleo y gas,Petróleo y Gas
+VISTAC<XMEX>,Vista Oil & Gas,C,MX,Accion,activo,VISTAC,BMV,Acciones,-,-,Peso Mexico,Extracción de petróleo y gas,Petróleo y Gas
+VITROA<XMEX>,Vitro,A,MX,Accion,activo,VITROA,BMV,Acciones,28/02/2024,06/05/2026,Peso Mexico,Fabricación de vidrio y productos de vidrio,Minerales no Met
+VOLARA<XMEX>,Volaris,A,MX,Accion,activo,VOLARA,BMV,Acciones,18/09/2013,08/05/2026,Peso Mexico,Transporte aéreo regular,Transporte Servic
+WALMEX<XMEX>,Wal Mart de Mexico,*,MX,Accion,activo,WALMEX,BMV,Acciones,02/12/1991,08/05/2026,Peso Mexico,Grandes almacenes,Comercio
+FINAMEXO<XMEX>,Casa Bolsa Finamex,O,MX,Accion,activo,FINAMEXO,BMV,Acciones Casas de Bolsa,03/09/1992,30/04/2026,Peso Mexico,"Casas de bolsa, casas de cambio y centros cambiarios",Finanzas y Seguros
+SRE<XMEX>,Sempra Energy,,MX,Accion,activo,SRE,BMV,Acciones de Empresas Extranjeras,28/05/2021,08/05/2026,Peso Mexico,Suministro de gas por ductos al consumidor final,Petróleo y Gas
+BBAJIOO<XMEX>,Banco Del Bajio,O,MX,Accion,activo,BBAJIOO,BMV,Acciones Instituciones de Crédito,07/06/2017,08/05/2026,Peso Mexico,Bancos,Finanzas y Seguros
+BSMXB<XMEX>,Banco Santander México S.A.,B,MX,Accion,activo,BSMXB,BMV,Acciones Instituciones de Crédito,13/12/1991,11/05/2023,Peso Mexico,Bancos,Finanzas y Seguros
+FINDEP<XMEX>,Finan Independencia,*,MX,Accion,activo,FINDEP,BMV,"Acciones Seguros, Fianzas y Organizaciones Auxiliares de Crédito",01/11/2007,08/05/2026,Peso Mexico,Instituciones financieras de fomento económico,Finanzas y Seguros
+GNP<XMEX>,GNacional Provincia,*,MX,Accion,activo,GNP,BMV,"Acciones Seguros, Fianzas y Organizaciones Auxiliares de Crédito",17/12/1993,30/03/2026,Peso Mexico,Instituciones de seguros,Finanzas y Seguros
+LASEG<XMEX>,Latinoamericana Seg,*,MX,Accion,activo,LASEG,BMV,"Acciones Seguros, Fianzas y Organizaciones Auxiliares de Crédito",01/11/1996,02/03/2011,Peso Mexico,Instituciones de seguros,Finanzas y Seguros
+UNIFINA<XMEX>,"Unifin Financiera, S.A.B. de C.V.",A,MX,Accion,activo,UNIFINA,BMV,"Acciones Seguros, Fianzas y Organizaciones Auxiliares de Crédito",15/04/2019,25/11/2022,Peso Mexico,Instituciones financieras de fomento económico,Finanzas y Seguros
+FIDEAL20<XMEX>,Fideal,20,MX,Accion,activo,FIDEAL20,BMV,Certificados de proyectos de inversión (CERPI),10/11/2020,08/04/2026,Peso Mexico,Trabajos especializados para la construcción,Construcción
+AGRO22<BIVA>,Fibra Agro,22,MX,Accion,activo,AGRO22,BIVA,Fibras,06/09/2023,08/05/2026,Peso Mexico,Servicios relacionados con la agricultura,Agro & Pesca
+DANHOS13<XMEX>,Fibra Danhos,13,MX,Accion,activo,DANHOS13,BMV,Fibras,08/10/2013,08/05/2026,Peso Mexico,Alquiler sin intermediación de bienes raíces,Otros
+FORION20<BIVA>,Fibra E Forion,20,MX,Accion,activo,FORION20,BIVA,Fibras,27/10/2020,28/04/2026,Peso Mexico,Construcción,Construcción
+EDUCA18<XMEX>,Fibra Educa,18,MX,Accion,activo,EDUCA18,BMV,Fibras,26/06/2018,08/05/2026,Peso Mexico,Servicios relacionados con los servicios inmobiliarios,Otros
+FEXI21<XMEX>,Fibra Fexi,21,MX,Accion,activo,FEXI21,BMV,Fibras,13/12/2022,08/05/2026,Peso Mexico,"Generación, transmisión y suministro de energía eléctrica",Energía Eléctrica
+FHIPO14<BIVA>,Fibra Fhipo,14,MX,Accion,activo,FHIPO14,BIVA,Fibras,04/11/2014,08/05/2026,Peso Mexico,Servicios relacionados con los servicios inmobiliarios,Otros
+FIHO12<XMEX>,Fibra Fiho,12,MX,Accion,activo,FIHO12,BMV,Fibras,30/11/2012,08/05/2026,Peso Mexico,Construcción,Construcción
+FSITES20<XMEX>,Fibra Fsites,20,MX,Accion,activo,FSITES20,BMV,Fibras,24/07/2020,08/05/2026,Peso Mexico,Servicios relacionados con los servicios inmobiliarios,Otros
+FSOCIAL23<XMEX>,Fibra Fsocial,23,MX,Accion,activo,FSOCIAL23,BMV,Fibras,09/03/2023,17/07/2024,Peso Mexico,"Generación, transmisión y suministro de energía eléctrica",Energía Eléctrica
+FUNO11<XMEX>,Fibra Funo,11,MX,Accion,activo,FUNO11,BMV,Fibras,18/03/2011,08/05/2026,Peso Mexico,Servicios relacionados con los servicios inmobiliarios,Otros
+INFRAEX18<XMEX>,Fibra Infraex,18,MX,Accion,activo,INFRAEX18,BMV,Fibras,12/06/2018,05/05/2022,Peso Mexico,Construcción,Construcción
+INFRAEX18-2<XMEX>,Fibra Infraex,18-feb,MX,Accion,activo,INFRAEX18-2,BMV,Fibras,-,-,Peso Mexico,Construcción,Construcción
+FINN13<XMEX>,Fibra Inn,13,MX,Accion,activo,FINN13,BMV,Fibras,12/03/2013,08/05/2026,Peso Mexico,Servicios relacionados con los servicios inmobiliarios,Otros
+FMTY14<XMEX>,Fibra Mty,14,MX,Accion,activo,FMTY14,BMV,Fibras,10/12/2014,08/05/2026,Peso Mexico,Servicios relacionados con los servicios inmobiliarios,Otros
+NEXT25<XMEX>,Fibra Next,25,MX,Accion,activo,NEXT25,BMV,Fibras,24/07/2025,08/05/2026,Peso Mexico,Edificación no residencial,Construcción
+FNOVA17<XMEX>,Fibra Nova,17,MX,Accion,activo,FNOVA17,BMV,Fibras,02/08/2017,08/05/2026,Peso Mexico,Centros generales de alquiler,Otros
+FIBRAPL14<XMEX>,Fibra Pl,14,MX,Accion,activo,FIBRAPL14,BMV,Fibras,03/06/2014,08/05/2026,Peso Mexico,Alquiler sin intermediación de bienes raíces,Otros
+FPLUS16<XMEX>,Fibra Plus,16,MX,Accion,activo,FPLUS16,BMV,Fibras,03/11/2016,08/05/2026,Peso Mexico,Alquiler sin intermediación de bienes raíces,Otros
+FSHOP13<XMEX>,Fibra Shop,13,MX,Accion,activo,FSHOP13,BMV,Fibras,23/07/2013,08/05/2026,Peso Mexico,Alquiler sin intermediación de bienes raíces,Otros
+SOMA21<BIVA>,Fibra Soma,21,MX,Accion,activo,SOMA21,BIVA,Fibras,07/07/2023,08/05/2026,Peso Mexico,Alquiler sin intermediación de bienes raíces,Otros
+STORAGE18<XMEX>,Fibra Storage,18,MX,Accion,activo,STORAGE18,BMV,Fibras,15/08/2018,08/05/2026,Peso Mexico,Centros generales de alquiler,Otros
+FCFE18<XMEX>,Fibra-E Cfe,18,MX,Accion,activo,FCFE18,BMV,Fibras,08/02/2018,08/05/2026,Peso Mexico,"Generación, transmisión y suministro de energía eléctrica",Energía Eléctrica
+FMX23<XMEX>,Fibraemx,,MX,Accion,activo,FMX23,BMV,Fibras,26/04/2023,08/05/2026,Peso Mexico,Bancos,Finanzas y Seguros
+FIBRAHD15<XMEX>,Fibrahd,15,MX,Accion,activo,FIBRAHD15,BMV,Fibras,09/06/2015,08/05/2026,Peso Mexico,Alquiler sin intermediación de bienes raíces,Otros
+FIBRAMQ12<XMEX>,Fibramq,12,MX,Accion,activo,FIBRAMQ12,BMV,Fibras,14/12/2012,08/05/2026,Peso Mexico,Alquiler sin intermediación de bienes raíces,Otros
+FIBRAUP18<XMEX>,Fibraup,18,MX,Accion,activo,FIBRAUP18,BMV,Fibras,20/06/2018,08/05/2026,Peso Mexico,Inmobiliarias y corredores de bienes raíces,Otros
+FIEMEX25D<XMEX>,Fiemex,,MX,Accion,activo,FIEMEX25D,BMV,Fibras,-,-,Peso Mexico,-,-
+FIEMEX25-2D<XMEX>,Fiemex,*,MX,Accion,activo,FIEMEX25-2D,BMV,Fibras,-,-,Peso Mexico,-,-
+PLIFE26<XMEX>,Fibra Park Life,26,MX,Accion,activo,PLIFE26,BMV,-,14/04/2026,08/05/2026,Peso Mexico,Inmobiliarias y corredores de bienes raíces,Otros
+FRESN<XMEX>,Fresnillo Plc,*,MX,Accion,activo,FRESN,BMV,-,-,-,Peso Mexico,Minería de minerales no metálicos,Minería
+NUTRISA<XMEX>,Nutrisa,*,MX,Accion,activo,NUTRISA,BMV,-,12/07/1994,20/12/2013,Peso Mexico,Tienda de alimentos especiales,Comercio
+LASITE<XMEX>,Sitios Latinoamerica,,MX,Accion,activo,LASITE,BMV,-,02/04/2025,08/05/2026,Peso Mexico,Otras construcciones y ingeniería civil,Construcción
+SSEPN<XMEX>,Sse Plc,N,MX,Accion,activo,SSEPN,BMV,-,05/09/2024,28/04/2026,Peso Mexico,-,-
+TENCHN<XMEX>,Tencent Holdings Limited,N,MX,Accion,activo,TENCHN,BMV,-,16/02/2024,17/04/2026,Peso Mexico,-,-
+TPLAY<BIVA>,Total Play,*,MX,Accion,activo,TPLAY,BIVA,-,-,-,Peso Mexico,Otros servicios de telecomunicaciones,Telecomunicación
+TPLAY_00125<BIVA>,Total Play,125,MX,Accion,activo,TPLAY_00125,BIVA,-,-,-,Peso Mexico,Otros servicios de telecomunicaciones,Telecomunicación
+TPLAY_00224<BIVA>,Total Play,224,MX,Accion,activo,TPLAY_00224,BIVA,-,-,-,Peso Mexico,Otros servicios de telecomunicaciones,Telecomunicación
